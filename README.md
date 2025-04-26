@@ -41,6 +41,5 @@ Der Fokus liegt auf:
 
 ## Autor
 
-**Maximilian Elias Kellner**  
-Student an der TH Köln  
-📧 maximilian_elias.kellner@smail.th-koeln.de
+[**Maximilian Elias Kellner**  ](https://github.com/MaximilianKellner)
+
