@@ -1,0 +1,16 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+  min-height: 150vh;
+}
+
+h1 {
+  text-align: center;
+}
+
+#canvas-container {
+  width: 100vw;
+  height: 70vh;
+  display: block;
+  background-color: white;
+}
