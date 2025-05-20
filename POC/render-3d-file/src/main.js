@@ -9,8 +9,8 @@ scene.add(axesHelper);
 
 // 2. Kamera erstellen
 const FallbackCamera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-FallbackCamera.position.set(5, 2, 8);
-FallbackCamera.rotation.set(0, 0.8, 0);
+FallbackCamera.position.set(5, 1, 5);
+FallbackCamera.rotation.set(0, .8, 0);
 
 let camera = FallbackCamera;
 
@@ -52,7 +52,7 @@ loader.load(
             const blenderCam = gltf.cameras[0];
             // Blender-Kamera anpassen
             updateCameraAndRenderer(blenderCam, renderer, canvasContainer);
-            camera = blenderCam; // Blender-Kamera als aktive Kamera setzen
+            //camera = blenderCam; // Blender-Kamera als aktive Kamera setzen --> funktinal jedoch auskommentiert, um die Animation temporär zu zeigen.
             console.log('Blender-Kamera geladen und als aktive Kamera gesetzt:', camera);
         } else {
             console.log('Keine Kamera in der GLTF-Datei gefunden. Verwende Standardkamera (FallbackCamera).');
@@ -70,6 +70,7 @@ loader.load(
 // 6. Render-Funktion
 function renderScene() {
     renderer.render(scene, camera); // rendern der Szene mit der aktiven Kamera
+    renderer.setAnimationLoop( animate );
 }
 
 // 7. Auf Fenstergrößenänderung reagieren
@@ -79,6 +80,16 @@ window.addEventListener('resize', () => {
         renderScene();
     }
 });
+
+// 8. Animation
+function animate() {
+
+  model.rotation.x += 0.01;
+  model.rotation.y += 0.01;
+
+  renderer.render( scene, camera );
+
+}
 
 // Hilfsfunktion zum Anpassen von Kamera und Renderer
 function updateCameraAndRenderer(cameraToUpdate, rendererInstance, container) {
