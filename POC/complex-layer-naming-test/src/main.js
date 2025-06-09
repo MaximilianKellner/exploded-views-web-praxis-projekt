@@ -37,6 +37,12 @@ function init() {
     directionalLight.position.set(5, 10, 7.5);
     scene.add(directionalLight);
 
+    // Grid
+    const size = 10; // Die Gesamtgröße des Gitters
+    const divisions = 10; // Die Anzahl der Unterteilungen
+    const gridHelper = new THREE.GridHelper(size, divisions);
+    scene.add(gridHelper);
+
     // Steuerung
     controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
