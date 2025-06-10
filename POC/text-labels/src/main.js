@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'; // Für Kamerasteuerung
+import { initLabelRenderer, loadLabelData, assignLabelsToObjects, updateLabelRenderer } from './text-label.js';
 
 // --- Globale Variablen ---
 let scene, camera, renderer, controls;
@@ -13,9 +14,10 @@ let explosionFactor = 0;
 // HTML-Elemente
 const explosionSlider = document.getElementById('explosionSlider');
 const explosionValueDisplay = document.getElementById('explosionValue');
+const modelContainer = document.body;
 
 // --- Initialisierung ---
-function init() {
+async function init() {
     // Szene
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0x333333);
@@ -31,17 +33,11 @@ function init() {
     document.body.appendChild(renderer.domElement);
 
     // Licht
-    const ambientLight = new THREE.AmbientLight(0xffffff, 3.6);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
     scene.add(ambientLight);
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 3.8);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
     directionalLight.position.set(5, 10, 7.5);
     scene.add(directionalLight);
-
-    // Grid
-    const size = 10; // Die Gesamtgröße des Gitters
-    const divisions = 10; // Die Anzahl der Unterteilungen
-    const gridHelper = new THREE.GridHelper(size, divisions);
-    scene.add(gridHelper);
 
     // Steuerung
     controls = new OrbitControls(camera, renderer.domElement);
@@ -49,6 +45,12 @@ function init() {
     controls.minDistance = 1;
     controls.maxDistance = 25;
     
+    // Label Renderer initialisieren (NEU)
+    initLabelRenderer(modelContainer);
+
+    // Label-Daten laden (aus text-label.js)
+    await loadLabelData('labels.json');
+
     // Modell laden
     loadModel();
 
@@ -75,6 +77,7 @@ function loadModel() {
             model = gltf.scene;
             scene.add(model);
             parseModelForExplosion();
+            assignLabelsToObjects(explodableObjects); // Labels zuordnen, nachdem Objekte geparst wurden
             applyExplosion(); // Initiale Position (unexplodiert)
         },
         // onProgress callback (optional)
@@ -93,15 +96,9 @@ function parseModelForExplosion() {
     if (!model) return;
 
     explodableObjects.length = 0;
-    console.log('Starte Modell-Parsing für Explosion...');
 
     model.traverse(function (child) {
-        // Logge jedes durchlaufene Kind, um zu sehen, ob das problematische Objekt überhaupt erreicht wird
-        console.log('Traversing child:', child.name, 'Is Mesh:', child.isMesh);
-
-        // child.isMesh abfrage lässt manche Objekte nicht animiert werden. Abhängig vom Material in Blender. --> Is Mesh: undefined
-        if (child.name.startsWith('exp-')) {
-            console.log('Potenziell explodierbares Objekt gefunden:', child.name);
+        if (child.isMesh && child.name.startsWith('exp-')) {
             const nameParts = child.name.split('-');
             let level = 0;
             let objectSpecificDirection = null; // Wird aus dem Namen gelesen
@@ -109,7 +106,6 @@ function parseModelForExplosion() {
             for (const part of nameParts) {
                 if (part.startsWith('L') && !isNaN(parseInt(part.substring(1)))) {
                     level = parseInt(part.substring(1));
-                    console.log(`Gefundenes Level für ${child.name}: ${level}`);
                 } else if (part.startsWith('dir')) { // Richtung aus dem Namen lesen
                     if (part === 'dirXPOS') objectSpecificDirection = new THREE.Vector3(1, 0, 0);
                     else if (part === 'dirXNEG') objectSpecificDirection = new THREE.Vector3(-1, 0, 0);
@@ -117,7 +113,6 @@ function parseModelForExplosion() {
                     else if (part === 'dirYNEG') objectSpecificDirection = new THREE.Vector3(0, -1, 0);
                     else if (part === 'dirZPOS') objectSpecificDirection = new THREE.Vector3(0, 0, 1);
                     else if (part === 'dirZNEG') objectSpecificDirection = new THREE.Vector3(0, 0, -1);
-                    console.log(`Gefundene Richtung für ${child.name}: ${part}`);
                 }
             }
 
@@ -128,9 +123,6 @@ function parseModelForExplosion() {
                     level: level,
                     directionCode: objectSpecificDirection
                 });
-                console.log(`Objekt ${child.name} zu explodableObjects hinzugefügt.`);
-            } else {
-                console.warn(`Objekt ${child.name} hat Level 0 oder kleiner und wird nicht hinzugefügt.`);
             }
         }
     });
@@ -169,6 +161,7 @@ function animate() {
     requestAnimationFrame(animate);
     controls.update(); // Nur wenn enableDamping = true
     renderer.render(scene, camera);
+    updateLabelRenderer(scene, camera);
 }
 
 // --- Hilfsfunktionen ---
