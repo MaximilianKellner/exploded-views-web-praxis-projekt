@@ -3,7 +3,7 @@ import { CSS2DObject, CSS2DRenderer } from 'three/addons/renderers/CSS2DRenderer
 
 let labelRenderer;
 const labels = [];
-let labelData = {}; // Label-Definitionen aus der JSON-Datei gespeichert
+let labelData = {}; // Label-Definitionen aus der JSON-Datei
 
 // --- Initialisierung des Label-Renderers ---
 function initLabelRenderer(container) {
@@ -37,7 +37,7 @@ function createLabelForObject(object3D, text) {
     if (!object3D || !text) return null;
 
     const div = document.createElement('div');
-    div.className = 'text-label'; // CSS-Klasse für Styling
+    div.className = 'text-label';
     div.textContent = text;
 
     const label = new CSS2DObject(div);

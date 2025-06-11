@@ -18,6 +18,7 @@ body {
   width: 80%;
 }
 
+/* Stil für die 3D Textlabel*/
 .text-label {
   color: white;
   background-color: rgba(0, 0, 0, 0.7);
