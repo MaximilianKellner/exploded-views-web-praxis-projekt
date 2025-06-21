@@ -17,14 +17,3 @@ body {
   transform: translateX(-50%);
   width: 80%;
 }
-
-/* Stil für die 3D Textlabel*/
-.text-label {
-  color: white;
-  background-color: rgba(0, 0, 0, 0.7);
-  padding: 2px 5px;
-  border-radius: 3px;
-  font-size: 12px;
-  font-family: Arial, sans-serif;
-  pointer-events: none; /* keine Mausereignisse abfangen */
-}
