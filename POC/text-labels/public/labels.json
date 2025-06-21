@@ -1,6 +1,18 @@
 {
-  "oben": "OBERER Block",
-  "unten": "Befestigungsschraube unten",
-  "rechts": "Befestigungsschraube Rechts",
-  "links": "LINKER Block"
+  "oben": {
+    "title": "Oberer Block",
+    "body": "Dies ist der obere Hauptteil des Gehäuses. Er dient als Abdeckung."
+  },
+  "unten": {
+    "title": "Unterer Block",
+    "body": "Der untere Teil, der die Basis bildet."
+  },
+  "rechts": {
+    "title": "Rechter Block",
+    "body": "Seitliches Bauteil auf der rechten Seite."
+  },
+  "links": {
+    "title": "Linker Block",
+    "body": "Seitliches Bauteil auf der linken Seite."
+  }
 }

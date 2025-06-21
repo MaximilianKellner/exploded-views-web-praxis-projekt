@@ -4,7 +4,19 @@
   background-color: rgba(0, 0, 0, 0.7);
   padding: 2px 5px;
   border-radius: 3px;
+  pointer-events: none; /* keine Mausereignisse abfangen */
+}
+
+.label-title {
+  font-weight: bold;
+  font-size: 16px;
+    color: white;
+
+}
+
+.label-body {
   font-size: 12px;
   font-family: Arial, sans-serif;
-  pointer-events: none; /* keine Mausereignisse abfangen */
+    color: white;
+
 }

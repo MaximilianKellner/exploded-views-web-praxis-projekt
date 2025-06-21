@@ -33,14 +33,25 @@ async function loadLabelData(url) {
 }
 
 // --- Erstellen eines Labels für ein 3D-Objekt ---
-function createLabelForObject(object3D, text) {
-    if (!object3D || !text) return null;
+function createLabelForObject(object3D, labelInfo) {
+    if (!object3D || !labelInfo || !labelInfo.title) return null;
 
-    const div = document.createElement('div');
-    div.className = 'text-label';
-    div.textContent = text;
+    const labelDiv = document.createElement('div');
+    labelDiv.className = 'text-label';
 
-    const label = new CSS2DObject(div);
+    const titleElenement = document.createElement('p');
+    titleElenement.className = 'label-title';
+    titleElenement.textContent = labelInfo.title
+    labelDiv.appendChild(titleElenement);
+
+    if (labelInfo.body) {
+    const bodyTextElement = document.createElement('p');
+    bodyTextElement.className = 'label-body';
+    bodyTextElement.textContent = labelInfo.body
+    labelDiv.appendChild(bodyTextElement);
+    }
+
+    const label = new CSS2DObject(labeliv);
     
     // Position des Labels relativ zum Objekt
     label.position.set(0, 0.2, 0); // Leicht über dem Objektmittelpunkt
