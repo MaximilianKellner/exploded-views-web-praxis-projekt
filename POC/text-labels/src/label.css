@@ -1,22 +1,29 @@
 /* Stil für die 3D Textlabel*/
 .text-label {
   color: white;
-  background-color: rgba(0, 0, 0, 0.7);
-  padding: 2px 5px;
-  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.9);
+  padding: var(--xl);
+  border-radius: var(--m);
   pointer-events: none; /* keine Mausereignisse abfangen */
+  width: 275px;
+  max-width: 50% ;
 }
 
 .label-title {
-  font-weight: bold;
-  font-size: 16px;
-    color: white;
-
+  font-weight: 500;
+  font-size: var(--l);
+  color: white;
 }
 
 .label-body {
-  font-size: 12px;
-  font-family: Arial, sans-serif;
-    color: white;
+  font-size: var(--m);
+  color: rgb(233, 233, 233);
+  line-height: 1.6;
+}
 
+hr{
+  border: none;
+  border-top: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: var(--m);
+  margin: var(--m) 0;
 }

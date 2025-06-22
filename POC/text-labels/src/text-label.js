@@ -44,14 +44,19 @@ function createLabelForObject(object3D, labelInfo) {
     titleElenement.textContent = labelInfo.title
     labelDiv.appendChild(titleElenement);
 
+
     if (labelInfo.body) {
+
+    // divider für den Titel und den Body
+    const divider = document.createElement('hr');
+    labelDiv.appendChild(divider);
     const bodyTextElement = document.createElement('p');
     bodyTextElement.className = 'label-body';
     bodyTextElement.textContent = labelInfo.body
     labelDiv.appendChild(bodyTextElement);
     }
 
-    const label = new CSS2DObject(labeliv);
+    const label = new CSS2DObject(labelDiv);
     
     // Position des Labels relativ zum Objekt
     label.position.set(0, 0.2, 0); // Leicht über dem Objektmittelpunkt

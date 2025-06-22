@@ -1,11 +1,10 @@
 {
   "oben": {
     "title": "Oberer Block",
-    "body": "Dies ist der obere Hauptteil des Gehäuses. Er dient als Abdeckung."
+    "body": "Dies ist der obere Hauptteil des Gehäuses. Er dient als Abdeckung. Ich beschreibe hier diesen simplen Block noch weiter, um einen längeren Test zum testen zu haben."
   },
   "unten": {
-    "title": "Unterer Block",
-    "body": "Der untere Teil, der die Basis bildet."
+    "title": "Unterer Block Ohne Body"
   },
   "rechts": {
     "title": "Rechter Block",
