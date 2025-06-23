@@ -7,6 +7,7 @@ import { initLabelRenderer, loadLabelData, assignLabelsToObjects, updateLabelRen
 let scene, camera, renderer, controls;
 let model; // Das geladene Hauptmodell
 const explodableObjects = []; // Array für alle 'exp-' Objekte
+const taggableObjects = []; // Array für alle Objekte, die ein Label haben können
 let globalExplosionDirection = new THREE.Vector3(0, 1, 0); // Fallback
 const baseDistancePerLevel = 0.5; // Anpassen, wie weit sich Ebenen voneinander entfernen
 let explosionFactor = 0;
@@ -84,7 +85,7 @@ function loadModel() {
             model = gltf.scene;
             scene.add(model);
             parseModelForExplosion();
-            assignLabelsToObjects(explodableObjects); // Labels zuordnen, nachdem Objekte geparst wurden
+            assignLabelsToObjects(taggableObjects); // Labels zuordnen, nachdem Objekte geparst wurden
             applyExplosion(); // Initiale Position (unexplodiert)
         },
         // onProgress callback (optional)
@@ -105,7 +106,15 @@ function parseModelForExplosion() {
     explodableObjects.length = 0;
 
     model.traverse(function (child) {
-        if (child.isMesh && child.name.startsWith('exp-')) {
+
+        // Alle Objekte sammeln
+        if (child.isMesh) {
+            taggableObjects.push({
+                object: child,
+            });
+        }
+
+        if (child.name.startsWith('exp-')) {
             const nameParts = child.name.split('-');
             let level = 0;
             let objectSpecificDirection = null; // Wird aus dem Namen gelesen
@@ -134,6 +143,7 @@ function parseModelForExplosion() {
         }
     });
     console.log('Explodable objects:', explodableObjects);
+    console.log('All taggable objects:', taggableObjects);
 }
 
 // --- Explosionslogik anwenden ---
@@ -174,10 +184,10 @@ function onObjectClick(event) {
     raycaster.setFromCamera(mouse, camera);
 
     // Objekte finden, die vom Klick getroffen wurden
-    const intersects = raycaster.intersectObjects(explodableObjects.map(item => item.object), false);
+    const intersects = raycaster.intersectObjects(taggableObjects.map(item => item.object), false);
 
     // Alle Labels ausblenden, und nur das ausgewählte anzeigen
-    explodableObjects.forEach(item => {
+    taggableObjects.forEach(item => {
         const label = item.object.children.find(child => child.isCSS2DObject);
         if (label) {
             label.visible = false;
@@ -188,6 +198,7 @@ function onObjectClick(event) {
     if (intersects.length > 0) {
         // Das erste getroffene Objekt ist das vorderste
         const clickedObject = intersects[0].object;
+        console.log('Geklicktes Objekt:', clickedObject.name);
 
         // Das zugehörige Label finden und sichtbar machen
         const label = clickedObject.children.find(child => child.isCSS2DObject);

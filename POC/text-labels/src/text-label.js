@@ -67,13 +67,13 @@ function createLabelForObject(object3D, labelInfo) {
 }
 
 // --- Zuordnen und Erstellen von Labels basierend auf Objektnamen und geladenen Daten ---
-function assignLabelsToObjects(explodableObjects) {
+function assignLabelsToObjects(taggableObjects) {
     if (!labelData || Object.keys(labelData).length === 0) {
         console.warn('Keine Label-Daten zum Zuordnen vorhanden.');
         return;
     }
 
-    explodableObjects.forEach(item => {
+    taggableObjects.forEach(item => {
         const objectName = item.object.name; // z.B. exp-L1-dirYPOS-Schraube
         // Extrahiere den optionalen Namen oder verwende den ganzen Namen als Key
         const nameParts = objectName.split('-');

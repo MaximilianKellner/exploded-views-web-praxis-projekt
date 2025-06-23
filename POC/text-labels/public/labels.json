@@ -13,5 +13,9 @@
   "links": {
     "title": "Linker Block",
     "body": "Seitliches Bauteil auf der linken Seite."
+  },
+  "mitte": {
+    "title": "Mittlerer Block",
+    "body": "Dies ist der mittlere Block, der den zentralen Bereich des Gehäuses darstellt. Er enthält wichtige Komponenten und ist für die Funktionalität des gesamten Systems entscheidend."
   }
 }
