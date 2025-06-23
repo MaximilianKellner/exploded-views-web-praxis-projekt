@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'; // Für Kamerasteuerung
-import { initLabelRenderer, loadLabelData, assignLabelsToObjects, updateLabelRenderer } from './text-label.js';
+import { initLabelRenderer, loadLabelData, assignLabelsToObjects, updateLabelRenderer} from './text-label.js';
 
 // --- Globale Variablen ---
 let scene, camera, renderer, controls;
@@ -50,7 +50,7 @@ async function init() {
     controls.minDistance = 1;
     controls.maxDistance = 25;
     
-    // Label Renderer initialisieren (NEU)
+    // Label Renderer initialisieren
     initLabelRenderer(modelContainer);
 
     // Label-Daten laden (aus text-label.js)
