@@ -60,6 +60,7 @@ function createLabelForObject(object3D, labelInfo) {
     
     // Position des Labels relativ zum Objekt
     label.position.set(0, 0.2, 0); // Leicht über dem Objektmittelpunkt
+    label.visible = false;
     object3D.add(label); // Label an das 3D-Objekt anhängen
     labels.push(label);
     return label;

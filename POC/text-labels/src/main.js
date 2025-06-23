@@ -16,6 +16,10 @@ const explosionSlider = document.getElementById('explosionSlider');
 const explosionValueDisplay = document.getElementById('explosionValue');
 const modelContainer = document.body;
 
+// --- Interaktionsvariablen für Klick-Erkennung ---
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
 // --- Initialisierung ---
 async function init() {
     // Szene
@@ -60,6 +64,9 @@ async function init() {
         explosionValueDisplay.textContent = explosionFactor.toFixed(2);
         applyExplosion();
     });
+
+    // Event Listener für Klicks zum Anzeigen der Labels
+    renderer.domElement.addEventListener('mousedown', onObjectClick, false);
 
     // Fenster-Resize-Handler
     window.addEventListener('resize', onWindowResize, false);
@@ -154,6 +161,40 @@ function applyExplosion() {
             .addScaledVector(explosionDirection, distance);
         item.object.position.copy(newPosition);
     });
+}
+
+// --- Interaktion: Label bei Klick anzeigen ---
+function onObjectClick(event) {
+    event.preventDefault();
+
+    // Mausposition für Raycaster normalisieren
+    mouse.x = (event.clientX / renderer.domElement.clientWidth) * 2 - 1;
+    mouse.y = - (event.clientY / renderer.domElement.clientHeight) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, camera);
+
+    // Objekte finden, die vom Klick getroffen wurden
+    const intersects = raycaster.intersectObjects(explodableObjects.map(item => item.object), false);
+
+    // Alle Labels ausblenden, und nur das ausgewählte anzeigen
+    explodableObjects.forEach(item => {
+        const label = item.object.children.find(child => child.isCSS2DObject);
+        if (label) {
+            label.visible = false;
+        }
+    });
+
+    // Das vorderste getroffene Objekt auswählen
+    if (intersects.length > 0) {
+        // Das erste getroffene Objekt ist das vorderste
+        const clickedObject = intersects[0].object;
+
+        // Das zugehörige Label finden und sichtbar machen
+        const label = clickedObject.children.find(child => child.isCSS2DObject);
+        if (label) {
+            label.visible = true;
+        }
+    }
 }
 
 // --- Animationsloop ---
