@@ -88,7 +88,7 @@ function loadModel() {
             assignLabelsToObjects(taggableObjects); // Labels zuordnen, nachdem Objekte geparst wurden
             applyExplosion(); // Initiale Position (unexplodiert)
         },
-        // onProgress callback (optional)
+        // onProgress callback
         function (xhr) {
             console.log((xhr.loaded / xhr.total * 100) + '% loaded');
         },

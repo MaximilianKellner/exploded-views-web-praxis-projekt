@@ -77,7 +77,7 @@ function loadModel() {
             parseModelForExplosion();
             applyExplosion(); // Initiale Position (unexplodiert)
         },
-        // onProgress callback (optional)
+        // onProgress callback
         function (xhr) {
             console.log((xhr.loaded / xhr.total * 100) + '% loaded');
         },

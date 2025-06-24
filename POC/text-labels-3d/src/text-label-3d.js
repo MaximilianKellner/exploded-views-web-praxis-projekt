@@ -1,21 +1,6 @@
-import { CSS2DObject, CSS2DRenderer } from 'three/addons/renderers/CSS2DRenderer.js';
-
-let labelRenderer;
-const labels = [];
+import * as THREE from 'three';
 let labelData = {}; // Label-Definitionen aus der JSON-Datei
-
-// --- Initialisierung des Label-Renderers ---
-function initLabelRenderer(container) {
-    labelRenderer = new CSS2DRenderer();
-    labelRenderer.setSize(window.innerWidth, window.innerHeight);
-    labelRenderer.domElement.style.position = 'absolute';
-    labelRenderer.domElement.style.top = '0px';
-    labelRenderer.domElement.style.pointerEvents = 'none'; // OrbitControls werden nicht blockiert
-    container.appendChild(labelRenderer.domElement);
-
-    // Event Listener für Fenster-Resize
-    window.addEventListener('resize', onWindowResizeLabelRenderer, false);
-}
+const labels = [];
 
 // --- Laden der Label-Definitionen ---
 async function loadLabelData(url) {
@@ -31,73 +16,91 @@ async function loadLabelData(url) {
     }
 }
 
-// --- Erstellen eines Labels für ein 3D-Objekt ---
-function createLabelForObject(object3D, labelInfo) {
+// --- Erstellen eines 3D-Labels (Plane) für ein 3D-Objekt ---
+function create3DLabelForObject(object3D, labelInfo) {
     if (!object3D || !labelInfo || !labelInfo.title) return null;
 
-    const labelDiv = document.createElement('div');
-    labelDiv.className = 'text-label';
-
-    const titleElenement = document.createElement('p');
-    titleElenement.className = 'label-title';
-    titleElenement.textContent = labelInfo.title
-    labelDiv.appendChild(titleElenement);
-
-
-    if (labelInfo.body) {
-
-    // divider für den Titel und den Body
-    const divider = document.createElement('hr');
-    labelDiv.appendChild(divider);
-    const bodyTextElement = document.createElement('p');
-    bodyTextElement.className = 'label-body';
-    bodyTextElement.textContent = labelInfo.body
-    labelDiv.appendChild(bodyTextElement);
-    }
-
-    const label = new CSS2DObject(labelDiv);
-    
-    // Position des Labels relativ zum Objekt
-    label.position.set(0, 0.2, 0); // Leicht über dem Objektmittelpunkt
-    label.visible = false;
-    object3D.add(label); // Label an das 3D-Objekt anhängen
-    labels.push(label);
-    return label;
+    const mesh = createTextLabelMesh({
+        title: labelInfo.title,
+        body: labelInfo.body || ''
+    });
+    mesh.position.set(3, 1, 0); // Leicht über dem Objektmittelpunkt
+    mesh.visible = false;
+    object3D.add(mesh);
+    labels.push(mesh);
+    return mesh;
 }
 
-// --- Zuordnen und Erstellen von Labels basierend auf Objektnamen und geladenen Daten ---
-function assignLabelsToObjects(taggableObjects) {
+// --- Zuordnen und Erstellen von 3D-Labels basierend auf Objektnamen und geladenen Daten ---
+function assign3DLabelsToObjects(taggableObjects) {
     if (!labelData || Object.keys(labelData).length === 0) {
         console.warn('Keine Label-Daten zum Zuordnen vorhanden.');
         return;
     }
 
     taggableObjects.forEach(item => {
-        const objectName = item.object.name; // z.B. exp-L1-dirYPOS-Schraube
-        // Extrahiere den optionalen Namen oder verwende den ganzen Namen als Key
+        const objectName = item.object.name;
         const nameParts = objectName.split('-');
-        const optionalName = nameParts.length > 3 ? nameParts.slice(3).join('-') : objectName; // Fallback auf ganzen Namen, falls kein OptionalerName
+        const optionalName = nameParts.length > 3 ? nameParts.slice(3).join('-') : objectName;
 
-        if (labelData[objectName]) { // Zuerst exakten Match prüfen
-            createLabelForObject(item.object, labelData[objectName]);
-        } else if (labelData[optionalName]) { // Dann Match mit OptionalerName
-            createLabelForObject(item.object, labelData[optionalName]);
+        if (labelData[objectName]) {
+            create3DLabelForObject(item.object, labelData[objectName]);
+        } else if (labelData[optionalName]) {
+            create3DLabelForObject(item.object, labelData[optionalName]);
         }
     });
 }
 
-// --- Aktualisieren des Label-Renderers (im Animationsloop aufrufen) ---
-function updateLabelRenderer(scene, camera) {
-    if (labelRenderer) {
-        labelRenderer.render(scene, camera);
-    }
+// --- Canvas-Textlabel als Plane-Mesh ---
+function createTextLabelMesh({
+    title = 'Drehbares Textlabel',
+    body = 'Dies ist ein Beispieltext für den Body text vom Textlabel.',
+    width = 1024,
+    height = 256
+} = {}) {
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = 'hsla(360 0% 0% / 0.1)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Titel Text
+    ctx.font = 'bold 48px Arial';
+    ctx.fillStyle = '#fff';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'top';
+    ctx.fillText(title, 25, 25);
+
+    // Divider Linie
+    const dividerLineY = canvas.height / 2 - 32;
+    const dividerLineWidthPadding = 25;
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(0 + dividerLineWidthPadding, dividerLineY);
+    ctx.lineTo(canvas.width - dividerLineWidthPadding, dividerLineY);
+    ctx.stroke();
+
+    // Body Text
+    ctx.font = '32px Arial';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(body, 25, canvas.height / 2 + 10);
+
+    // Canvas in Textur umwandeln und auf Plane anwenden
+    const texture = new THREE.CanvasTexture(canvas);
+    const material = new THREE.MeshBasicMaterial({
+        map: texture,
+        transparent: true,
+        side: THREE.DoubleSide
+    });
+    const geometry = new THREE.PlaneGeometry(4, 1);
+    const textMesh = new THREE.Mesh(geometry, material);
+    textMesh.position.set(0, 0, 0);
+
+    return textMesh;
 }
 
-// --- Hilfsfunktion für Fenster-Resize des Label-Renderers ---
-function onWindowResizeLabelRenderer() {
-    if (labelRenderer) {
-        labelRenderer.setSize(window.innerWidth, window.innerHeight);
-    }
-}
-
-export { initLabelRenderer, loadLabelData, createLabelForObject, assignLabelsToObjects, updateLabelRenderer };
+export { loadLabelData, create3DLabelForObject, assign3DLabelsToObjects };
