@@ -1,0 +1,19 @@
+/*
+    Renard Serie
+    10,12,16,20,25,31.5,40,50,63,100
+    Basis: 16
+*/
+
+:root {
+  --xs: 10px;
+  --s: 12px;
+  --m: 16px;
+  --l: 20px;
+  --xl: 25px;
+  --xxl: 31.5px;
+  --xxxl: 40px;
+  --xxxxl: 50px;
+  --xxxxxl: 63px;
+  --xxxxxxl: 100px;
+  --basis: 16px;
+}

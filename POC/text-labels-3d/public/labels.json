@@ -1,0 +1,21 @@
+{
+  "oben": {
+    "title": "Oberer Block",
+    "body": "Dies ist der obere Hauptteil des Gehäuses. Er dient als Abdeckung. Ich beschreibe hier diesen simplen Block noch weiter, um einen längeren Test zum testen zu haben."
+  },
+  "unten": {
+    "title": "Unterer Block Ohne Body"
+  },
+  "rechts": {
+    "title": "Rechter Block",
+    "body": "Seitliches Bauteil auf der rechten Seite."
+  },
+  "links": {
+    "title": "Linker Block",
+    "body": "Seitliches Bauteil auf der linken Seite."
+  },
+  "mitte": {
+    "title": "Mittlerer Block",
+    "body": "Dies ist der mittlere Block, der den zentralen Bereich des Gehäuses darstellt. Er enthält wichtige Komponenten und ist für die Funktionalität des gesamten Systems entscheidend."
+  }
+}
