@@ -41,10 +41,10 @@ function create3DLabelForObject(object3D, labelInfo) {
     if (labelInfo.direction) {
         switch (labelInfo.direction) {
             case 'YPOS':
-                position.y = objectSize.y / 2 + labelHeight / 2 + offset;
+                position.x = objectSize.x / 2 + labelWidth / 2 + offset;
                 break;
             case 'YNEG':
-                position.y = -objectSize.y / 2 - labelHeight / 2 - offset;
+                position.x = objectSize.x / 2 + labelWidth / 2 + offset;
                 break;
             case 'XPOS':
                 position.x = objectSize.x / 2 + labelWidth / 2 + offset;
@@ -53,10 +53,10 @@ function create3DLabelForObject(object3D, labelInfo) {
                 position.x = -objectSize.x / 2 - labelWidth / 2 - offset;
                 break;
             case 'ZPOS':
-                position.z = objectSize.z / 2 + labelWidth / 2 + offset;
+                position.z = objectSize.x / 2 + labelWidth / 2 + offset;
                 break;
             case 'ZNEG':
-                position.z = -objectSize.z / 2 - labelWidth / 2 - offset;
+                position.z = -objectSize.x / 2 + labelWidth / 2 + offset;
                 break;
             default:
                 // Fallback, falls eine unbekannte Richtung angegeben ist
