@@ -53,8 +53,8 @@ function assign3DLabelsToObjects(taggableObjects) {
 
 // --- Canvas-Textlabel als Plane-Mesh ---
 function createTextLabelMesh({
-    title = 'Drehbares Textlabel',
-    body = 'Dies ist ein Beispieltext für den Body text vom Textlabel.',
+    title = '',
+    body = '',
     width = 1024,
     height = 256
 } = {}) {
