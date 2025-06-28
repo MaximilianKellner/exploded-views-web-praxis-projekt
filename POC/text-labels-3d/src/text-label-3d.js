@@ -20,9 +20,13 @@ async function loadLabelData(url) {
 function create3DLabelForObject(object3D, labelInfo) {
     if (!object3D || !labelInfo || !labelInfo.title) return null;
 
+    // Bestimmen, auf welcher Seite der Pointer sein soll --> XNEG = Pointer rechts
+    const pointerSide = labelInfo.direction === 'XNEG' ? 'right' : 'left';
+
     const mesh = createTextLabelMesh({
         title: labelInfo.title,
-        body: labelInfo.body || ''
+        body: labelInfo.body || '',
+        pointerSide: pointerSide
     });
 
     // Bounding Box des Objekts berechnen, um die Größe zu ermitteln
@@ -30,41 +34,20 @@ function create3DLabelForObject(object3D, labelInfo) {
     const objectSize = new THREE.Vector3();
     boundingBox.getSize(objectSize);
 
-    // Label-Dimensionen und gewünschter Abstand
-    const labelWidth = mesh.geometry.parameters.width;
-    const labelHeight = mesh.geometry.parameters.height;
-    const offset = 1.0; // Zusätzlicher Abstand vom Objekt
-
+    // Label-Dimensionen.
+    const labelWidth = mesh.geometry.parameters.width; // Gesamtbreite des Labels in 3D-Einheiten
+    
     const position = new THREE.Vector3();
 
-    // Position basierend auf der Explosionsrichtung ausrichten
-    if (labelInfo.direction) {
-        switch (labelInfo.direction) {
-            case 'YPOS':
-                position.x = objectSize.x / 2 + labelWidth / 2 + offset;
-                break;
-            case 'YNEG':
-                position.x = objectSize.x / 2 + labelWidth / 2 + offset;
-                break;
-            case 'XPOS':
-                position.x = objectSize.x / 2 + labelWidth / 2 + offset;
-                break;
-            case 'XNEG':
-                position.x = -objectSize.x / 2 - labelWidth / 2 - offset;
-                break;
-            case 'ZPOS':
-                position.z = objectSize.x / 2 + labelWidth / 2 + offset;
-                break;
-            case 'ZNEG':
-                position.z = -objectSize.x / 2 + labelWidth / 2 + offset;
-                break;
-            default:
-                // Fallback, falls eine unbekannte Richtung angegeben ist
-                position.z = objectSize.z / 2 + offset;
-        }
-    } else {
-        // Fallback für Objekte ohne explizite Richtung --> Richtung für das Basis Label oder andere Objekte ohne Explosionsrichtung
-        position.z = objectSize.z / 2 + offset;
+    // Position basierend auf der Seite des Pointers ausrichten.
+    if (pointerSide === 'left') {
+        // Label ist rechts vom Objekt, Pointer zeigt nach links.
+        // Position = Objekt-Rand + halbe Label-Breite
+        position.x = objectSize.x / 2 + labelWidth / 2;
+    } else { // pointerSide === 'right'
+        // Label ist links vom Objekt, Pointer zeigt nach rechts.
+        // Position = -Objekt-Rand - halbe Label-Breite
+        position.x = -objectSize.x / 2 - labelWidth / 2;
     }
 
     mesh.position.copy(position);
@@ -119,39 +102,67 @@ function assign3DLabelsToObjects(taggableObjects) {
 function createTextLabelMesh({
     title = '',
     body = '',
-    width = 1024,
-    height = 256
+    pointerSide = 'left' // 'left' or 'right'
 } = {}) {
+    const textBlockCanvasWidth = 1200; // Breite des Text-Blocks in Canvas-Pixeln
+    const pointerCanvasWidth = 512;   // Breite des Pointer-Blocks in Canvas-Pixeln
+    const canvasHeight = 300;         // Höhe des Canvas in Pixeln
+
+    // --- Abgeleitete Dimensionen (nicht ändern) ---
+    const padding = 25;
+    const planeBaseWidth = 4;
+    const totalCanvasWidth = textBlockCanvasWidth + pointerCanvasWidth;
+    const aspectRatio = totalCanvasWidth / canvasHeight;
+    const planeHeight = planeBaseWidth / aspectRatio;
+
+
+
     const canvas = document.createElement('canvas');
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = totalCanvasWidth;
+    canvas.height = canvasHeight;
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'hsla(360 0% 0% / 0.1)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Positionen basierend auf der Pointer-Seite bestimmen
+    const textBlockX = (pointerSide === 'left') ? pointerCanvasWidth : 0;
+    const pointerStartX = (pointerSide === 'left') ? 0 : textBlockCanvasWidth;
+    const pointerEndX = (pointerSide === 'left') ? pointerCanvasWidth : totalCanvasWidth;
+
+    // Text-Block Hintergrund
+    // ctx.fillStyle = 'hsla(360 0% 0% / 0.1)';
+    // ctx.fillRect(textBlockX, 0, textBlockCanvasWidth, canvasHeight);
 
     // Titel Text
-    ctx.font = 'bold 48px Arial';
+    ctx.font = 'bold 80px Arial';
     ctx.fillStyle = '#fff';
     ctx.textAlign = 'left';
     ctx.textBaseline = 'top';
-    ctx.fillText(title, 25, 25);
+    ctx.fillText(title, textBlockX + padding, padding);
 
-    // Divider Linie
+    // Divider Linie & Pointer Linie
     const dividerLineY = canvas.height / 2 - 32;
-    const dividerLineWidthPadding = 25;
     ctx.strokeStyle = '#fff';
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 8;
     ctx.beginPath();
-    ctx.moveTo(0 + dividerLineWidthPadding, dividerLineY);
-    ctx.lineTo(canvas.width - dividerLineWidthPadding, dividerLineY);
+    // Pointer-Teil
+    ctx.moveTo(pointerStartX, dividerLineY);
+    ctx.lineTo(pointerEndX, dividerLineY);
+    // Divider-Teil im Text-Block
+    if (pointerSide === 'left') {
+        ctx.lineTo(totalCanvasWidth - padding, dividerLineY);
+    } else { // pointerSide === 'right'
+        // Neu ansetzen, um von der Kante des Textblocks zu starten
+        ctx.moveTo(textBlockX + padding, dividerLineY);
+        ctx.lineTo(textBlockCanvasWidth, dividerLineY);
+    }
     ctx.stroke();
 
     // Body Text
-    ctx.font = '32px Arial';
+    ctx.font = '65px Arial';
+    ctx.fillStyle = '#9b9b9b';
     ctx.textAlign = 'left';
     ctx.textBaseline = 'middle';
-    ctx.fillText(body, 25, canvas.height / 2 + 10);
+    ctx.fillText(body, textBlockX + padding, canvas.height / 2 + 20);
 
     // Canvas in Textur umwandeln und auf Plane anwenden
     const texture = new THREE.CanvasTexture(canvas);
@@ -160,7 +171,8 @@ function createTextLabelMesh({
         transparent: true,
         side: THREE.DoubleSide
     });
-    const geometry = new THREE.PlaneGeometry(4, 1);
+    // Die Geometrie wird basierend auf dem Seitenverhältnis des Canvas erstellt, um Verzerrungen zu vermeiden.
+    const geometry = new THREE.PlaneGeometry(planeBaseWidth, planeHeight);
     const textMesh = new THREE.Mesh(geometry, material);
     textMesh.position.set(0, 0, 0);
 

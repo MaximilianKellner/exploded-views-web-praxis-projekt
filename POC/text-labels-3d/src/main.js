@@ -24,7 +24,7 @@ const mouse = new THREE.Vector2();
 async function init() {
     // Szene
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x333333);
+    scene.background = new THREE.Color(0x111111);
 
     // Kamera
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
