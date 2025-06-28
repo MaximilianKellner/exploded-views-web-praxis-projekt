@@ -24,7 +24,50 @@ function create3DLabelForObject(object3D, labelInfo) {
         title: labelInfo.title,
         body: labelInfo.body || ''
     });
-    mesh.position.set(3, 1, 0); // Leicht über dem Objektmittelpunkt
+
+    // Bounding Box des Objekts berechnen, um die Größe zu ermitteln
+    const boundingBox = new THREE.Box3().setFromObject(object3D);
+    const objectSize = new THREE.Vector3();
+    boundingBox.getSize(objectSize);
+
+    // Label-Dimensionen und gewünschter Abstand
+    const labelWidth = mesh.geometry.parameters.width;
+    const labelHeight = mesh.geometry.parameters.height;
+    const offset = 1.0; // Zusätzlicher Abstand vom Objekt
+
+    const position = new THREE.Vector3();
+
+    // Position basierend auf der Explosionsrichtung ausrichten
+    if (labelInfo.direction) {
+        switch (labelInfo.direction) {
+            case 'YPOS':
+                position.y = objectSize.y / 2 + labelHeight / 2 + offset;
+                break;
+            case 'YNEG':
+                position.y = -objectSize.y / 2 - labelHeight / 2 - offset;
+                break;
+            case 'XPOS':
+                position.x = objectSize.x / 2 + labelWidth / 2 + offset;
+                break;
+            case 'XNEG':
+                position.x = -objectSize.x / 2 - labelWidth / 2 - offset;
+                break;
+            case 'ZPOS':
+                position.z = objectSize.z / 2 + labelWidth / 2 + offset;
+                break;
+            case 'ZNEG':
+                position.z = -objectSize.z / 2 - labelWidth / 2 - offset;
+                break;
+            default:
+                // Fallback, falls eine unbekannte Richtung angegeben ist
+                position.z = objectSize.z / 2 + offset;
+        }
+    } else {
+        // Fallback für Objekte ohne explizite Richtung --> Richtung für das Basis Label oder andere Objekte ohne Explosionsrichtung
+        position.z = objectSize.z / 2 + offset;
+    }
+
+    mesh.position.copy(position);
     mesh.visible = false;
     object3D.add(mesh);
     labels.push(mesh);
@@ -43,6 +86,27 @@ function assign3DLabelsToObjects(taggableObjects) {
         const nameParts = objectName.split('-');
         const optionalName = nameParts.length > 3 ? nameParts.slice(3).join('-') : objectName;
 
+
+        // Extrahiere die Richtung aus dem Namen
+        const directionMatch = objectName.match(/-dir([XYZ])(POS|NEG)/);
+        if (directionMatch) {
+            const direction = directionMatch[1]+ directionMatch[2];
+            console.log('Richtung extrahiert:', direction);
+            
+            // labeldata wird um die Richtung erweitert
+            if (labelData[objectName]) {
+                labelData[objectName].direction = direction;
+                //console.log(`Richtung für ${objectName} gesetzt:`, labelData[objectName].direction);
+            } else if (labelData[optionalName]) {
+                labelData[optionalName].direction = direction;
+                //console.log(`Richtung für ${optionalName} gesetzt:`, labelData[optionalName].direction);
+                //console.log(labelData[optionalName]);
+            } else {
+                console.warn(`Kein Label für ${objectName} oder ${optionalName} gefunden.`);
+            }
+        }
+        
+        // Außerhalb um auch nicht exp Objekte ohne Richtung zu labeln
         if (labelData[objectName]) {
             create3DLabelForObject(item.object, labelData[objectName]);
         } else if (labelData[optionalName]) {
