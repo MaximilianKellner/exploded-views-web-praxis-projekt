@@ -49,18 +49,15 @@ select {
   border-radius: 5px;
 
   font-size: 14px;
-  font-family: "Roboto", sans-serif;
   font-optical-sizing: auto;
 }
 
 /*dropdown styling */
 select option {
   background: #424b53;
-  color: white;
 }
 select option:checked {
   background-color: #2c3138;
-  color: white;
 }
 
 select:focus {
@@ -72,7 +69,4 @@ option:hover {
   /*TODO: fix styling not working --> https://stackoverflow.com/questions/10484053/change-select-list-option-background-colour-on-hover*/
   background: rgb(0, 255, 42);
   background-color: rgb(0, 255, 42);
-}
-option:hover {
-  background-color: yellow;
 }
