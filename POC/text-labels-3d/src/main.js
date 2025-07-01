@@ -11,6 +11,7 @@ const taggableObjects = []; // Array für alle Objekte, die ein Label haben kön
 let globalExplosionDirection = new THREE.Vector3(0, 1, 0); // Fallback
 const baseDistancePerLevel = 0.5; // Anpassen, wie weit sich Ebenen voneinander entfernen
 let explosionFactor = 0;
+let lastClickedObject = null; // Für Klick-Interaktion
 
 // HTML-Elemente
 const explosionSlider = document.getElementById('explosionSlider');
@@ -181,23 +182,30 @@ function onObjectClick(event) {
     // Objekte finden, die vom Klick getroffen wurden
     const intersects = raycaster.intersectObjects(taggableObjects.map(item => item.object), false);
 
-    // Alle Labels ausblenden, und nur das ausgewählte anzeigen
-    taggableObjects.forEach(item => {
-        // Suche nach dem 3D-Label (Plane-Mesh)
-        const label = item.object.children.find(child => child.type === 'Mesh');
-        if (label) {
-            label.visible = false;
-        }
-    });
-
-    // Das vorderste getroffene Objekt auswählen
     if (intersects.length > 0) {
+        // Alle Labels ausblenden, und nur das ausgewählte anzeigen
+        taggableObjects.forEach(item => {
+            // Suche nach dem 3D-Label (Plane-Mesh)
+            const label = item.object.children.find(child => child.type === 'Mesh');
+            if (label) {
+                label.visible = false; // Alle Labels ausblenden
+            }
+        });
+
         // Das erste getroffene Objekt ist das vorderste
         const clickedObject = intersects[0].object;
         // Das zugehörige Label finden und sichtbar machen
         const label = clickedObject.children.find(child => child.type === 'Mesh');
         if (label) {
             label.visible = true;
+        }
+
+        if (clickedObject === lastClickedObject) {
+            // Wenn das letzte geklickte Objekt erneut geklickt wird, dann verstecke dessen Label
+            label.visible = false;
+            lastClickedObject = null; // Setze auf null, um den Zustand zurückzusetzen
+        } else {
+            lastClickedObject = clickedObject; // Setze das aktuelle Objekt als letztes geklicktes Objekt
         }
     }
 }
