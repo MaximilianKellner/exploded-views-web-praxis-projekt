@@ -76,7 +76,7 @@ function assign3DLabelsToObjects(taggableObjects) {
             const direction = directionMatch[1]+ directionMatch[2];
             console.log('Richtung extrahiert:', direction);
             
-            // labeldata wird um die Richtung erweitert
+            // labeldata wird um die Richtung erweitert --> TODO: daten direkt in der JSON speichern?
             if (labelData[objectName]) {
                 labelData[objectName].direction = direction;
                 //console.log(`Richtung für ${objectName} gesetzt:`, labelData[objectName].direction);
@@ -142,7 +142,7 @@ function createTextLabelMesh({
     // Divider Linie & Pointer Linie
     const dividerLineY = canvas.height / 2 - 32;
     ctx.strokeStyle = '#fff';
-    ctx.lineWidth = 8;
+    ctx.lineWidth = 6;
     ctx.beginPath();
     // Pointer-Teil
     ctx.moveTo(pointerStartX, dividerLineY);

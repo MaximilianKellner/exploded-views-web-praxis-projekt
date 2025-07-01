@@ -15,6 +15,17 @@
     <div id="info">
         Explosionsfaktor: <span id="explosionValue">0</span>
     </div>
+    <div id="settings-container">
+        <div id="settings">
+            <h2>Einstellungen</h2>
+            <label for=" textbox-direction">Labelausrichtung:</label>
+            <select id="textbox-direction">
+                <option value="horizontal">Seitlich (Exp-Richtung)</option>
+                <option value="vertical">45°</option>
+                <option value="auto">Exp-Richtung + 90°</option>
+            </select>
+        </div>
+    </div>
     <div id="slider-container">
         <input type="range" min="0" max="1" value="0" step="0.01" id="explosionSlider" style="width: 100%;">
     </div>
