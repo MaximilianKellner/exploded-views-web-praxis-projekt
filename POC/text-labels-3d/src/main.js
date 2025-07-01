@@ -170,7 +170,7 @@ function applyExplosion() {
     });
 }
 
-// --- Interaktion: Label bei Klick anzeigen ---
+// --- Interaktion: Label bei Klick anzeigen, bis das Label oder ein anderes 3D Objekt geklickt wird. ---
 function onObjectClick(event) {
     event.preventDefault();
 
@@ -182,6 +182,7 @@ function onObjectClick(event) {
     // Objekte finden, die vom Klick getroffen wurden
     const intersects = raycaster.intersectObjects(taggableObjects.map(item => item.object), false);
 
+    // Falls Objekte getroffen wurden
     if (intersects.length > 0) {
         // Alle Labels ausblenden, und nur das ausgewählte anzeigen
         taggableObjects.forEach(item => {
@@ -200,10 +201,10 @@ function onObjectClick(event) {
             label.visible = true;
         }
 
+        // Falls ein Objekt erneut geklickt wird, wird dessen Label versteckt
         if (clickedObject === lastClickedObject) {
-            // Wenn das letzte geklickte Objekt erneut geklickt wird, dann verstecke dessen Label
             label.visible = false;
-            lastClickedObject = null; // Setze auf null, um den Zustand zurückzusetzen
+            lastClickedObject = null;
         } else {
             lastClickedObject = clickedObject; // Setze das aktuelle Objekt als letztes geklicktes Objekt
         }
