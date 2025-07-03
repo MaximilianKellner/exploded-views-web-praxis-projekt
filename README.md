@@ -1,4 +1,4 @@
-# Modulare und interaktive Exploded Views im Web
+# Konzeption und Entwicklung eines interaktiven (Visualisierungs-)Systems für Exploded Views im Web.
 
 ## Projektbeschreibung
 
@@ -9,9 +9,15 @@ Der Fokus liegt auf:
 - **Performance**: Effiziente Umsetzung ohne starke Beeinträchtigung der Ladezeiten
 - **User Experience**: Einfache und intuitive Bedienbarkeit
 
-## Forschungsfrage
+## Forschungsfragen
 
-> **Wie lassen sich Exploded Views im Web modular und wiederverwendbar umsetzen und welche Best Practices sowie Herausforderungen existieren dabei?**
+1. Wie lassen sich Exploded Views im Web modular und wiederverwendbar umsetzen und welche Best Practices sowie Herausforderungen existieren dabei?
+2. Welche Vorteile und Möglichkeiten bieten 3D Modelle und Exploded Views im Hinblick auf Storytelling?
+
+> optional: <br>
+    Wie lassen sich Interaktivität und Animation (z.B.  Scroll-  oder Hover-Effekte) integrieren? -->    Geschwindigkeit, easing  (Bewegungskurven), 
+
+
 
 ## Vorgehen
 
