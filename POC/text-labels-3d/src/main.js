@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { loadLabelData, assign3DLabelsToObjects } from './text-label-3d.js';
+import { loadLabelData, assign3DLabelsToObjects, updateLabelPointerSide, labels } from './text-label-3d.js';
+import { initUI } from './ui-handler.js';
 
 // HTML-Elemente
 const explosionSlider = document.getElementById('explosionSlider');
@@ -83,7 +84,8 @@ function loadModel() {
             model = gltf.scene;
             scene.add(model);
             parseModelForExplosion();
-            assign3DLabelsToObjects(taggableObjects); // 3D-Labels zuordnen!
+            assign3DLabelsToObjects(taggableObjects); // 3D-Labels zuordnen
+            initUI(labels); // UI initialisieren und Labels übergeben
             applyExplosion(); // Initiale Position (unexplodiert)
         },
         // onProgress callback

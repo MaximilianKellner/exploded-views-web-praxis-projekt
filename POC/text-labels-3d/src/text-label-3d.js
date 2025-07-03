@@ -20,8 +20,15 @@ async function loadLabelData(url) {
 function create3DLabelForObject(object3D, labelInfo) {
     if (!object3D || !labelInfo || !labelInfo.title) return null;
 
-    // Bestimmen, auf welcher Seite der Pointer sein soll --> XNEG = Pointer rechts
-    const pointerSide = labelInfo.direction === 'XNEG' ? 'right' : 'left';
+    // Lese die aktuelle Ausrichtung direkt aus dem UI-Element
+    const labelDirectionSelect = document.getElementById('label-direction');
+    const selectedDirection = labelDirectionSelect ? labelDirectionSelect.value : 'links/rechts';
+
+    let pointerSide = 'left';
+    // Weise die pointerSide nur im Standardfall automatisch zu
+    if (selectedDirection === 'links/rechts') {
+        pointerSide = labelInfo.direction === 'XNEG' ? 'right' : 'left';
+    }
 
     const mesh = createTextLabelMesh({
         title: labelInfo.title,
@@ -42,13 +49,23 @@ function create3DLabelForObject(object3D, labelInfo) {
     // Position basierend auf der Seite des Pointers ausrichten.
     if (pointerSide === 'left') {
         // Label ist rechts vom Objekt, Pointer zeigt nach links.
-        // Position = Objekt-Rand + halbe Label-Breite
         position.x = objectSize.x / 2 + labelWidth / 2;
     } else { // pointerSide === 'right'
         // Label ist links vom Objekt, Pointer zeigt nach rechts.
-        // Position = -Objekt-Rand - halbe Label-Breite
         position.x = -objectSize.x / 2 - labelWidth / 2;
     }
+
+    // initial Position des Labels speichern, damit die UI-Logik darauf zugreifen kann
+    mesh.userData.originalPosition = position.clone();
+
+    // Label-Informationen in userData speichern
+    mesh.userData.title = labelInfo.title;
+    mesh.userData.body = labelInfo.body || '';
+    mesh.userData.pointerSide = pointerSide;
+    mesh.userData.direction = labelInfo.direction;
+    // Speichere auch die Dimensionen für spätere Berechnungen
+    mesh.userData.objectSize = objectSize;
+    mesh.userData.labelWidth = labelWidth;
 
     mesh.position.copy(position);
     mesh.visible = false;
@@ -179,4 +196,28 @@ function createTextLabelMesh({
     return textMesh;
 }
 
-export { loadLabelData, create3DLabelForObject, assign3DLabelsToObjects };
+function updateLabelPointerSide(label, newPointerSide) {
+    // Nur aktualisieren, wenn sich die Seite ändert
+    if (!label.userData || label.userData.pointerSide === newPointerSide) {
+        return;
+    }
+
+    // Erstelle eine neue temporäre Mesh, um die neue Textur zu bekommen
+    const tempMesh = createTextLabelMesh({
+        title: label.userData.title,
+        body: label.userData.body,
+        pointerSide: newPointerSide
+    });
+
+    // Aktualisiere die Textur des originalen Labels
+    if (label.material.map) {
+        label.material.map.dispose(); // Alte Textur entfernen
+    }
+    label.material.map = tempMesh.material.map;
+    label.material.map.needsUpdate = true;
+
+    label.userData.pointerSide = newPointerSide;
+}
+
+
+export { loadLabelData, create3DLabelForObject, assign3DLabelsToObjects, labels, updateLabelPointerSide };
