@@ -3,6 +3,10 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { loadLabelData, assign3DLabelsToObjects } from './text-label-3d.js';
 
+// HTML-Elemente
+const explosionSlider = document.getElementById('explosionSlider');
+const explosionValueDisplay = document.getElementById('explosionValue');
+
 // --- Globale Variablen ---
 let scene, camera, renderer, controls;
 let model; // Das geladene Hauptmodell
@@ -12,10 +16,7 @@ let globalExplosionDirection = new THREE.Vector3(0, 1, 0); // Fallback
 const baseDistancePerLevel = 0.5; // Anpassen, wie weit sich Ebenen voneinander entfernen
 let explosionFactor = 0;
 let lastClickedObject = null; // Für Klick-Interaktion
-
-// HTML-Elemente
-const explosionSlider = document.getElementById('explosionSlider');
-const explosionValueDisplay = document.getElementById('explosionValue');
+explosionSlider.value = 0.0 // reset Slider auf 0
 
 // --- Interaktionsvariablen für Klick-Erkennung ---
 const raycaster = new THREE.Raycaster();

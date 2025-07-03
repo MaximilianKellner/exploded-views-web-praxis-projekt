@@ -129,7 +129,7 @@ function createTextLabelMesh({
     const pointerEndX = (pointerSide === 'left') ? pointerCanvasWidth : totalCanvasWidth;
 
     // Text-Block Hintergrund
-    // ctx.fillStyle = 'hsla(360 0% 0% / 0.1)';
+    // ctx.fillStyle = 'hsl(0, 0.00%, 4.70%)';
     // ctx.fillRect(textBlockX, 0, textBlockCanvasWidth, canvasHeight);
 
     // Titel Text
