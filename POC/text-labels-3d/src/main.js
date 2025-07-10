@@ -161,7 +161,7 @@ function applyExplosion() {
         }
 
         const distance = item.level * baseDistancePerLevel * explosionFactor;
-        // - 'item.level': Die Ebene des Objekts (z.B. L1, L2). Höhere Ebenen bewegen sich weiter.
+        // - 'item.level': Die Ebene des Objekts (z.B. L1, L2). Höhere Ebenen bewegen sich weiter von der Origin weg.
         // - 'baseDistancePerLevel': Ein festgelegter Grundabstand pro Ebene.
         // - 'explosionFactor': Der aktuelle Wert des Sliders (zwischen 0 und 1).
 

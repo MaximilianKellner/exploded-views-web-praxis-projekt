@@ -20,7 +20,7 @@ async function loadLabelData(url) {
 function create3DLabelForObject(object3D, labelInfo) {
     if (!object3D || !labelInfo || !labelInfo.title) return null;
 
-    // Lese die aktuelle Ausrichtung direkt aus dem UI-Element
+    // Lese die aktuelle Ausrichtung direkt aus dem Drop DOwn Menü
     const labelDirectionSelect = document.getElementById('label-direction');
     const selectedDirection = labelDirectionSelect ? labelDirectionSelect.value : 'links/rechts';
 
@@ -63,7 +63,7 @@ function create3DLabelForObject(object3D, labelInfo) {
     mesh.userData.body = labelInfo.body || '';
     mesh.userData.pointerSide = pointerSide;
     mesh.userData.direction = labelInfo.direction;
-    // Speichere auch die Dimensionen für spätere Berechnungen
+    // Speichern der Dimensionen für spätere Berechnungen
     mesh.userData.objectSize = objectSize;
     mesh.userData.labelWidth = labelWidth;
 
@@ -85,7 +85,6 @@ function assign3DLabelsToObjects(taggableObjects) {
         const objectName = item.object.name;
         const nameParts = objectName.split('-');
         const optionalName = nameParts.length > 3 ? nameParts.slice(3).join('-') : objectName;
-
 
         // Extrahiere die Richtung aus dem Namen
         const directionMatch = objectName.match(/-dir([XYZ])(POS|NEG)/);
@@ -131,8 +130,6 @@ function createTextLabelMesh({
     const totalCanvasWidth = textBlockCanvasWidth + pointerCanvasWidth;
     const aspectRatio = totalCanvasWidth / canvasHeight;
     const planeHeight = planeBaseWidth / aspectRatio;
-
-
 
     const canvas = document.createElement('canvas');
     canvas.width = totalCanvasWidth;
@@ -188,6 +185,7 @@ function createTextLabelMesh({
         transparent: true,
         side: THREE.DoubleSide
     });
+
     // Die Geometrie wird basierend auf dem Seitenverhältnis des Canvas erstellt, um Verzerrungen zu vermeiden.
     const geometry = new THREE.PlaneGeometry(planeBaseWidth, planeHeight);
     const textMesh = new THREE.Mesh(geometry, material);
@@ -202,7 +200,7 @@ function updateLabelPointerSide(label, newPointerSide) {
         return;
     }
 
-    // Erstelle eine neue temporäre Mesh, um die neue Textur zu bekommen
+    // Erstelle ein neues temporäre Mesh, um die neue Textur zu bekommen
     const tempMesh = createTextLabelMesh({
         title: label.userData.title,
         body: label.userData.body,
@@ -218,6 +216,5 @@ function updateLabelPointerSide(label, newPointerSide) {
 
     label.userData.pointerSide = newPointerSide;
 }
-
 
 export { loadLabelData, create3DLabelForObject, assign3DLabelsToObjects, labels, updateLabelPointerSide };
