@@ -53,7 +53,7 @@ async function init() {
     controls.maxDistance = 25;
 
     // Label-Daten laden (aus text-label.js)
-    await loadLabelData('labels.json');
+    await loadLabelData('labels-911.json');
 
     // Modell laden
     loadModel();
@@ -79,7 +79,7 @@ async function init() {
 function loadModel() {
     const loader = new GLTFLoader();
     loader.load(
-        '/layer-test.glb', // Pfad zum .glb Modell 
+        '/layer-test-911.glb', // Pfad zum .glb Modell 
         function (gltf) {
             model = gltf.scene;
             scene.add(model);
@@ -108,7 +108,7 @@ function parseModelForExplosion() {
     model.traverse(function (child) {
 
         // Alle Objekte sammeln
-        if (child.isMesh) {
+        if (child.name.startsWith('exp-') || child.name.startsWith('tag-')) {
             taggableObjects.push({
                 object: child,
             });

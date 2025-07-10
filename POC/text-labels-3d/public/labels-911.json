@@ -1,0 +1,61 @@
+{
+  "FL": {
+    "title": "Leichtmetallfelge FL",
+    "body": "Die Leichtmetallfelge des GT3 ist filigran und trotzdem sportlich. Sie bietet eine perfekte Balance zwischen Gewicht und Stabilität."
+  },
+  "FR": {
+    "title": "Leichtmetallfelge FR",
+    "body": "Die Leichtmetallfelge des GT3 ist filigran und trotzdem sportlich. Sie bietet eine perfekte Balance zwischen Gewicht und Stabilität."
+  },
+  "RL": {
+    "title": "Leichtmetallfelge RL",
+    "body": "Die Leichtmetallfelge des GT3 ist filigran und trotzdem sportlich. Sie bietet eine perfekte Balance zwischen Gewicht und Stabilität."
+  },
+  "RR": {
+    "title": "Leichtmetallfelge RR",
+    "body": "Die Leichtmetallfelge des GT3 ist filigran und trotzdem sportlich. Sie bietet eine perfekte Balance zwischen Gewicht und Stabilität."
+  },
+  "FLBremse": {
+    "title": "Bremse FL",
+    "body": "Die Bremse an der Vorderachse links ist für die Verzögerung des Fahrzeugs verantwortlich. Sie sorgt für präzises Bremsverhalten und Sicherheit."
+  },
+  "FRBremse": {
+    "title": "Bremse FR",
+    "body": "Die Bremse an der Vorderachse rechts ist für die Verzögerung des Fahrzeugs verantwortlich. Sie sorgt für präzises Bremsverhalten und Sicherheit."
+  },
+  "RLBremse": {
+    "title": "Bremse RL",
+    "body": "Die Bremse an der Hinterachse links ist für die Verzögerung des Fahrzeugs verantwortlich. Sie sorgt für präzises Bremsverhalten und Sicherheit."
+  },
+  "RRBremse": {
+    "title": "Bremse RR",
+    "body": "Die Bremse an der Hinterachse rechts ist für die Verzögerung des Fahrzeugs verantwortlich. Sie sorgt für präzises Bremsverhalten und Sicherheit."
+  },
+  "main-body": {
+    "title": "Der GT3 Touring",
+    "body": "Der GT3 Touring ist ein Meisterwerk der Ingenieurskunst. Er kombiniert Leistung, Präzision und Komfort in einem sportlichen Paket. Jedes Detail ist darauf ausgelegt, das Fahrerlebnis zu maximieren und gleichzeitig höchste Sicherheitsstandards zu gewährleisten."
+  },
+  "Diffusor": {
+    "title": "Diffusor",
+    "body": "Der Diffusor am Heck des GT3 Touring verbessert die Aerodynamik und sorgt für zusätzlichen Abtrieb. Er ist ein entscheidendes Element für die Stabilität bei hohen Geschwindigkeiten."
+  },
+  "Spoiler": {
+    "title": "Aktiver Heckspoiler",
+    "body": "Der aktive Heckspoiler des GT3 Touring passt sich automatisch an die Geschwindigkeit und Fahrsituation an. Er optimiert den Luftwiderstand und erhöht den Abtrieb, was für eine verbesserte Straßenlage sorgt."
+  },
+  "Licht": {
+    "title": "Licht",
+    "body": "Die Lichtleiste des GT3 Touring ist nicht nur funktional, sondern auch ein Designelement. Sie sorgt für optimale Sichtverhältnisse und trägt zur markanten Optik des Fahrzeugs bei."
+  },
+  "LSchweller": {
+    "title": "Linker Seitenschweller",
+    "body": "Der linke Seitenschweller des GT3 Touring verbessert die Aerodynamik und verleiht dem Fahrzeug ein sportliches Profil. Er ist aus leichtem, aber robustem Material gefertigt."
+  },
+  "RSchweller": {
+    "title": "Rechter Seitenschweller",
+    "body": "Der rechte Seitenschweller des GT3 Touring verbessert die Aerodynamik und verleiht dem Fahrzeug ein sportliches Profil. Er ist aus leichtem, aber robustem Material gefertigt."
+  },
+  "Kennzeichen": {
+    "title": "Kennzeichen"
+  }
+}
