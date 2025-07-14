@@ -38,7 +38,7 @@ async function init() {
     controls.maxDistance = 25;
 
     // 7. Tweakpane UI initialisieren
-    initTweakpane(config, lights, scene);
+    initTweakpane(config, lights, scene, camera, controls);
 
     // Resize Handler
     window.addEventListener('resize', onWindowResize);

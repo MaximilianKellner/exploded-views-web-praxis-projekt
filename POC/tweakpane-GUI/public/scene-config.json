@@ -2,7 +2,7 @@
     "sceneConfig": {
         "backgroundColor": "0x343434",
         "camera": {
-        "position": [0, 0, 5],
+        "position": [3.5, 2, 5],
         "lookAt": [0, 0, 0]
         },
         "lights": {
@@ -24,7 +24,7 @@
                 "enabled": true,
                 "color": "#ffffff",
                 "intensity": 1.0,
-                "position": { "x": 5, "y": 10, "z": -5 }
+                "position": { "x": -5, "y": 10, "z": -5 }
             },
             "bottomDirectional": {
                 "type": "directional",

@@ -1,6 +1,6 @@
 import { Pane } from 'tweakpane';
 
-export function initTweakpane(config, lights, scene) {
+export function initTweakpane(config, lights, scene, camera, controls) {
     const pane = new Pane({
         title: 'Scene Controls',
     });
@@ -10,6 +10,21 @@ export function initTweakpane(config, lights, scene) {
     sceneFolder.addBinding(config.sceneConfig, 'backgroundColor', { label: 'Background' })
         .on('change', (ev) => {
             scene.background.set(ev.value);
+        });
+    
+    // --- Kamera ---
+    const cameraFolder = sceneFolder.addFolder({ title: 'Camera' });
+    cameraFolder.addBinding(camera, 'position', { label: 'Camera Position', x: {min: -20, max: 20}, y: {min: -20, max: 20}, z: {min: -20, max: 20} })
+        .on('change', () => {
+            controls.update();
+    });
+    cameraFolder.addBinding(controls, 'minDistance', { label: 'Min Distance', min: 0.1, max: 100, step: 0.1 })
+        .on('change', () => {
+            controls.update();
+        });
+    cameraFolder.addBinding(controls, 'maxDistance', { label: 'Max Distance', min: 0.1, max: 100, step: 0.1 })
+        .on('change', () => {
+            controls.update();
         });
 
     // --- Lichter ---
