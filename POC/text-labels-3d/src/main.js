@@ -28,6 +28,7 @@ async function init() {
     // Szene
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0x111111);
+    //scene.background = new THREE.Color(0xffffff);
 
     // Kamera
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -40,9 +41,9 @@ async function init() {
     document.body.appendChild(renderer.domElement);
 
     // Licht
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
     scene.add(ambientLight);
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.8);
     directionalLight.position.set(5, 10, 7.5);
     scene.add(directionalLight);
 
@@ -108,7 +109,7 @@ function parseModelForExplosion() {
     model.traverse(function (child) {
 
         // Alle Objekte sammeln
-        if (child.name.startsWith('exp-') || child.name.startsWith('tag-')) {
+        if (child.name.startsWith('tag-') || child.name.startsWith('exp-')) {
             taggableObjects.push({
                 object: child,
             });
@@ -173,44 +174,57 @@ function applyExplosion() {
     });
 }
 
-// --- Interaktion: Label bei Klick anzeigen, bis das Label oder ein anderes 3D Objekt geklickt wird. ---
+function hideAllLabels() {
+    labels.forEach(label => {
+        label.visible = false;
+    });
+    lastClickedObject = null;
+}
+
+function findTaggableParent(object) {
+    let current = object;
+    while (current) {
+        if (taggableObjects.some(item => item.object === current)) {
+            return current;
+        }
+        current = current.parent;
+    }
+    return null;
+}
+
 function onObjectClick(event) {
     event.preventDefault();
 
     mouse.x = (event.clientX / renderer.domElement.clientWidth) * 2 - 1;
-    mouse.y = - (event.clientY / renderer.domElement.clientHeight) * 2 + 1;
+    mouse.y = -(event.clientY / renderer.domElement.clientHeight) * 2 + 1;
 
     raycaster.setFromCamera(mouse, camera);
 
-    // Objekte finden, die vom Klick getroffen wurden
-    const intersects = raycaster.intersectObjects(taggableObjects.map(item => item.object), false);
+    const intersects = raycaster.intersectObjects(taggableObjects.map(item => item.object), true);
 
-    // Falls Objekte getroffen wurden
-    if (intersects.length > 0) {
-        // Alle Labels ausblenden, und nur das ausgewählte anzeigen
-        taggableObjects.forEach(item => {
-            // Suche nach dem 3D-Label (Plane-Mesh)
-            const label = item.object.children.find(child => child.type === 'Mesh');
-            if (label) {
-                label.visible = false; // Alle Labels ausblenden
-            }
-        });
+    // Wenn kein Objekt getroffen wird, passiert nichts. Das Label bleibt offen.
+    if (intersects.length === 0) {
+        return;
+    }
 
-        // Das erste getroffene Objekt ist das vorderste
-        const clickedObject = intersects[0].object;
-        // Das zugehörige Label finden und sichtbar machen
-        const label = clickedObject.children.find(child => child.type === 'Mesh');
+    const clickedObject = findTaggableParent(intersects[0].object);
+    // Wenn kein zugehöriges, markierbares Objekt gefunden wird, passiert ebenfalls nichts.
+    if (!clickedObject) {
+        return;
+    }
+
+    const label = labels.find(l => l.parent === clickedObject);
+
+    // Wenn dasselbe Objekt erneut geklickt wird, schalte das Label aus.
+    if (lastClickedObject === clickedObject) {
+        hideAllLabels();
+    } else {
+        // Andernfalls blende alle Labels aus und zeige nur das neue an.
+        hideAllLabels();
         if (label) {
             label.visible = true;
         }
-
-        // Falls ein Objekt erneut geklickt wird, wird dessen Label versteckt
-        if (clickedObject === lastClickedObject) {
-            label.visible = false;
-            lastClickedObject = null;
-        } else {
-            lastClickedObject = clickedObject; // Setze das aktuelle Objekt als letztes geklicktes Objekt
-        }
+        lastClickedObject = clickedObject;
     }
 }
 

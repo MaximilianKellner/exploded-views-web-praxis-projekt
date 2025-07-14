@@ -84,13 +84,21 @@ function assign3DLabelsToObjects(taggableObjects) {
     taggableObjects.forEach(item => {
         const objectName = item.object.name;
         const nameParts = objectName.split('-');
-        const optionalName = nameParts.length > 3 ? nameParts.slice(3).join('-') : objectName;
+        
+        // TODO: Umstellung auf json
+        // Robustere Extraktion des optionalen Namens
+        let optionalName = objectName;
+        if (objectName.startsWith('exp-')) {
+            optionalName = nameParts.length > 3 ? nameParts.slice(3).join('-') : objectName;
+        } else if (objectName.startsWith('tag-')) {
+            optionalName = nameParts.slice(1).join('-');
+        }
 
         // Extrahiere die Richtung aus dem Namen
         const directionMatch = objectName.match(/-dir([XYZ])(POS|NEG)/);
         if (directionMatch) {
             const direction = directionMatch[1]+ directionMatch[2];
-            console.log('Richtung extrahiert:', direction);
+            //console.log('Richtung extrahiert:', direction);
             
             // labeldata wird um die Richtung erweitert --> TODO: daten direkt in der JSON speichern?
             if (labelData[objectName]) {
