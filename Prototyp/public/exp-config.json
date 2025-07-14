@@ -1,0 +1,24 @@
+{
+  "_comment": "[X|Y|Z]",
+  "explosionConfig": {
+    "globalExpDirection": [0, 1, 0],
+    "objects": {
+      "gehaeuse": {
+        "level": 1,
+        "expDirection": "global"
+      },
+      "deckel": {
+        "level": 2,
+        "expDirection": [0, 1, 0]
+      },
+      "schraube": {
+        "level": 3,
+        "expDirection": [-1, 0, 0]
+      },
+      "seitenteil": {
+        "level": 2,
+        "expDirection": [1, 0, 0]
+      }
+    }
+  }
+}
