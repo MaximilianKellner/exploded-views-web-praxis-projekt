@@ -1,0 +1,19 @@
+* {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+
+  padding: 0;
+  margin: 0;
+  color: white;
+}
+
+h2 {
+  font-size: var(--xl);
+  font-weight: 500;
+  margin-bottom: var(--s);
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+}
