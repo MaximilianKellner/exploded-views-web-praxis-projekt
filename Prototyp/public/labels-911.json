@@ -57,5 +57,9 @@
   },
   "Kennzeichen": {
     "title": "Kennzeichen"
+  },
+  "Splitter": {
+    "title": "Frontsplitter",
+    "body": "Der Frontsplitter verbessert die Aerodynamik an der Fahrzeugfront und sorgt für zusätzlichen Anpressdruck."
   }
 }

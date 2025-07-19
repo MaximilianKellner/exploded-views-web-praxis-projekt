@@ -1,23 +1,71 @@
 {
   "_comment": "[X|Y|Z]",
   "explosionConfig": {
-    "globalExpDirection": [0, 1, 0],
+    "globalExpDirection": [0, 0, 0],
     "objects": {
-      "gehaeuse": {
+      "main-body": {
+        "level": 0,
+        "expDirection": [0, 0, 0]
+      },
+      "Diffusor": {
         "level": 1,
-        "expDirection": "global"
+        "expDirection": [0, -1, -1]
       },
-      "deckel": {
+      "FL": {
         "level": 2,
-        "expDirection": [0, 1, 0]
+        "expDirection": [-1, 0, 0]
       },
-      "schraube": {
+      "FLBremse": {
         "level": 3,
         "expDirection": [-1, 0, 0]
       },
-      "seitenteil": {
+      "FR": {
         "level": 2,
         "expDirection": [1, 0, 0]
+      },
+      "FRBremse": {
+        "level": 3,
+        "expDirection": [1, 0, 0]
+      },
+      "Kennzeichen": {
+        "level": 1,
+        "expDirection": [0, 0, -1]
+      },
+      "Licht": {
+        "level": 1,
+        "expDirection": [0, 0, -1]
+      },
+      "LSchweller": {
+        "level": 1,
+        "expDirection": [-1, 0, 0]
+      },
+      "RL": {
+        "level": 2,
+        "expDirection": [-1, 0, 0]
+      },
+      "RLBremse": {
+        "level": 3,
+        "expDirection": [-1, 0, 0]
+      },
+      "RR": {
+        "level": 2,
+        "expDirection": [1, 0, 0]
+      },
+      "RRBremse": {
+        "level": 3,
+        "expDirection": [1, 0, 0]
+      },
+      "RSchweller": {
+        "level": 1,
+        "expDirection": [1, 0, 0]
+      },
+      "Splitter": {
+        "level": 1,
+        "expDirection": [0, -1, 1]
+      },
+      "Spoiler": {
+        "level": 1,
+        "expDirection": [0, 1, -1]
       }
     }
   }
