@@ -65,7 +65,7 @@ function loadModel() {
         },
         // onProgress callback
         function (xhr) {
-            console.log('Model' + (xhr.loaded / xhr.total * 100) + '% loaded');
+            console.log('Model ' + (xhr.loaded / xhr.total * 100) + '% loaded');
         },
         // onError callback
         function (error) {
@@ -80,6 +80,7 @@ function loadCooridinatesystem() {
         '/coordinatesystem.glb', // Pfad zum Koordinatensystem Modell
         function (gltf) {
             const coordinateSystem = gltf.scene;
+            coordinateSystem.name = 'Coordinatesystem';
             scene.add(coordinateSystem);
             coordinateSystem.visible = false; // Standardmäßig unsichtbar
         },

@@ -1,4 +1,7 @@
 {
+    "animationConfig": {
+        "expFactor": 0
+    },
     "sceneConfig": {
         "backgroundColor": "0x343434",
         "showCoordinatesystem": false,
@@ -13,7 +16,7 @@
                 "type": "ambient",
                 "enabled": true,
                 "color": "#ffffff",
-                "intensity": 0.1
+                "intensity": 0.5
             },
             "mainDirectional": {
                 "type": "directional",
