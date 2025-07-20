@@ -39,11 +39,17 @@ export class AnimationHandler {
             if (configObjects[child.name]) {
                 const objectConfig = configObjects[child.name];
 
+                // expDirection lesen, fallback auf globalExpDirection
+                let expDirection = objectConfig.expDirection
+                if (!objectConfig.expDirection) {
+                    expDirection = this.animationConfig.globalExpDirection
+                }   
+
                 this.explodableObjects.push({
                     object: child,
                     originalPosition: child.position.clone(),
                     level: objectConfig.level > 0 ? objectConfig.level : 0,
-                    expDirection: objectConfig.expDirection ? new THREE.Vector3().fromArray(objectConfig.expDirection).normalize() : new THREE.Vector3().fromArray(this.animationConfig.globalExpDirection)
+                    expDirection: new THREE.Vector3().fromArray(expDirection).normalize()
                 });
             }
         });
