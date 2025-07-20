@@ -3,16 +3,22 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { initTweakpane } from './modules/ui-Handler.js';
 import { setupLights } from './scene/lights.js';
+import { AnimationHandler } from './modules/animation-handler.js';
 
 // --- Globale Variablen ---
+const modelPath = '/layer-test-911.glb'; // Pfad zum .glb Modell
+const explosionConfigPath = '/911-exp-config.json'; // Pfad zur Explosions-Konfiguration
+
 const lights = {}; // Objekt zum Speichern der erstellten Lichter
 let scene, camera, renderer, controls;
 let model;
+let animationHandler;
+let config;
 
 async function init() {
     // Konfiguration laden
     const response = await fetch('/scene-config.json');
-    const config = await response.json();
+    config = await response.json();
 
     // Szene
     scene = new THREE.Scene();
@@ -41,6 +47,9 @@ async function init() {
     // Tweakpane UI initialisieren
     initTweakpane(config, lights, scene, camera, controls);
 
+    // AnimationHandler initialisieren
+    animationHandler = new AnimationHandler(scene, config.animationConfig);
+
     // Resize Handler
     window.addEventListener('resize', onWindowResize);
 
@@ -55,13 +64,19 @@ async function init() {
 }
 
 // --- Modell laden und verarbeiten ---
-function loadModel() {
+async function loadModel() {
     const loader = new GLTFLoader();
     loader.load(
-        '/layer-test-911.glb', // Pfad zum .glb Modell 
-        function (gltf) {
+        modelPath, // Pfad zum .glb Modell 
+        async function (gltf) {
             model = gltf.scene;
             scene.add(model);
+            if (animationHandler) {
+                // AnimationHandler mit dem geladenen Modell und der Config-URL initialisieren
+                await animationHandler.initialize(model, explosionConfigPath);
+            } else {
+                console.error('AnimationHandler ist nicht initialisiert.');
+            }
         },
         // onProgress callback
         function (xhr) {
@@ -102,6 +117,11 @@ function onWindowResize() {
 function animate() {
     requestAnimationFrame(animate);
     controls.update();
+
+    // Animation aktualisieren, falls der Handler existiert
+    if (animationHandler) {
+        animationHandler.updateExplosion();
+    }
     renderer.render(scene, camera);
 }
 

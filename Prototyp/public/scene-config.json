@@ -1,6 +1,8 @@
 {
     "animationConfig": {
-        "expFactor": 0
+        "expFactor": 0,
+        "layerDistance": 0.5,
+        "globalExpDirection": [1, 1, 1]
     },
     "sceneConfig": {
         "backgroundColor": "0x343434",
