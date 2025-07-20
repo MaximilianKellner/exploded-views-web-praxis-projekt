@@ -1,5 +1,5 @@
 import { Pane } from 'tweakpane';
-
+import { animate, utils } from 'animejs';
 
 export function initTweakpane(config,) {
     const pane = new Pane({
@@ -8,24 +8,48 @@ export function initTweakpane(config,) {
 
     // --- Animation Einstellungen ---
     const animationFolder = pane.addFolder({ title: 'Animation', expanded: true });
-    // Definiere die Variable im config-Objekt, damit sie global ausgelesen werden kann
-    if (!config.animationConfig) config.animationConfig = {};
-    if (typeof config.animationConfig.expFactor !== 'number') config.animationConfig.expFactor = 0;
 
-    animationFolder.addBinding(
+    // Erstelle die Animationsinstanz, ohne sie abzuspielen
+    const animation = animate('.exp-simulator',{
+        width: '100%', // Animate to 100%
+        easing: 'easeInOutExpo',
+        duration: 1000,
+        autoplay: false,
+    });
+
+    // Setze den Update-Callback auf der erstellten Instanz
+    animation.update = (anim) => {
+        config.animationConfig.expFactor = anim.progress / 100;
+        pane.refresh();
+    };
+
+    const progressbar = animationFolder.addBinding(
         config.animationConfig,
         'expFactor',
         { label: 'Progress', min: 0, max: 1, step: 0.01 }
-    );
+    ).on('change', (ev) => {
+        // Steuere die Animation, wenn der Slider bewegt wird
+        animation.seek(animation.duration * ev.value);
+    });
 
     const triggerAnimationButton = animationFolder.addButton(
         {
             title: 'Start Animation',
-            label: 'Start'
+            label: 'Animate'
         });
+    
+    let hasPlayed = false;
 
     triggerAnimationButton.on('click', () => {
-        console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAA');
+        animation.play();
+        hasPlayed = !hasPlayed; // Toggle play state
+        triggerAnimationButton.title = hasPlayed ? 'Stop Animation' : 'Start Animation';
+
+        if (!hasPlayed) {
+            animation.pause();
+        } else {
+            animation.play();
+        }
     });
 
     return pane;

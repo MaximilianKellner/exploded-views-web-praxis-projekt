@@ -1,5 +1,5 @@
-import { animate } from 'animejs';
 import { initTweakpane } from './modules/ui-Handler.js';
+import { animate } from 'animejs';
 
 let config;
 
@@ -14,15 +14,32 @@ async function init() {
 
 // animate .square elements
 function animateSquares() {
-    animate('div', {
+    animate('.square', {
         translateX: 250,
-        backgroundColor: '#FF0000',
+        backgroundColor: '#fdc505',
         duration: 2000,
         easing: 'easeInOutQuad',
         rotate: '2turn', 
+        loop: true,
+        autostart: true,
+        alternate: true,
     });
 }
+
+/*
+function expSimulatorAnimation() {
+    const expSimulator = document.querySelector('.exp-simulator');
+    animate(expSimulator, {
+        width: '100%',
+        duration: 5000,
+        easing: 'easeInOutQuad',
+        loop: true,
+        alternate: true,
+    });
+}
+*/
 
 init();
 animateSquares();
 
+//expSimulatorAnimation();
