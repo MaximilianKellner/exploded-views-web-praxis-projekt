@@ -89,6 +89,7 @@ async function loadModel() {
     );
 }
 
+// --- Koordinatensystem laden ---
 function loadCooridinatesystem() {
     const loader = new GLTFLoader();
     loader.load(
@@ -108,12 +109,14 @@ function loadCooridinatesystem() {
     );
 }
 
+// --- Fenster-Resize-Handler ---
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
+// --- Animationsloop ---
 function animate() {
     requestAnimationFrame(animate);
     controls.update();

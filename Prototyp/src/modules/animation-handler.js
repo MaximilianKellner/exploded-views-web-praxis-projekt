@@ -1,5 +1,11 @@
 import * as THREE from 'three';
 
+/**
+ * Verwaltet die Logik für die Explosionsansicht eines 3D-Modells.
+ * Liest eine Konfigurationsdatei, identifiziert bewegliche Teile im Modell
+ * und aktualisiert deren Positionen in der Animationsschleife.
+ */
+
 export class AnimationHandler {
     constructor(scene, animationConfig) {
         this.scene = scene;
@@ -8,11 +14,13 @@ export class AnimationHandler {
         this.explosionConfig = null;
     }
 
+    // --- Initialisiert den AnimationHandler mit dem geladenen Modell und der Konfigurationn ---
     async initialize(model, expConfigUrl) {
         await this._loadExplosionConfig(expConfigUrl);
         this._parseModel(model);
     }
 
+    // --- Lädt die Explosions-Konfiguration von der angegebenen URL ---
     async _loadExplosionConfig(url) {
         try {
             const response = await fetch(url);
@@ -26,12 +34,14 @@ export class AnimationHandler {
         }
     }
 
+    // --- Parst das Modell und bereitet die explodierbaren Objekte vor ---
     _parseModel(model) {
         if (!model || !this.explosionConfig) {
             console.error('Modell oder Explosions-Konfiguration nicht bereit.');
             return;
         }
 
+        // Explodierbare Objekte aus der Konfiguration
         const configObjects = this.explosionConfig.objects;
 
         model.traverse((child) => {
@@ -45,6 +55,7 @@ export class AnimationHandler {
                     expDirection = this.animationConfig.globalExpDirection
                 }   
 
+                // Explodierbares Objekt mit relecanten Informationen speichern
                 this.explodableObjects.push({
                     object: child,
                     originalPosition: child.position.clone(),
@@ -56,6 +67,7 @@ export class AnimationHandler {
         console.log('Explodierbare Objekte gefunden:', this.explodableObjects);
     }
 
+    // --- Anwenden der Explosion auf die explodierbaren Objekte ---
     updateExplosion() {
         const { expFactor, layerDistance, globalExpDirection } = this.animationConfig;
 
