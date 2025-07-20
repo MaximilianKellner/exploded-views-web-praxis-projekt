@@ -16,12 +16,10 @@ async function init() {
 function animateSquares() {
     animate('div', {
         translateX: 250,
+        backgroundColor: '#FF0000',
         duration: 2000,
         easing: 'easeInOutQuad',
-        loop: true,
-        direction: 'alternate',
-        autoplay: true,
-        rotate: '1turn' 
+        rotate: '2turn', 
     });
 }
 
