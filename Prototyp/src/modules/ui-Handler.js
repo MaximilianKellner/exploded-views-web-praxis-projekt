@@ -17,6 +17,20 @@ export function initTweakpane(config, lights, scene, camera, controls) {
         { label: 'Progress', min: 0, max: 1, step: 0.01 }
     );
 
+    const triggerAnimationButton = animationFolder.addButton(
+        {
+            title: 'Start Animation',
+            label: 'Start'
+        });
+
+    triggerAnimationButton.on('click', () => {
+        if (config.animationConfig.expFactor === 0) {
+            config.animationConfig.expFactor = 1;
+        } else if (config.animationConfig.expFactor === 1) {
+            config.animationConfig.expFactor = 0;
+        }
+    });
+
     // --- Szene ---
     const sceneFolder = pane.addFolder({ title: 'Scene'});
     sceneFolder.addBinding(config.sceneConfig, 'backgroundColor', { label: 'Background' })
