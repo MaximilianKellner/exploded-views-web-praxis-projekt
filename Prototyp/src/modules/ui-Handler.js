@@ -1,4 +1,5 @@
 import { Pane } from 'tweakpane';
+import { animate } from 'animejs';
 
 export function initTweakpane(config, lights, scene, camera, controls) {
     const pane = new Pane({
@@ -20,15 +21,25 @@ export function initTweakpane(config, lights, scene, camera, controls) {
     const triggerAnimationButton = animationFolder.addButton(
         {
             title: 'Start Animation',
-            label: 'Start'
+            label: 'Animate'
         });
 
     triggerAnimationButton.on('click', () => {
-        if (config.animationConfig.expFactor === 0) {
-            config.animationConfig.expFactor = 1;
-        } else if (config.animationConfig.expFactor === 1) {
+        // Setze den Faktor auf 0 zurück, falls er schon 1 ist, um die Animation erneut zu starten
+        if (config.animationConfig.expFactor === 1) {
             config.animationConfig.expFactor = 0;
         }
+
+        // Animiere den expFactor von seinem aktuellen Wert auf 1
+        const animation = animate(config.animationConfig,{
+            expFactor: 1,
+            duration: 1000, // Dauer in ms
+            easing: 'easeInOutExpo', // Sanfter Start und Ende
+            update: () => {
+                // Aktualisiere den Slider in der UI
+                        pane.refresh();
+            }
+        });
     });
 
     // --- Szene ---

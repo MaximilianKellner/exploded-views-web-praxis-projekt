@@ -33,6 +33,10 @@ async function init() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     document.body.appendChild(renderer.domElement);
+    
+    // Canvas-Stil anpassen, um Drag-Probleme zu vermeiden
+    renderer.domElement.style.display = 'block';
+    renderer.domElement.style.outline = 'none';
 
     // Lichter basierend auf der Konfiguration erstellen
     setupLights(config.sceneConfig.lights, scene, lights);
@@ -43,6 +47,14 @@ async function init() {
     controls.enableDamping = true;
     controls.minDistance = config.sceneConfig.camera.minDistance;
     controls.maxDistance = config.sceneConfig.camera.maxDistance;
+    
+    // Browser-Standardverhalten für Drag-Events verhindern
+    renderer.domElement.addEventListener('pointerdown', (event) => {
+        event.preventDefault();
+    });
+    
+    // Verhindern, dass die gesamte Seite sich bewegt, wenn über dem Canvas gezogen wird
+    renderer.domElement.style.touchAction = 'none';
 
     // Tweakpane UI initialisieren
     initTweakpane(config, lights, scene, camera, controls);
