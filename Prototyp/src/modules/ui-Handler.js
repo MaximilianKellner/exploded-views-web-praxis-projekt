@@ -35,7 +35,7 @@ export function initTweakpane(config, lights, scene, camera, controls) {
             expFactor: 1,
             duration: 1000, // Dauer in ms
             easing: 'easeInOutExpo', // Sanfter Start und Ende
-            update: () => {
+            onUpdate: () => {
                 // Aktualisiere den Slider in der UI
                         pane.refresh();
             }

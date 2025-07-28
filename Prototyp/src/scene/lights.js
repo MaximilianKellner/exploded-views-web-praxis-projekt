@@ -14,7 +14,7 @@ function setupLights(lightsConfig, scene, lightsObject) {
                 light = new THREE.DirectionalLight(config.color, config.intensity);
                 light.position.set(config.position.x, config.position.y, config.position.z);
                 break;
-            // Hier könnten weitere Lichttypen hinzugefügt werden
+            //TODO Hier könnten weitere Lichttypen hinzugefügt werden
         }
 
         if (light) {
