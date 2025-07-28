@@ -24,6 +24,8 @@ export function initTweakpane(config, lights, scene, camera, controls) {
             label: 'Animate'
         });
 
+    let isReversed = false;
+
     triggerAnimationButton.on('click', () => {
         // Setze den Faktor auf 0 zurück, falls er schon 1 ist, um die Animation erneut zu starten
         if (config.animationConfig.expFactor === 1) {
@@ -34,10 +36,15 @@ export function initTweakpane(config, lights, scene, camera, controls) {
         const animation = animate(config.animationConfig,{
             expFactor: 1,
             duration: 1000, // Dauer in ms
-            easing: 'easeInOutExpo', // Sanfter Start und Ende
+            reversed: isReversed,
+            ease: 'inOut(8)',
             onUpdate: () => {
                 // Aktualisiere den Slider in der UI
                         pane.refresh();
+            },
+            onComplete: () => {
+                // Setze den Faktor auf 1, wenn die Animation abgeschlossen ist
+                isReversed = !isReversed;
             }
         });
     });
@@ -49,7 +56,7 @@ export function initTweakpane(config, lights, scene, camera, controls) {
             scene.background.set(ev.value);
         });
 
-    sceneFolder.addBinding(config.sceneConfig, 'showCoordinatesystem', { label: 'Koordinatensystem' })
+    sceneFolder.addBinding(config.sceneConfig, 'showCoordinatesystem', { label: 'Coordinate system ' })
         .on('change', (ev) => {
             //scene.getObjectByName('Coordinatesystem')?.visible = ev.value;
             console.log('Coordinatesystem visibility changed:', ev.value);
