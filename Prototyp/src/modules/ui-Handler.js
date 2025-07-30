@@ -24,14 +24,13 @@ export function initTweakpane(config, lights, scene, camera, controls) {
             label: 'Animate'
         });
 
-    let isReversed = false;
-
+    let isReversed = false; 
     triggerAnimationButton.on('click', () => {
         // Setze den Faktor auf 0 zurück, falls er schon 1 ist, um die Animation erneut zu starten
         if (config.animationConfig.expFactor === 1) {
             config.animationConfig.expFactor = 0;
         }
-
+        
         // Animiere den expFactor von seinem aktuellen Wert auf 1
         const animation = animate(config.animationConfig,{
             expFactor: 1,
@@ -45,6 +44,7 @@ export function initTweakpane(config, lights, scene, camera, controls) {
             onComplete: () => {
                 // Setze den Faktor auf 1, wenn die Animation abgeschlossen ist
                 isReversed = !isReversed;
+                triggerAnimationButton.title = isReversed ? 'Reverse Animation' : 'Start Animation';
             }
         });
     });
