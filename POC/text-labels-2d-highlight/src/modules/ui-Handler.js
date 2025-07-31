@@ -39,7 +39,7 @@ export function initTweakpane(config, lights, scene, camera, controls) {
             ease: 'inOut(8)',
             onUpdate: () => {
                 // Aktualisiere den Slider in der UI
-                pane.refresh();
+                        pane.refresh();
             },
             onComplete: () => {
                 // Setze den Faktor auf 1, wenn die Animation abgeschlossen ist

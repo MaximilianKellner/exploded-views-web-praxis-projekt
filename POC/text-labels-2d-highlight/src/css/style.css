@@ -1,0 +1,29 @@
+* {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+
+  padding: 0;
+  margin: 0;
+  color: var(--c-l-body-text);
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+li, ul {
+  list-style: none;
+}
+
+li, ul, p {
+  font-size: var(--m);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+}

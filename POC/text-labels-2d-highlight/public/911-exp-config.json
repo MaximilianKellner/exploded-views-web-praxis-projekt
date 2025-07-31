@@ -1,0 +1,69 @@
+{
+  "_comment": "[X|Y|Z]",
+  "objects": {
+    "main-body": {
+      "level": 0,
+      "expDirection": [0, 0, 0]
+    },
+    "Diffusor": {
+      "level": 1,
+      "expDirection": [0, -1, -1]
+    },
+    "FL": {
+      "level": 3,
+      "expDirection": [1, 0, 0]
+    },
+    "FLBremse": {
+      "level": 1,
+      "expDirection": [1, 0, 0]
+    },
+    "FR": {
+      "level": 3,
+      "expDirection": [-1, 0, 0]
+    },
+    "FRBremse": {
+      "level": 1,
+      "expDirection": [-1, 0, 0]
+    },
+    "Kennzeichen": {
+      "level": 1,
+      "expDirection": [0, 0, -1]
+    },
+    "Licht": {
+      "level": 1,
+      "expDirection": [0, 0, -1]
+    },
+    "LSchweller": {
+      "level": 1,
+      "expDirection": [1, 0, 0]
+    },
+    "RL": {
+      "level": 3,
+      "expDirection": [1, 0, 0]
+    },
+    "RLBremse": {
+      "level": 1,
+      "expDirection": [1, 0, 0]
+    },
+    "RR": {
+      "level": 3,
+      "expDirection": [-1, 0, 0]
+    },
+    "RRBremse": {
+      "level": 1,
+      "expDirection": [-1, 0, 0]
+    },
+    "RSchweller": {
+      "level": 1,
+      "expDirection": [-1, 0, 0]
+    },
+    "Splitter": {
+      "level": 1,
+      "expDirection": [0, 0, 1]
+    },
+    "Spoiler": {
+      "level": 1,
+      "expDirection": [0, 1, -1]
+    }
+  }
+}

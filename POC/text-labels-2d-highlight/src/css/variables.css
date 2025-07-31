@@ -1,0 +1,35 @@
+/*
+    Renard Serie
+    10,12,16,20,25,31.5,40,50,63,100
+    Basis: 16
+*/
+
+:root {
+  --xxs: 5px;
+  --xs: 10px;
+  --s: 12px;
+  --m: 16px;
+  --l: 20px;
+  --xl: 25px;
+  --xxl: 31.5px;
+  --xxxl: 40px;
+  --xxxxl: 50px;
+  --xxxxxl: 63px;
+  --xxxxxxl: 100px;
+  --basis: 16px;
+
+  --border-radius: var(--m);
+  --border-radius-small: var(--s);
+
+  --c-l-primary: #ffffff;
+  --c-l-header: #222222;
+  --c-l-body-text: #474747;
+  --c-l-accent: #c9c9c9;
+
+  --c-d-header: #ebebeb;
+  --c-d-body-text: #cacaca;
+  --c-d-primary: #242424;
+  --c-d-accent: #484848;
+
+}
+
