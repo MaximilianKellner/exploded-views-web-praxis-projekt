@@ -70,7 +70,7 @@ async function init() {
     animationHandler = new AnimationHandler(scene, config.animationConfig);
 
     // CardHandler initialisieren
-    cardHandler = new CardHandler(scene, model)
+    cardHandler = new CardHandler()
     cardHandler.initialize(cardDataPath);
 
     // Clickhandler initialisieren

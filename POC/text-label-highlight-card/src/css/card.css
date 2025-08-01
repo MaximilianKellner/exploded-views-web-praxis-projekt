@@ -7,6 +7,8 @@
 }
 
 .infoCard {
+    display: none;
+
     align-self: center;
     position: absolute;
     bottom: 0;

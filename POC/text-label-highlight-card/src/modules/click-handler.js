@@ -34,8 +34,6 @@ export class ClickHandler {
             console.log('Objekt geklickt:', clickedObject.name);
 
 
-            clickedObject.material.color.set( clickedObject.material.color * 0xffffff );
-
             // 4. Den CardHandler mit dem geklickten Objekt aufrufen
             if (this.cardHandler) {
                 this.cardHandler.openCard(clickedObject);
