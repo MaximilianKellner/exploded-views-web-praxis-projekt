@@ -57,7 +57,7 @@
     .cardTitle{
         font-size: var(--xl);
         color: var(--c-l-header);
-        padding: var(--m) 0 var(--xs) 0;
+        padding: var(--xs) 0 var(--xxs) 0;
     }
 
     .cardList, .cardText {

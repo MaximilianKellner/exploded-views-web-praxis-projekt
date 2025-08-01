@@ -18,6 +18,7 @@
   --xxxxxxl: 100px;
   --basis: 16px;
 
+  --border-radius-large: var(--l);
   --border-radius: var(--m);
   --border-radius-small: var(--s);
 

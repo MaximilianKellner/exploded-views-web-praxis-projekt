@@ -4,6 +4,9 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { initTweakpane } from './modules/ui-Handler.js';
 import { setupLights } from './scene/lights.js';
 import { AnimationHandler } from './modules/animation-handler.js';
+import { ClickHandler } from './modules/click-handler.js';
+import { CardHandler } from './modules/card-handler.js';
+
 
 // --- Globale Variablen ---
 const modelPath = '/layer-test-911.glb'; // Pfad zum .glb Modell
@@ -13,6 +16,8 @@ const lights = {}; // Objekt zum Speichern der erstellten Lichter
 let scene, camera, renderer, controls;
 let model;
 let animationHandler;
+let clickHandler;
+let cardHandler;
 let config;
 
 async function init() {
@@ -61,6 +66,12 @@ async function init() {
 
     // AnimationHandler initialisieren
     animationHandler = new AnimationHandler(scene, config.animationConfig);
+
+    // CardHandler initialisieren
+    cardHandler = new CardHandler(scene)
+
+    // Clickhandler initialisieren
+    clickHandler = new ClickHandler(camera, scene, cardHandler)
 
     // Resize Handler
     window.addEventListener('resize', onWindowResize);
