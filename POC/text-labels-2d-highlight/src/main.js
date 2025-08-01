@@ -9,8 +9,10 @@ import { CardHandler } from './modules/card-handler.js';
 
 
 // --- Globale Variablen ---
+const sceneConfigPath = '/scene-config.json'
 const modelPath = '/layer-test-911.glb'; // Pfad zum .glb Modell
 const explosionConfigPath = '/911-exp-config.json'; // Pfad zur Explosions-Konfiguration
+const cardDataPath = '/911-cards.json'// Pfad zu den Card Daten
 
 const lights = {}; // Objekt zum Speichern der erstellten Lichter
 let scene, camera, renderer, controls;
@@ -22,7 +24,7 @@ let config;
 
 async function init() {
     // Konfiguration laden
-    const response = await fetch('/scene-config.json');
+    const response = await fetch(sceneConfigPath);
     config = await response.json();
 
     // Szene
@@ -68,10 +70,12 @@ async function init() {
     animationHandler = new AnimationHandler(scene, config.animationConfig);
 
     // CardHandler initialisieren
-    cardHandler = new CardHandler(scene)
+    cardHandler = new CardHandler(scene, model)
+    cardHandler.initialize(cardDataPath);
 
     // Clickhandler initialisieren
     clickHandler = new ClickHandler(camera, scene, cardHandler)
+    clickHandler.initialize();
 
     // Resize Handler
     window.addEventListener('resize', onWindowResize);

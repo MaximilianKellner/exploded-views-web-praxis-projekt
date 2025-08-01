@@ -6,14 +6,14 @@
  */
 
 export class CardHandler {
-    constructor(scene) {
+    constructor(scene, model) {
         this.scene = scene;
+        this.model = model;
         this.cardData = null;
     }
 
     // --- Initialisiert den CardHandler mit dem geladenen Modell und der Konfiguration ---
-    async initialize(model, cardDataUrl) {
-        this.model = model;
+    async initialize(cardDataUrl) {
         await this._loadCardData(cardDataUrl);
     }
 
