@@ -33,10 +33,19 @@ export class ClickHandler {
             const clickedObject = intersects[0].object;
             console.log('Objekt geklickt:', clickedObject.name);
 
+            let topLevelObject = clickedObject;
+
+                console.log("szene" + this.scene)
+
+            while (topLevelObject.parent && topLevelObject.parent.parent.type !== "Scene") {
+                topLevelObject = topLevelObject.parent;
+                console.log('topLevelObject:', topLevelObject.name);
+
+            }
 
             // 4. Den CardHandler mit dem geklickten Objekt aufrufen
             if (this.cardHandler) {
-                this.cardHandler.openCard(clickedObject);
+                this.cardHandler.openCard(topLevelObject);
             }
         }
     }
