@@ -47,11 +47,6 @@ export class CardHandler {
 
     openCard(clickedObject) {
 
-        animate('.infoCard', { 
-            translateY: ['100%', '0%'],  // Von unten nach oben
-            easing: 'easeInCubic',
-        });
-
         if (!clickedObject || !this.cardData){
             this.closeCard();
             console.error('clickedObject oder Card Data nicht bereit.');
@@ -59,6 +54,16 @@ export class CardHandler {
         }
         const objectName = clickedObject.name
         const cardData = this.cardData[objectName]
+
+        if (!cardData) {
+            console.log(`Keine Daten für Objekt "${objectName}" gefunden.`);
+            return;  // Einfach zurückkehren, NICHT closeCard() aufrufen
+        }
+
+        animate('.infoCard', { 
+            translateY: ['100%', '0%'],  // Von unten nach oben
+            easing: 'easeInCubic',
+        });
 
         if (cardData) {
 
@@ -81,8 +86,6 @@ export class CardHandler {
             }
         
             this.cardElement.style.display = 'block';
-        } else {
-            this.closeCard();
         }
     }
 
