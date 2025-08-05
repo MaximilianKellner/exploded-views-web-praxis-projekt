@@ -22,6 +22,8 @@ let clickHandler;
 let cardHandler;
 let config;
 
+let modelChildren = [];
+
 async function init() {
     // Konfiguration laden
     const response = await fetch(sceneConfigPath);
@@ -74,7 +76,7 @@ async function init() {
     cardHandler.initialize(cardDataPath);
 
     // Clickhandler initialisieren
-    clickHandler = new ClickHandler(camera, scene, cardHandler)
+    clickHandler = new ClickHandler(camera, scene, cardHandler);
     clickHandler.initialize();
 
     // Resize Handler
@@ -97,6 +99,12 @@ async function loadModel() {
         modelPath, // Pfad zum .glb Modell 
         async function (gltf) {
             model = gltf.scene;
+
+            //TODO: Designentscheidung --> Sollte man model.children statt model traverse und dann alle ergebnisse nutzen?
+            console.log('model.children: ', model.children);
+            modelChildren = model.children;
+            clickHandler.modelChildren = modelChildren;
+
             scene.add(model);
             if (animationHandler) {
                 // AnimationHandler mit dem geladenen Modell und der Config-URL initialisieren

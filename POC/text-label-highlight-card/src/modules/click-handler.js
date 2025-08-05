@@ -5,9 +5,16 @@ export class ClickHandler {
         this.camera = camera;
         this.scene = scene;
         this.cardHandler = cardHandler;
+        this.modelChildren = [];
 
         this.raycaster = new THREE.Raycaster();
         this.mouse = new THREE.Vector2();
+
+        this.currentHighlightedObject = null;
+        this.lastHighlightedObject = null;
+        this.originalMaterials = new Map();
+        this.wireframeMaterial = null;
+
 
         // 'this'-Kontext wird an den ClickHandler gebunden. (bei click wird nicht auf window.<> verwiesen sondern auf Clickhandler.camera, .raycaster usw.)
         this._onObjectClick = this._onObjectClick.bind(this);
@@ -15,6 +22,15 @@ export class ClickHandler {
 
     initialize() {
         window.addEventListener('click', this._onObjectClick);
+        window.addEventListener('cardClosed', () => this.resetHighlighting());
+
+        this.wireframeMaterial = new THREE.MeshBasicMaterial({
+            wireframe: true,
+            transparent: true,
+            opacity: 0.3,
+            color: new THREE.Color(.4,.4,.4)
+
+        });
     }
 
     // --- Verarbeitung vom click Event ---
@@ -35,8 +51,6 @@ export class ClickHandler {
 
             let topLevelObject = clickedObject;
 
-                console.log("szene" + this.scene)
-
             while (topLevelObject.parent && topLevelObject.parent.parent.type !== "Scene") {
                 topLevelObject = topLevelObject.parent;
                 console.log('topLevelObject:', topLevelObject.name);
@@ -46,7 +60,62 @@ export class ClickHandler {
             // 4. Den CardHandler mit dem geklickten Objekt aufrufen
             if (this.cardHandler) {
                 this.cardHandler.openCard(topLevelObject);
+                //console.log('topLevelObject: ',topLevelObject)
+                this.highlightClickedComponent(topLevelObject);
             }
         }
     }
+
+    highlightClickedComponent(clickedComponent) {
+        this.resetHighlighting();
+
+        // Beim 2. Klick auf ein Objekt wird der zustand wieder zurückgesetzt
+        if(this.lastHighlightedObject && this.lastHighlightedObject === clickedComponent){
+                    this.resetHighlighting();
+                    this.lastHighlightedObject = null;
+                    return;
+        }
+
+        this.currentHighlightedObject = clickedComponent;
+        this.lastHighlightedObject = this.currentHighlightedObject;
+
+        this.modelChildren.forEach(child => {
+            //console.log('----------------------------------------------------------');
+            //console.log ('child.uuid', child.uuid);
+            //console.log('----------------------------------------------------------');
+
+            if(child.uuid !== clickedComponent.uuid) {
+                this._applyWireframeToObject(child);
+            }
+        });
+    }
+
+    _applyWireframeToObject(object){
+        object.traverse((child) => {
+        if(child.material && !this.originalMaterials.has(child.uuid)) {
+            // Original-Material im Cache speichern
+            this.originalMaterials.set(child.uuid, child.material);
+                
+            // Wireframe-Material zuweisen
+            child.material = this.wireframeMaterial;
+            }
+        });
+    }
+
+    resetHighlighting() {
+        if (!this.currentHighlightedObject) return;
+        
+        // Alle gespeicherten Materialien wiederherstellen
+        this.originalMaterials.forEach((material, uuid) => {
+            this.scene.traverse((child) => {
+                if (child.uuid === uuid) {
+                    child.material = material;
+                }
+            });
+        });
+        // Cache leeren
+        this.originalMaterials.clear();
+        this.currentHighlightedObject = null;
+    }
+
 }

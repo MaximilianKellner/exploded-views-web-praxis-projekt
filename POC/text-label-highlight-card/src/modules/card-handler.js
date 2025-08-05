@@ -53,7 +53,7 @@ export class CardHandler {
 
         if (cardData) {
 
-            console.log(cardData)
+            //console.log('cardData', cardData)
             this.cardTitle.textContent = cardData.title || 'Information';
             this.cardBody.textContent = cardData.body || '';
 
@@ -81,5 +81,9 @@ export class CardHandler {
         if(this.cardElement) {
             this.cardElement.style.display = 'none';
         }
+
+        // Custom event für den Highlight reset
+        const event = new CustomEvent('cardClosed');
+        window.dispatchEvent(event);
     }
 }
