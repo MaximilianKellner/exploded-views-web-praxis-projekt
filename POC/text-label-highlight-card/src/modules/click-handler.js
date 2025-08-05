@@ -22,7 +22,10 @@ export class ClickHandler {
 
     initialize() {
         window.addEventListener('click', this._onObjectClick);
-        window.addEventListener('cardClosed', () => this.resetHighlighting());
+        window.addEventListener('cardClosed', () => {
+            this.resetHighlighting()
+            this.lastHighlightedObject = null;
+            });
 
         this.wireframeMaterial = new THREE.MeshBasicMaterial({
             wireframe: true,
