@@ -19,12 +19,14 @@ export class CardHandler {
 
         if (this.closeCardButton) {
             this.closeCardButton.addEventListener('click', () => this.closeCard());
+            window.addEventListener('resetOnSecondKlick', () => this.closeCard());
         }
     }
 
     // --- Initialisiert den CardHandler mit dem geladenen Modell und der Konfiguration ---
     async initialize(cardDataUrl) {
         console.log("initializing CardHandler");
+
         await this._loadCardData(cardDataUrl);
     }
 

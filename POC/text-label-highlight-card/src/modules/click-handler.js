@@ -71,9 +71,13 @@ export class ClickHandler {
 
         // Beim 2. Klick auf ein Objekt wird der zustand wieder zurückgesetzt
         if(this.lastHighlightedObject && this.lastHighlightedObject === clickedComponent){
-                    this.resetHighlighting();
-                    this.lastHighlightedObject = null;
-                    return;
+            this.resetHighlighting();
+            this.lastHighlightedObject = null;
+
+            // Custom event für den Highlight reset
+            const event = new CustomEvent('resetOnSecondKlick');
+            window.dispatchEvent(event);
+            return;
         }
 
         this.currentHighlightedObject = clickedComponent;
