@@ -4,6 +4,7 @@
  * Liest eine Konfigurationsdatei, identifiziert geklickte Teile im Modell
  * und generiert entsprechende Karten.
  */
+import { animate } from 'animejs';
 
 export class CardHandler {
     constructor() {
@@ -45,6 +46,12 @@ export class CardHandler {
     }
 
     openCard(clickedObject) {
+
+        animate('.infoCard', { 
+            translateY: ['100%', '0%'],  // Von unten nach oben
+            easing: 'easeInCubic',
+        });
+
         if (!clickedObject || !this.cardData){
             this.closeCard();
             console.error('clickedObject oder Card Data nicht bereit.');
@@ -81,7 +88,11 @@ export class CardHandler {
 
     closeCard(){
         if(this.cardElement) {
-            this.cardElement.style.display = 'none';
+            animate('.infoCard', { 
+                translateY: ['0%', '100%'],  // Von oben nach unten
+                ease: 'inOut(8)',
+            });
+            //this.cardElement.style.display = 'none';
         }
 
         // Custom event für den Highlight reset
