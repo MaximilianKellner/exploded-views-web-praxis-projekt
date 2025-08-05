@@ -17,10 +17,10 @@ export class CardHandler {
         this.cardPillRow = document.querySelector('.ulRow');
         this.cardList = document.querySelector('.cardList');
         this.closeCardButton = document.getElementById('closeCard');
+        this.cardState = 'closed';
 
         if (this.closeCardButton) {
             this.closeCardButton.addEventListener('click', () => this.closeCard());
-            window.addEventListener('resetOnSecondKlick', () => this.closeCard());
         }
     }
 
@@ -55,17 +55,26 @@ export class CardHandler {
         const objectName = clickedObject.name
         const cardData = this.cardData[objectName]
 
+        // Für Elemente ohne Card
         if (!cardData) {
             console.log(`Keine Daten für Objekt "${objectName}" gefunden.`);
-            return;  // Einfach zurückkehren, NICHT closeCard() aufrufen
+
+            if (this.cardState !== 'closed') {
+                this.closeCard();
+            }
+            return;
         }
 
-        animate('.infoCard', { 
+        animate('.infoCard', {
             translateY: ['100%', '0%'],  // Von unten nach oben
             easing: 'easeInCubic',
+            onComplete: () => {
+                this.cardState = 'open';
+            },
         });
 
         if (cardData) {
+            this.cardState = 'animating';
 
             //console.log('cardData', cardData)
             this.cardTitle.textContent = cardData.title || 'Information';
@@ -90,10 +99,15 @@ export class CardHandler {
     }
 
     closeCard(){
-        if(this.cardElement) {
+    if (this.cardElement && this.cardState !== 'closed') {
+            this.cardState = 'animating';
+
             animate('.infoCard', { 
                 translateY: ['0%', '100%'],  // Von oben nach unten
                 ease: 'inOut(8)',
+                onComplete: () => {
+                    this.cardState = 'closed';
+                },
             });
             //this.cardElement.style.display = 'none';
         }
