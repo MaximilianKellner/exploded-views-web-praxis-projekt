@@ -68,6 +68,7 @@ export class CardHandler {
         animate('.infoCard', {
             translateY: ['100%', '0%'],  // Von unten nach oben
             easing: 'easeInCubic',
+            duration: 800,
             onComplete: () => {
                 this.cardState = 'open';
             },
