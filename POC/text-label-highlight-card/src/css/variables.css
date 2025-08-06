@@ -32,5 +32,12 @@
   --c-d-primary: #242424;
   --c-d-accent: #484848;
 
+  --invert-value: 1;
+  
+  /* Theme-Variablen, die je nach Mode geändert werden */
+  --primary: var(--c-l-primary);
+  --header: var(--c-l-header);
+  --body-text: var(--c-l-body-text);
+  --accent: var(--c-l-accent);
 }
 

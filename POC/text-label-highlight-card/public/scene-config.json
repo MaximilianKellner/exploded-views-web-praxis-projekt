@@ -2,7 +2,12 @@
     "animationConfig": {
         "expFactor": 0,
         "layerDistance": 0.5,
+        "animationDuration": 1000,
         "globalExpDirection": [1, 1, 1]
+    },
+    "cardConfig": {
+        "animationDuration": 700,
+        "isDarkmode": false
     },
     "sceneConfig": {
         "backgroundColor": "0x343434",

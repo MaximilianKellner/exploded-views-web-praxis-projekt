@@ -19,18 +19,21 @@
     width: fit-content;
     width: 100%;
 
-    background-color: var(--c-l-primary);
+    background-color: var(--primary);
     border-radius: var(--border-radius) var(--border-radius) 0 0;
 
     .pill {
-        background-color: var(--c-l-accent);
+        background-color: var(--accent);
         padding: var(--xxs) var(--xs);
         border-radius: var(--border-radius);
+
+        color: var(--body-text);
+
     }
 
     button {
-        background-color: var(--c-l-accent);
-        color: var(--c-l-header);
+        background-color: var(--accent);
+        color: var(--header);
         border-radius: 50%;
 
         margin-left: var(--m);
@@ -45,12 +48,12 @@
         padding: var(--xxs) var(--xs);
 
         &:hover {
-            background-color: var(--c-l-body-text);
-            color: var(--c-l-primary);
+            background-color: var(--body-text);
+            color: var(--primary);
         }
 
         img {
-            filter: invert(1);
+            filter: invert(var(--invert-value));
             width: 20px;
             height: 20px;
         }
@@ -58,13 +61,13 @@
 
     .cardTitle{
         font-size: var(--xl);
-        color: var(--c-l-header);
+        color: var(--header);
         padding: var(--xs) 0 var(--xxs) 0;
     }
 
     .cardList, .cardText {
         font-size: var(--m);
-        color: var(--c-l-body-text);
+        color: var(--body-text);
         padding-bottom: var(--m);
     }
 

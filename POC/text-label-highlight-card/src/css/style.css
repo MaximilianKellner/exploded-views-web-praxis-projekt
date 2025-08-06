@@ -7,12 +7,13 @@
 }
 
 p{
-  color: var(--c-l-body-text);
+  color: var(--body-text);
 }
 
 body {
   margin: 0;
   overflow: hidden;
+  background-color: var(--primary);
 }
 
 li, ul {

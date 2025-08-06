@@ -73,7 +73,7 @@ async function init() {
 
     // CardHandler initialisieren
     cardHandler = new CardHandler()
-    cardHandler.initialize(cardDataPath);
+    cardHandler.initialize(cardDataPath,config);
 
     // Clickhandler initialisieren
     clickHandler = new ClickHandler(camera, scene, cardHandler);

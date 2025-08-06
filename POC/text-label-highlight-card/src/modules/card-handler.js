@@ -18,6 +18,7 @@ export class CardHandler {
         this.cardList = document.querySelector('.cardList');
         this.closeCardButton = document.getElementById('closeCard');
         this.cardState = 'closed';
+        this.config = null
 
         if (this.closeCardButton) {
             this.closeCardButton.addEventListener('click', () => this.closeCard());
@@ -25,9 +26,9 @@ export class CardHandler {
     }
 
     // --- Initialisiert den CardHandler mit dem geladenen Modell und der Konfiguration ---
-    async initialize(cardDataUrl) {
+    async initialize(cardDataUrl, config) {
         console.log("initializing CardHandler");
-
+        this.config = config;
         await this._loadCardData(cardDataUrl);
     }
 
@@ -68,7 +69,7 @@ export class CardHandler {
         animate('.infoCard', {
             translateY: ['100%', '0%'],  // Von unten nach oben
             easing: 'easeInCubic',
-            duration: 800,
+            duration: this.config.cardConfig.animationDuration,
             onComplete: () => {
                 this.cardState = 'open';
             },
@@ -106,6 +107,7 @@ export class CardHandler {
             animate('.infoCard', { 
                 translateY: ['0%', '100%'],  // Von oben nach unten
                 ease: 'inOut(8)',
+                duration: this.config.cardConfig.animationDuration,
                 onComplete: () => {
                     this.cardState = 'closed';
                 },

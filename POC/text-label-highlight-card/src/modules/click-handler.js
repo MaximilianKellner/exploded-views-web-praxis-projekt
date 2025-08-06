@@ -32,7 +32,6 @@ export class ClickHandler {
             transparent: true,
             opacity: 0.3,
             color: new THREE.Color(.4,.4,.4)
-
         });
     }
 
