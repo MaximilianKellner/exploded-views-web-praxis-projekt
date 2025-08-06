@@ -30,7 +30,7 @@
       "expDirection": [0, 0, -1]
     },
     "Scheinwerfer": {
-      "level": 1,
+      "level": 1.5,
       "expDirection": [0, 0, 1]
     },
     "Licht": {
@@ -62,7 +62,7 @@
       "expDirection": [-1, 0, 0]
     },
     "Splitter": {
-      "level": 1.5,
+      "level": 2,
       "expDirection": [0, 0, 1]
     },
     "Spoiler": {
