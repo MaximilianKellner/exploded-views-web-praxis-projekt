@@ -5,6 +5,7 @@
 */
 
 :root {
+  --xxs: 5px;
   --xs: 10px;
   --s: 12px;
   --m: 16px;
@@ -16,4 +17,27 @@
   --xxxxxl: 63px;
   --xxxxxxl: 100px;
   --basis: 16px;
+
+  --border-radius-large: var(--l);
+  --border-radius: var(--m);
+  --border-radius-small: var(--s);
+
+  --c-l-primary: #ffffff;
+  --c-l-header: #222222;
+  --c-l-body-text: #474747;
+  --c-l-accent: #c9c9c9;
+
+  --c-d-header: #ebebeb;
+  --c-d-body-text: #cacaca;
+  --c-d-primary: #242424;
+  --c-d-accent: #484848;
+
+  --invert-value: 1;
+  
+  /* Theme-Variablen, die je nach Mode geändert werden */
+  --primary: var(--c-l-primary);
+  --header: var(--c-l-header);
+  --body-text: var(--c-l-body-text);
+  --accent: var(--c-l-accent);
 }
+

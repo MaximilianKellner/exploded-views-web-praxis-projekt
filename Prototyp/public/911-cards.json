@@ -1,0 +1,178 @@
+{
+  "FL": {
+    "title": "Zentralverschluss-Rad Vorne Links",
+    "body": "Geschmiedete Leichtmetallräder mit Zentralverschluss, inspiriert vom Motorsport. Sie reduzieren die ungefederten Massen und verbessern das Ansprechverhalten der Federung und die Agilität des Fahrzeugs.",
+    "pills": ["Fahrwerk", "Leichtmetall", "Performance"],
+    "list": [
+      "Dimension: 9,5J x 20 Zoll",
+      "Material: Geschmiedetes Aluminium",
+      "Gewicht: ca. 9,4 kg",
+      "Reifen: 255/35 ZR 20"
+    ]
+  },
+  "FR": {
+    "title": "Zentralverschluss-Rad Vorne Rechts",
+    "body": "Geschmiedete Leichtmetallräder mit Zentralverschluss, inspiriert vom Motorsport. Sie reduzieren die ungefederten Massen und verbessern das Ansprechverhalten der Federung und die Agilität des Fahrzeugs.",
+    "pills": ["Fahrwerk", "Leichtmetall", "Performance"],
+    "list": [
+      "Dimension: 9,5J x 20 Zoll",
+      "Material: Geschmiedetes Aluminium",
+      "Gewicht: ca. 9,4 kg",
+      "Reifen: 255/35 ZR 20"
+    ]
+  },
+  "RL": {
+    "title": "Zentralverschluss-Rad Hinten Links",
+    "body": "Die breiteren Hinterräder sorgen für maximale Traktion und Stabilität, insbesondere bei der Beschleunigung aus Kurven. Der Zentralverschluss ermöglicht schnelle Radwechsel.",
+    "pills": ["Fahrwerk", "Traktion", "Performance"],
+    "list": [
+      "Dimension: 12J x 21 Zoll",
+      "Material: Geschmiedetes Aluminium",
+      "Gewicht: ca. 11,5 kg",
+      "Reifen: 315/30 ZR 21"
+    ]
+  },
+  "RR": {
+    "title": "Zentralverschluss-Rad Hinten Rechts",
+    "body": "Die breiteren Hinterräder sorgen für maximale Traktion und Stabilität, insbesondere bei der Beschleunigung aus Kurven. Der Zentralverschluss ermöglicht schnelle Radwechsel.",
+    "pills": ["Fahrwerk", "Traktion", "Performance"],
+    "list": [
+      "Dimension: 12J x 21 Zoll",
+      "Material: Geschmiedetes Aluminium",
+      "Gewicht: ca. 11,5 kg",
+      "Reifen: 315/30 ZR 21"
+    ]
+  },
+  "FLBremse": {
+    "title": "Keramik-Verbundbremsanlage (PCCB) VL",
+    "body": "Die optionale Porsche Ceramic Composite Brake (PCCB) bietet eine herausragende Bremsleistung und Fadingstabilität. Die gelochten Keramikbremsscheiben sind extrem leicht und langlebig.",
+    "pills": ["Bremssystem", "Sicherheit", "Keramik"],
+    "list": [
+      "6-Kolben-Aluminium-Monobloc-Festsättel",
+      "Scheibendurchmesser: 410 mm",
+      "Reduzierte ungefederte Massen",
+      "Lackierung in Speedgelb"
+    ]
+  },
+  "FRBremse": {
+    "title": "Keramik-Verbundbremsanlage (PCCB) VR",
+    "body": "Die optionale Porsche Ceramic Composite Brake (PCCB) bietet eine herausragende Bremsleistung und Fadingstabilität. Die gelochten Keramikbremsscheiben sind extrem leicht und langlebig.",
+    "pills": ["Bremssystem", "Sicherheit", "Keramik"],
+    "list": [
+      "6-Kolben-Aluminium-Monobloc-Festsättel",
+      "Scheibendurchmesser: 410 mm",
+      "Reduzierte ungefederte Massen",
+      "Lackierung in Speedgelb"
+    ]
+  },
+  "RLBremse": {
+    "title": "Keramik-Verbundbremsanlage (PCCB) HL",
+    "body": "An der Hinterachse sorgen 4-Kolben-Sättel für eine ausgewogene Bremsbalance und maximale Verzögerung. Die Keramikscheiben widerstehen auch höchsten thermischen Belastungen.",
+    "pills": ["Bremssystem", "Sicherheit", "Keramik"],
+    "list": [
+      "4-Kolben-Aluminium-Monobloc-Festsättel",
+      "Scheibendurchmesser: 390 mm",
+      "Konstante Bremsleistung",
+      "Hohe Lebensdauer"
+    ]
+  },
+  "RRBremse": {
+    "title": "Keramik-Verbundbremsanlage (PCCB) HR",
+    "body": "An der Hinterachse sorgen 4-Kolben-Sättel für eine ausgewogene Bremsbalance und maximale Verzögerung. Die Keramikscheiben widerstehen auch höchsten thermischen Belastungen.",
+    "pills": ["Bremssystem", "Sicherheit", "Keramik"],
+    "list": [
+      "4-Kolben-Aluminium-Monobloc-Festsättel",
+      "Scheibendurchmesser: 390 mm",
+      "Konstante Bremsleistung",
+      "Hohe Lebensdauer"
+    ]
+  },
+  "main-body": {
+    "title": "Leichtbau-Karosserie",
+    "body": "Die Karosserie des 911 GT3 Touring besteht aus einem intelligenten Materialmix aus Aluminium und Stahl. Kohlefaserverstärkter Kunststoff (CfK) wird für die Fronthaube verwendet, um das Gewicht weiter zu reduzieren.",
+    "pills": ["Karosserie", "Leichtbau", "CfK"],
+    "list": [
+      "Intelligenter Aluminium-Stahl-Verbundbau",
+      "Fronthaube aus CfK",
+      "Hohe Torsionssteifigkeit",
+      "Optimierte Aerodynamik"
+    ]
+  },
+  "Diffusor": {
+    "title": "Heckdiffusor mit Finnen",
+    "body": "Der markante Heckdiffusor ist nicht nur ein Design-Statement, sondern ein hochfunktionales Aerodynamik-Bauteil. Er beschleunigt den Luftstrom unter dem Fahrzeug und erzeugt so einen Unterdruck, der den Anpressdruck erhöht.",
+    "pills": ["Aerodynamik", "Exterieur", "Performance"],
+    "list": [
+      "Erhöht den Anpressdruck am Heck",
+      "Verbessert die Fahrstabilität",
+      "Material: Leichtbau-Polyurethan",
+      "Zentral angeordnete Sportabgasanlage"
+    ]
+  },
+  "Spoiler": {
+    "title": "Adaptiver Heckspoiler",
+    "body": "Im Gegensatz zum GT3 mit festem Flügel verfügt der GT3 Touring über einen dezenten, adaptiven Heckspoiler. Er fährt bei höheren Geschwindigkeiten automatisch aus, um für die nötige Fahrstabilität zu sorgen.",
+    "pills": ["Aerodynamik", "Exterieur", "Adaptiv"],
+    "list": [
+      "Automatisch ausfahrend",
+      "Erhält die klassische 911-Silhouette",
+      "Optimiert für geringen Luftwiderstand",
+      "Manuell ausfahrbar per Tastendruck"
+    ]
+  },
+"Scheinwerfer": {
+  "title": "LED-Matrix-Scheinwerfer",
+  "body": "Die Porsche Dynamic Light System Plus (PDLS+) Matrix-LED-Scheinwerfer kombinieren fortschrittlichste Lichttechnologie mit charakteristischem Design. Das intelligente System blendet entgegenkommende Fahrzeuge gezielt aus, während die übrigen Bereiche voll ausgeleuchtet bleiben.",
+  "pills": ["Beleuchtung", "Technologie", "Sicherheit"],
+  "list": [
+    "84 individuell ansteuerbare LEDs pro Scheinwerfer",
+    "Dynamisches Kurvenlicht",
+    "Automatische Reichweitenregulierung",
+    "Markantes Vier-Punkt-Tagfahrlicht"
+  ]
+},
+  "Licht": {
+    "title": "Exklusives Leuchtenband",
+    "body": "Das durchgehende Leuchtenband am Heck ist ein charakteristisches Merkmal der aktuellen 911-Generation. Es verleiht dem Fahrzeug eine unverwechselbare Optik bei Tag und Nacht.",
+    "pills": ["Design", "Beleuchtung", "Sicherheit"],
+    "list": [
+      "LED-Technologie",
+      "Integrierte dritte Bremsleuchte",
+      "Homogene Ausleuchtung",
+      "Markantes Nachtdesign"
+    ]
+  },
+  "LSchweller": {
+    "title": "Seitenschweller Links",
+    "body": "Die Verkleidung des Seitenschwellers optimiert die Luftströmung entlang der Fahrzeugflanke und reduziert Luftverwirbelungen im Bereich der Räder. Sie trägt zur aerodynamischen Gesamteffizienz bei.",
+    "pills": ["Aerodynamik", "Exterieur", "Design"],
+    "list": [
+      "Verbessert die Luftführung",
+      "Schützt den Unterboden",
+      "Lackiert in Exterieurfarbe",
+      "Sportliches Design"
+    ]
+  },
+  "RSchweller": {
+    "title": "Seitenschweller Rechts",
+    "body": "Die Verkleidung des Seitenschwellers optimiert die Luftströmung entlang der Fahrzeugflanke und reduziert Luftverwirbelungen im Bereich der Räder. Sie trägt zur aerodynamischen Gesamteffizienz bei.",
+    "pills": ["Aerodynamik", "Exterieur", "Design"],
+    "list": [
+      "Verbessert die Luftführung",
+      "Schützt den Unterboden",
+      "Lackiert in Exterieurfarbe",
+      "Sportliches Design"
+    ]
+  },
+  "Splitter": {
+    "title": "Frontsplitter",
+    "body": "Die Frontlippe, auch Frontsplitter genannt, reduziert den Auftrieb an der Vorderachse, indem sie den Luftstrom gezielt teilt und unter das Fahrzeug leitet. Dies verbessert die Lenkpräzision bei hohen Geschwindigkeiten.",
+    "pills": ["Aerodynamik", "Front", "Performance"],
+    "list": [
+      "Reduziert Auftrieb an der Vorderachse",
+      "Erhöht die Fahrstabilität",
+      "Integrierte Kühlluftöffnungen",
+      "Material: Flexibler Kunststoff"
+    ]
+  }
+}

@@ -1,5 +1,6 @@
 import { Pane } from 'tweakpane';
 import { animate } from 'animejs';
+import { toggleDarkMode } from './theme-handler.js';
 
 export function initTweakpane(config, lights, scene, camera, controls) {
     const pane = new Pane({
@@ -15,7 +16,7 @@ export function initTweakpane(config, lights, scene, camera, controls) {
     animationFolder.addBinding(
         config.animationConfig,
         'expFactor',
-        { label: 'Progress', min: 0, max: 1, step: 0.01 }
+        { label: 'Progress', min: 0, max: 1, step: 0.0001 }
     );
 
     const triggerAnimationButton = animationFolder.addButton(
@@ -23,6 +24,12 @@ export function initTweakpane(config, lights, scene, camera, controls) {
             title: 'Start Animation',
             label: 'Animate'
         });
+
+    animationFolder.addBinding(
+        config.animationConfig,
+        'animationDuration',
+        { label: 'Duration (ms)',min: 100, max: 5000, step: 100}
+    )
 
     let isReversed = false; 
     triggerAnimationButton.on('click', () => {
@@ -34,18 +41,22 @@ export function initTweakpane(config, lights, scene, camera, controls) {
         // Animiere den expFactor von seinem aktuellen Wert auf 1
         const animation = animate(config.animationConfig,{
             expFactor: 1,
-            duration: 1000, // Dauer in ms
+            duration: config.animationConfig.animationDuration || 1000, // Dauer in ms
             reversed: isReversed,
             ease: 'inOut(8)',
             onUpdate: () => {
                 // Aktualisiere den Slider in der UI
-                pane.refresh();
+                animationFolder.refresh();
             },
             onComplete: () => {
                 // Setze den Faktor auf 1, wenn die Animation abgeschlossen ist
-                isReversed = !isReversed;
                 triggerAnimationButton.title = isReversed ? 'Reverse Animation' : 'Start Animation';
-                pane.refresh();
+                animationFolder.refresh();
+            },
+            onBegin: () => {
+                isReversed = !isReversed;
+                triggerAnimationButton.title = 'animating...'
+                animationFolder.refresh();
             }
         });
     });
@@ -68,7 +79,7 @@ export function initTweakpane(config, lights, scene, camera, controls) {
         });
 
     // --- Kamera ---
-    const cameraFolder = sceneFolder.addFolder({ title: 'Camera', expanded: true });
+    const cameraFolder = sceneFolder.addFolder({ title: 'Camera', expanded: false });
     cameraFolder.addBinding(camera, 'position', { label: 'Camera Position', x: {min: -20, max: 20}, y: {min: -20, max: 20}, z: {min: -20, max: 20} })
         .on('change', () => {
             controls.update();
@@ -83,7 +94,7 @@ export function initTweakpane(config, lights, scene, camera, controls) {
         });
 
     // --- Lichter ---
-    const lightsFolder = pane.addFolder({ title: 'Lights', expanded: false });
+    const lightsFolder = sceneFolder.addFolder({ title: 'Lights', expanded: false });
 
     // Iteriere über die Lichter in der Konfiguration und erstelle die Steuerelemente
     for (const lightName in config.sceneConfig.lights) {
@@ -117,6 +128,23 @@ export function initTweakpane(config, lights, scene, camera, controls) {
                 });
         }
     }
+
+    // --- Card ---
+    const cardFolder = pane.addFolder({ title: 'Card', expanded: true });
+    cardFolder.addBinding(
+        config.cardConfig,
+        'animationDuration',
+        { label: 'Duration (ms)',min: 100, max: 5000, step: 100}
+    )
+
+    cardFolder.addBinding(
+        config.cardConfig,
+        'isDarkmode',
+        { label: 'Darkmode'}).on('change', (ev) => {
+        toggleDarkMode(ev.value);
+    });
+
+    toggleDarkMode(config.cardConfig.isDarkmode);
 
     return pane;
 }

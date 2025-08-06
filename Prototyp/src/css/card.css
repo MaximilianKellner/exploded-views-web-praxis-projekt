@@ -1,0 +1,86 @@
+.ulRow{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--xxs);
+    width: max-content;
+}
+
+.infoCard {
+    display: none;
+
+    align-self: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    padding: var(--m);
+
+    box-sizing: border-box;
+    min-width: fit-content;
+    width: 100%;
+
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+
+    background-color: var(--primary);
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+
+    .pill {
+        background-color: var(--accent);
+        padding: var(--xxs) var(--xs);
+        border-radius: var(--border-radius);
+
+        color: var(--body-text);
+
+    }
+
+    button {
+        background-color: var(--accent);
+        color: var(--header);
+        border-radius: 50%;
+
+        margin-left: var(--m);
+
+        height: 29px;
+        width: 29px;
+
+        align-items: center;
+        display: flex;
+        justify-content: center;
+
+        padding: var(--xxs) var(--xs);
+
+        &:hover {
+            background-color: var(--body-text);
+            color: var(--primary);
+        }
+
+        img {
+            filter: invert(var(--invert-value));
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    .cardTitle{
+        font-size: var(--xl);
+        color: var(--header);
+        padding: var(--xs) 0 var(--xxs) 0;
+    }
+
+    .cardList, .cardText {
+        font-size: var(--m);
+        color: var(--body-text);
+        padding-bottom: var(--m);
+    }
+
+    .cardList {
+        margin-left: var(--xs);
+        li{
+            list-style: outside;
+        }
+    }
+}

@@ -4,20 +4,29 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { initTweakpane } from './modules/ui-Handler.js';
 import { setupLights } from './scene/lights.js';
 import { AnimationHandler } from './modules/animation-handler.js';
+import { ClickHandler } from './modules/click-handler.js';
+import { CardHandler } from './modules/card-handler.js';
+
 
 // --- Globale Variablen ---
+const sceneConfigPath = '/scene-config.json'
 const modelPath = '/layer-test-911.glb'; // Pfad zum .glb Modell
 const explosionConfigPath = '/911-exp-config.json'; // Pfad zur Explosions-Konfiguration
+const cardDataPath = '/911-cards.json'// Pfad zu den Card Daten
 
 const lights = {}; // Objekt zum Speichern der erstellten Lichter
 let scene, camera, renderer, controls;
 let model;
 let animationHandler;
+let clickHandler;
+let cardHandler;
 let config;
+
+let modelChildren = [];
 
 async function init() {
     // Konfiguration laden
-    const response = await fetch('/scene-config.json');
+    const response = await fetch(sceneConfigPath);
     config = await response.json();
 
     // Szene
@@ -62,6 +71,14 @@ async function init() {
     // AnimationHandler initialisieren
     animationHandler = new AnimationHandler(scene, config.animationConfig);
 
+    // CardHandler initialisieren
+    cardHandler = new CardHandler()
+    cardHandler.initialize(cardDataPath,config);
+
+    // Clickhandler initialisieren
+    clickHandler = new ClickHandler(camera, scene, cardHandler);
+    clickHandler.initialize();
+
     // Resize Handler
     window.addEventListener('resize', onWindowResize);
 
@@ -82,6 +99,12 @@ async function loadModel() {
         modelPath, // Pfad zum .glb Modell 
         async function (gltf) {
             model = gltf.scene;
+
+            //TODO: Designentscheidung --> Sollte man model.children statt model traverse und dann alle ergebnisse nutzen?
+            console.log('model.children: ', model.children);
+            modelChildren = model.children;
+            clickHandler.modelChildren = modelChildren;
+
             scene.add(model);
             if (animationHandler) {
                 // AnimationHandler mit dem geladenen Modell und der Config-URL initialisieren
