@@ -13,11 +13,17 @@
     position: absolute;
     bottom: 0;
     left: 0;
+    right: 0;
+
     padding: var(--m);
 
     box-sizing: border-box;
-    width: fit-content;
+    min-width: fit-content;
     width: 100%;
+
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
 
     background-color: var(--primary);
     border-radius: var(--border-radius) var(--border-radius) 0 0;
@@ -77,5 +83,4 @@
             list-style: outside;
         }
     }
-
 }
