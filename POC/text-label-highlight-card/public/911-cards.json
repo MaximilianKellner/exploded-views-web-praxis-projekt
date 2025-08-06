@@ -120,6 +120,17 @@
       "Manuell ausfahrbar per Tastendruck"
     ]
   },
+"Scheinwerfer": {
+  "title": "LED-Matrix-Scheinwerfer",
+  "body": "Die Porsche Dynamic Light System Plus (PDLS+) Matrix-LED-Scheinwerfer kombinieren fortschrittlichste Lichttechnologie mit charakteristischem Design. Das intelligente System blendet entgegenkommende Fahrzeuge gezielt aus, während die übrigen Bereiche voll ausgeleuchtet bleiben.",
+  "pills": ["Beleuchtung", "Technologie", "Sicherheit"],
+  "list": [
+    "84 individuell ansteuerbare LEDs pro Scheinwerfer",
+    "Dynamisches Kurvenlicht",
+    "Automatische Reichweitenregulierung",
+    "Markantes Vier-Punkt-Tagfahrlicht"
+  ]
+},
   "Licht": {
     "title": "Exklusives Leuchtenband",
     "body": "Das durchgehende Leuchtenband am Heck ist ein charakteristisches Merkmal der aktuellen 911-Generation. Es verleiht dem Fahrzeug eine unverwechselbare Optik bei Tag und Nacht.",
