@@ -10,7 +10,7 @@
         "isDarkmode": false
     },
     "sceneConfig": {
-        "backgroundColor": "0x343434",
+        "backgroundColor": "#080808",
         "showCoordinatesystem": false,
         "camera": {
         "position": [3.5, 2, 5],
