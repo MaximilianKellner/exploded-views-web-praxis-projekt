@@ -21,7 +21,11 @@ export class CardHandler {
         this.config = null
 
         if (this.closeCardButton) {
-            this.closeCardButton.addEventListener('click', () => this.closeCard());
+            this.closeCardButton.addEventListener('click', (event) => {
+                // Event-Ausbreitung stoppen
+                event.stopPropagation();
+                this.closeCard()
+            });
         }
     }
 
