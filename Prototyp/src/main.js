@@ -6,7 +6,7 @@ import { setupLights } from './scene/lights.js';
 import { AnimationHandler } from './modules/animation-handler.js';
 import { ClickHandler } from './modules/click-handler.js';
 import { CardHandler } from './modules/card-handler.js';
-
+import { CameraHandler } from './modules/camera-handler.js';
 
 // --- Globale Variablen ---
 const sceneConfigPath = '/scene-config.json'
@@ -15,8 +15,9 @@ const explosionConfigPath = '/911-exp-config.json'; // Pfad zur Explosions-Konfi
 const cardDataPath = '/911-cards.json'// Pfad zu den Card Daten
 
 const lights = {}; // Objekt zum Speichern der erstellten Lichter
-let scene, camera, renderer, controls;
+let scene,camera, renderer, controls;
 let model;
+let cameraHandler;
 let animationHandler;
 let clickHandler;
 let cardHandler;
@@ -34,6 +35,8 @@ async function init() {
     scene.background = new THREE.Color(parseInt(config.sceneConfig.backgroundColor));
 
     // Kamera
+    cameraHandler = new CameraHandler(config);
+
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.fromArray(config.sceneConfig.camera.position);
 
@@ -43,6 +46,11 @@ async function init() {
     renderer.setPixelRatio(window.devicePixelRatio);
     document.body.appendChild(renderer.domElement);
     
+    // Initialisiere den CameraHandler
+    cameraHandler.initialize(renderer);
+    camera = cameraHandler.getCamera();
+    controls = cameraHandler.getControls();
+
     // Canvas-Stil anpassen, um Drag-Probleme zu vermeiden
     renderer.domElement.style.display = 'block';
     renderer.domElement.style.outline = 'none';
@@ -73,14 +81,11 @@ async function init() {
 
     // CardHandler initialisieren
     cardHandler = new CardHandler()
-    cardHandler.initialize(cardDataPath,config);
+    cardHandler.initialize(cardDataPath, config);
 
     // Clickhandler initialisieren
     clickHandler = new ClickHandler(camera, scene, cardHandler);
     clickHandler.initialize();
-
-    // Resize Handler
-    window.addEventListener('resize', onWindowResize);
 
     // Modell laden
     loadModel();
@@ -142,13 +147,6 @@ function loadCooridinatesystem() {
             console.error('Ein Fehler ist beim Laden des Koordinatensystems aufgetreten:', error);
         }
     );
-}
-
-// --- Fenster-Resize-Handler ---
-function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
 // --- Animationsloop ---
