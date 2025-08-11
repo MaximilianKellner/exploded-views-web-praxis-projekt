@@ -58,13 +58,6 @@ async function init() {
     // Lichter basierend auf der Konfiguration erstellen
     setupLights(config.sceneConfig.lights, scene, lights);
 
-    // Steuerung
-    controls = new OrbitControls(camera, renderer.domElement);
-    controls.target.fromArray(config.sceneConfig.camera.lookAt);
-    controls.enableDamping = true;
-    controls.minDistance = config.sceneConfig.camera.minDistance;
-    controls.maxDistance = config.sceneConfig.camera.maxDistance;
-    
     // Browser-Standardverhalten für Drag-Events verhindern
     renderer.domElement.addEventListener('pointerdown', (event) => {
         event.preventDefault();
@@ -92,6 +85,9 @@ async function init() {
 
     // Koordinatensystem hinzufügen
     loadCooridinatesystem();
+
+    // Ladeanimation der Camera
+    cameraHandler.animateCameraOnLoad();
 
     // Animationsloop starten
     animate();

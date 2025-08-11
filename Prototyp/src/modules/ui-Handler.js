@@ -80,17 +80,39 @@ export function initTweakpane(config, lights, scene, camera, controls) {
 
     // --- Kamera ---
     const cameraFolder = sceneFolder.addFolder({ title: 'Camera', expanded: false });
-    cameraFolder.addBinding(camera, 'position', { label: 'Camera Position', x: {min: -20, max: 20}, y: {min: -20, max: 20}, z: {min: -20, max: 20} })
-        .on('change', () => {
-            controls.update();
+
+    const cameraPosition = {
+        position: {
+            x: config.sceneConfig.camera.position[0],
+            y: config.sceneConfig.camera.position[1],
+            z: config.sceneConfig.camera.position[2]
+        }
+    };  
+
+    const maxDist = config.sceneConfig.camera.maxDistance;
+    const minDist = -1 * maxDist;
+
+    cameraFolder.addBinding(cameraPosition, 'position', { 
+        label: 'Position', 
+        x: {min: minDist, max: maxDist, step: 0.1}, 
+        y: {min: minDist, max: maxDist, step: 0.1}, 
+        z: {min: minDist, max: maxDist, step: 0.1} 
+    })
+    .on('change', (ev) => {
+        // Kamera-Position aktualisieren
+        camera.position.set(ev.value.x, ev.value.y, ev.value.z);
+        controls.update();
     });
+
     cameraFolder.addBinding(controls, 'minDistance', { label: 'Min Distance', min: 0.1, max: 100, step: 0.1 })
         .on('change', () => {
             controls.update();
+            cameraFolder.refresh();
         });
     cameraFolder.addBinding(controls, 'maxDistance', { label: 'Max Distance', min: 0.1, max: 100, step: 0.1 })
         .on('change', () => {
             controls.update();
+            cameraFolder.refresh();
         });
 
     // --- Lichter ---
