@@ -9,8 +9,6 @@ export function initTweakpane(config, lights, scene, camera, controls) {
 
     // --- Animation Einstellungen ---
     const animationFolder = pane.addFolder({ title: 'Animation', expanded: true });
-    // Definiere die Variable im config-Objekt, damit sie global ausgelesen werden kann
-    if (!config.animationConfig) config.animationConfig = {};
     if (typeof config.animationConfig.expFactor !== 'number') config.animationConfig.expFactor = 0;
 
     animationFolder.addBinding(
@@ -61,6 +59,15 @@ export function initTweakpane(config, lights, scene, camera, controls) {
         });
     });
 
+    // Scroll animation
+    animationFolder.addBinding(config.animationConfig, 'allowScrollAnimation', {
+        label: 'Scroll Animation'
+    })
+    .on('change', (ev) => {
+        config.animationConfig.allowScrollAnimation = ev.value
+        controls.enableZoom = !ev.value
+    });
+
     // --- Szene ---
     const sceneFolder = pane.addFolder({ title: 'Scene'});
     sceneFolder.addBinding(config.sceneConfig, 'backgroundColor', { label: 'Background' })
@@ -102,14 +109,14 @@ export function initTweakpane(config, lights, scene, camera, controls) {
         // Kamera-Position aktualisieren
         camera.position.set(ev.value.x, ev.value.y, ev.value.z);
         controls.update();
-    });
+    });  
 
-    cameraFolder.addBinding(controls, 'minDistance', { label: 'Min Distance', min: 0.1, max: 100, step: 0.1 })
+    cameraFolder.addBinding(controls, 'minDistance', { label: 'Min Zoom', min: 0.1, max: 100, step: 0.1 })
         .on('change', () => {
             controls.update();
             cameraFolder.refresh();
         });
-    cameraFolder.addBinding(controls, 'maxDistance', { label: 'Max Distance', min: 0.1, max: 100, step: 0.1 })
+    cameraFolder.addBinding(controls, 'maxDistance', { label: 'Max Zoom', min: 0.1, max: 100, step: 0.1 })
         .on('change', () => {
             controls.update();
             cameraFolder.refresh();

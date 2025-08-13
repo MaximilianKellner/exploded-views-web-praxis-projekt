@@ -22,6 +22,7 @@ export class CameraHandler {
         this.controls.enableDamping = true;
         this.controls.minDistance = this.config.sceneConfig.camera.minDistance;
         this.controls.maxDistance = this.config.sceneConfig.camera.maxDistance;
+        this.controls.enableZoom  = !this.config.animationConfig.allowScrollAnimation;
 
         // Resize Handler
         window.addEventListener('resize', this.handleResize.bind(this));

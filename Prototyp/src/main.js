@@ -88,6 +88,9 @@ async function init() {
     // Ladeanimation der Camera
     cameraHandler.animateCameraOnLoad();
 
+    // Scroll-Listener initialisieren
+    initScrollListener();
+
     // Animationsloop starten
     animate();
 }
@@ -144,7 +147,30 @@ function loadCooridinatesystem() {
     );
 }
 
+function initScrollListener() {
+    
+    let explosionFactor = 0;
+    
+    // Event-Listener für scrollen auf der Seite
+    renderer.domElement.addEventListener('wheel', (event) => {
+        event.preventDefault();
+        
+        if(config.animationConfig.allowScrollAnimation === false){
+            return;
+        }
 
+        explosionFactor = config.animationConfig.expFactor;
+
+        // Explosionsfaktor anpassen
+        explosionFactor += event.deltaY * 0.001; // Empfindlichkeit
+        
+        // Begrenzen des Faktors auf 0 bis 1 --> Auf und abrunden auf 0 bzw. 1
+        explosionFactor = Math.min(Math.max(explosionFactor, 0), 1);
+        
+        //console.log('Scroll-Event:', event.deltaY, 'Explosion Factor:', explosionFactor);
+        config.animationConfig.expFactor = explosionFactor;
+    }, { passive: false }); // passive: false --> wichtig für preventDefault()
+}
 
 // --- Animationsloop ---
 function animate() {

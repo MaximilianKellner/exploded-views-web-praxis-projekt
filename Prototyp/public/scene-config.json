@@ -3,7 +3,8 @@
         "expFactor": 0,
         "layerDistance": 0.5,
         "animationDuration": 1000,
-        "globalExpDirection": [1, 1, 1]
+        "globalExpDirection": [1, 1, 1],
+        "allowScrollAnimation": false
     },
     "cardConfig": {
         "animationDuration": 700,
