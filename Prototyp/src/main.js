@@ -1,11 +1,11 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { initTweakpane } from './modules/ui-Handler.js';
 import { setupLights } from './scene/lights.js';
 import { AnimationHandler } from './modules/animation-handler.js';
 import { ClickHandler } from './modules/click-handler.js';
 import { CardHandler } from './modules/card-handler.js';
 import { CameraHandler } from './modules/camera-handler.js';
+import { UIHandler } from './modules/ui-Handler.js';
 
 // --- Globale Variablen ---
 const sceneConfigPath = '/scene-config.json'
@@ -18,6 +18,7 @@ let scene,camera, renderer, controls;
 let model;
 let cameraHandler;
 let animationHandler;
+let uiHandler;
 let clickHandler;
 let cardHandler;
 let config;
@@ -65,11 +66,12 @@ async function init() {
     // Verhindern, dass die gesamte Seite sich bewegt, wenn über dem Canvas gezogen wird
     renderer.domElement.style.touchAction = 'none';
 
-    // Tweakpane UI initialisieren
-    initTweakpane(config, lights, scene, camera, controls);
-
     // AnimationHandler initialisieren
     animationHandler = new AnimationHandler(scene, config.animationConfig);
+
+    // Handler für Tweakpane UI komponente
+    uiHandler = new UIHandler();
+    uiHandler.initialize(config, lights, scene, camera, controls);
 
     // CardHandler initialisieren
     cardHandler = new CardHandler()
@@ -147,8 +149,8 @@ function loadCooridinatesystem() {
     );
 }
 
+// --- Initialisieren der Scrollanimation ---
 function initScrollListener() {
-    
     let explosionFactor = 0;
     
     // Event-Listener für scrollen auf der Seite
@@ -169,6 +171,9 @@ function initScrollListener() {
         
         //console.log('Scroll-Event:', event.deltaY, 'Explosion Factor:', explosionFactor);
         config.animationConfig.expFactor = explosionFactor;
+
+        uiHandler.refreshAnimationFolder();
+        
     }, { passive: false }); // passive: false --> wichtig für preventDefault()
 }
 
