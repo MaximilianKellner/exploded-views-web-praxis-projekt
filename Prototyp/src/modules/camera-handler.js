@@ -14,7 +14,7 @@ export class CameraHandler {
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         this.camera.position.fromArray(this.config.sceneConfig.camera.position);
 
-        this.camera.position.z = 100
+        this.camera.position.z = 80
 
         // Steuerung
         this.controls = new OrbitControls(this.camera, renderer.domElement);
@@ -25,14 +25,14 @@ export class CameraHandler {
 
         // Resize Handler
         window.addEventListener('resize', this.handleResize.bind(this));
-
     }
 
     // Fenster-Resize-Handler
     handleResize() {
-        if (this.camera) {
+        if (this.camera && this.renderer) {
             this.camera.aspect = window.innerWidth / window.innerHeight;
             this.camera.updateProjectionMatrix();
+            this.renderer.setSize(window.innerWidth, window.innerHeight);
         }
     }
 
@@ -57,6 +57,7 @@ export class CameraHandler {
             {
                 z: targetPosition[2],
                 ease: 'inOut(8)',
+                duration: 600,
                 onUpdate: () => {
                     console.log("CAMERA ANIMATION IN PROGRESS")
                 },

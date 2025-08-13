@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { initTweakpane } from './modules/ui-Handler.js';
 import { setupLights } from './scene/lights.js';
 import { AnimationHandler } from './modules/animation-handler.js';
@@ -144,6 +143,8 @@ function loadCooridinatesystem() {
         }
     );
 }
+
+
 
 // --- Animationsloop ---
 function animate() {
