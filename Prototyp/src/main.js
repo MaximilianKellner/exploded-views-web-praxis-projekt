@@ -6,6 +6,7 @@ import { ClickHandler } from './modules/click-handler.js';
 import { CardHandler } from './modules/card-handler.js';
 import { CameraHandler } from './modules/camera-handler.js';
 import { UIHandler } from './modules/ui-Handler.js';
+import { StatsHandler } from './modules/ui-stats-handler.js';
 
 // --- Globale Variablen ---
 const sceneConfigPath = '/scene-config.json'
@@ -16,12 +17,13 @@ const cardDataPath = '/911-cards.json'// Pfad zu den Card Daten
 const lights = {}; // Objekt zum Speichern der erstellten Lichter
 let scene,camera, renderer, controls;
 let model;
+let config;
 let cameraHandler;
 let animationHandler;
 let uiHandler;
 let clickHandler;
 let cardHandler;
-let config;
+let statsHandler;
 
 let modelChildren = [];
 
@@ -80,6 +82,9 @@ async function init() {
     // Clickhandler initialisieren
     clickHandler = new ClickHandler(camera, scene, cardHandler);
     clickHandler.initialize();
+        
+    // StatsHandler initialisieren
+    statsHandler = new StatsHandler();
 
     // Modell laden
     loadModel();
@@ -186,6 +191,12 @@ function animate() {
     if (animationHandler) {
         animationHandler.updateExplosion();
     }
+
+    // Stats aktualisieren, falls der Handler existiert
+    if (statsHandler) {
+        statsHandler.update();
+    }
+    
     renderer.render(scene, camera);
 }
 

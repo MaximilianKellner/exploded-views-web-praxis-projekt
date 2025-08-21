@@ -62,9 +62,9 @@ export class CameraHandler {
                 z: targetPosition[2],
                 ease: 'inOut(8)',
                 duration: 600,
-                onUpdate: () => {
-                    console.log("CAMERA ANIMATION IN PROGRESS")
-                },
+                //onUpdate: () => {
+                //    console.log("CAMERA ANIMATION IN PROGRESS")
+                //},
                 onComplete: () => {
                     console.log(" --- FINISHED CAMERA ANIMATION ---")
                     this.controls.maxDistance = originalMaxDistance;
@@ -73,7 +73,6 @@ export class CameraHandler {
         )
 
     }
-
 
     update() {
         if (this.controls) {

@@ -25,6 +25,7 @@ export class UIHandler{
         this.camera = camera;
         this.controls = controls;
 
+        // Init Tweakpane
         this.pane = new Pane({
             title: 'Scene Controls',
         });
