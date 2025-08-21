@@ -7,7 +7,6 @@ export class CameraHandler {
         this.config = config;
         this.camera = null;
         this.controls = null;
-        this.controls = null;
         this.renderer = null;
     }
     
