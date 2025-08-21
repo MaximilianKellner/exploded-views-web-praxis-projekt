@@ -7,9 +7,13 @@ export class CameraHandler {
         this.config = config;
         this.camera = null;
         this.controls = null;
+        this.controls = null;
+        this.renderer = null;
     }
     
     initialize(renderer) {
+
+        this.renderer = renderer
         //Kamera
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         this.camera.position.fromArray(this.config.sceneConfig.camera.position);
