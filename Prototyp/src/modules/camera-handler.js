@@ -27,6 +27,10 @@ export class CameraHandler {
         this.controls.maxDistance = this.config.sceneConfig.camera.maxDistance;
         this.controls.enableZoom  = !this.config.animationConfig.allowScrollAnimation;
 
+        this.controls.zoomSpeed = 1.5; // Standardwert: 1.0
+        this.controls.rotateSpeed = 1.1; // Standardwert: 1.0
+        this.controls.dampingFactor = 0.075; // Höherer Wert = weniger Nachschwingen
+        
         // Resize Handler
         window.addEventListener('resize', this.handleResize.bind(this));
     }
