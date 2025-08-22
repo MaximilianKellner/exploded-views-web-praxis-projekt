@@ -149,8 +149,9 @@ export class AnimationHandler {
     }
 
     // --- Initialisieren der Scrollanimation ---
-    initScrollListener() {   
-        this.scrollSensitivity = this.config.animationConfig.scrollSensitivity || 0.001;   
+    initScrollListener() {
+        this.scrollSensitivity = this.config.animationConfig.scrollSensitivity || 0.001;
+        this.targetExplosionFactor = this.config.animationConfig.expFactor;
 
         // Event-Listener für scrollen auf der Seite
         this.renderer.domElement.addEventListener('wheel', (event) => {
@@ -160,17 +161,18 @@ export class AnimationHandler {
                 return;
             }
 
-            let explosionFactor = this.config.animationConfig.expFactor;
-
             // Explosionsfaktor anpassen
-            explosionFactor += event.deltaY * this.scrollSensitivity;
+            this.targetExplosionFactor += event.deltaY * this.scrollSensitivity;
             
             // Begrenzen des Faktors auf 0 bis 1 --> Auf und abrunden auf 0 bzw. 1
-            explosionFactor = Math.min(Math.max(explosionFactor, 0), 1);
+            this.targetExplosionFactor = Math.min(Math.max(this.targetExplosionFactor, 0), 1);
             
-            //console.log('Scroll-Event:', event.deltaY, 'Explosion Factor:', explosionFactor);
-            this.setExplosionFactor(explosionFactor);
-            
-        }, { passive: false }); // passive: false --> wichtig für preventDefault()
+            // Animiere zum Zielwert
+            animate(this.config.animationConfig, {
+                expFactor: this.targetExplosionFactor,
+                duration: 300, // Dauer der Glättung in ms
+                easing: 'easeOutQuad', // Sanfte Abflachung am Ende
+            });
+        }, { passive: false });
     }
 }
