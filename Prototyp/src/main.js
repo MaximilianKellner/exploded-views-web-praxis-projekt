@@ -135,13 +135,25 @@ async function loadModel() {
 }
 
 // --- Koordinatensystem laden ---
+
 function loadCooridinatesystem() {
+    
+    /*
+    const gridHelper = new THREE.GridHelper(10, 10);
+    scene.add(gridHelper);
+
+    // Einfachen Achsenhelfer hinzufügen
+    //The X axis is red. The Y axis is green. The Z axis is blue. 
+    const axesHelper = new THREE.AxesHelper(5); // Größe in Einheiten
+    scene.add(axesHelper);
+    */
+   
     const loader = new GLTFLoader();
     loader.load(
         '/coordinatesystem.glb', // Pfad zum Koordinatensystem Modell
         function (gltf) {
             const coordinateSystem = gltf.scene;
-            coordinateSystem.name = 'Coordinatesystem';
+            coordinateSystem.name = 'Coordinatesystem';            
             scene.add(coordinateSystem);
             coordinateSystem.visible = false; // Standardmäßig unsichtbar
         },

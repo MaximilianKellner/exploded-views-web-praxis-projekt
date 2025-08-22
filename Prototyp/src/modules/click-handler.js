@@ -15,7 +15,6 @@ export class ClickHandler {
         this.originalMaterials = new Map();
         this.wireframeMaterial = null;
 
-
         // 'this'-Kontext wird an den ClickHandler gebunden. (bei click wird nicht auf window.<> verwiesen sondern auf Clickhandler.camera, .raycaster usw.)
         this._onObjectClick = this._onObjectClick.bind(this);
     }
@@ -45,27 +44,43 @@ export class ClickHandler {
         this.raycaster.setFromCamera(this.mouse, this.camera);
 
         // 3. Schnittpunkte mit den Objekten in der Szene berechnen
-        const intersects = this.raycaster.intersectObjects(this.scene.children, true);
+        let intersects = this.raycaster.intersectObjects(this.scene.children, true);
+
+        // 4. Filtern von helper Elementen
+        const filteredIntersects = this._filterHelperElements(intersects);
+
+        intersects = filteredIntersects;
 
         if (intersects.length > 0) {
             const clickedObject = intersects[0].object;
             console.log('Objekt geklickt:', clickedObject.name);
 
-            let topLevelObject = clickedObject;
+            let topLevelObject = this._findTopLevelObject(clickedObject);
 
-            while (topLevelObject.parent && topLevelObject.parent.parent.type !== "Scene") {
-                topLevelObject = topLevelObject.parent;
-                console.log('topLevelObject:', topLevelObject.name);
-
-            }
-
-            // 4. Den CardHandler mit dem geklickten Objekt aufrufen
+            // 5. Den CardHandler mit dem geklickten Objekt aufrufen
             if (this.cardHandler) {
                 this.cardHandler.openCard(topLevelObject);
                 //console.log('topLevelObject: ',topLevelObject)
                 this.highlightClickedComponent(topLevelObject);
             }
         }
+    }
+
+    _filterHelperElements(elements){
+        return elements.filter(element => {
+            return !(element.object instanceof THREE.AxesHelper || 
+                element.object instanceof THREE.GridHelper ||(element.object.parent && element.object.parent.name === 'Coordinatesystem'));
+        });
+    }
+
+    _findTopLevelObject(clickedObject){
+        while (clickedObject.parent && clickedObject.parent.parent.type !== "Scene") {
+            clickedObject = clickedObject.parent;
+            console.log('topLevelObject:', clickedObject.name);
+        }
+
+        const topLevelObject = clickedObject
+        return topLevelObject
     }
 
     highlightClickedComponent(clickedComponent) {

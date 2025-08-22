@@ -16,7 +16,7 @@
         "camera": {
         "position": [3.5, 2, 5],
         "lookAt": [0, 0, 0],
-        "minDistance": 1,
+        "minDistance": 3.5,
         "maxDistance": 25
         },
         "lights": {
