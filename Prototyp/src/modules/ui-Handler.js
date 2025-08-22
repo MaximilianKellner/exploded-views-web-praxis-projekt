@@ -127,7 +127,7 @@ export class UIHandler{
     
     // --- Kamera ---
     initCameraFolder() {
-        this.cameraFolder = this.sceneFolder.addFolder({ title: 'Camera', expanded: false });
+        this.cameraFolder = this.sceneFolder.addFolder({ title: 'Camera', expanded: true });
 
         const cameraPosition = {
             position: {

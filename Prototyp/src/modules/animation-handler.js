@@ -59,7 +59,7 @@ export class AnimationHandler {
                 this.explodableObjects.push({
                     object: child,
                     originalPosition: child.position.clone(),
-                    level: objectConfig.level > 0 ? objectConfig.level : 0,
+                    targetLevel: objectConfig.level > 0 ? objectConfig.level : 0,
                     expDirection: new THREE.Vector3().fromArray(expDirection).normalize()
                 });
             }
@@ -69,10 +69,10 @@ export class AnimationHandler {
 
     // --- Anwenden der Explosion auf die explodierbaren Objekte ---
     updateExplosion() {
-        const { expFactor, layerDistance, globalExpDirection } = this.animationConfig;
+        const { expFactor, layerDistance } = this.animationConfig;
 
         this.explodableObjects.forEach(item => {
-            const distance = item.level * layerDistance * expFactor;
+            const distance = item.targetLevel * layerDistance * expFactor;
             const newPosition = new THREE.Vector3()
                 .copy(item.originalPosition)
                 .addScaledVector(item.expDirection, distance);

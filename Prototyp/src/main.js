@@ -34,7 +34,7 @@ async function init() {
 
     // Szene
     scene = new THREE.Scene();
-scene.background = new THREE.Color(config.sceneConfig.backgroundColor);
+    scene.background = new THREE.Color(config.sceneConfig.backgroundColor);
     // Kamera
     cameraHandler = new CameraHandler(config);
 
