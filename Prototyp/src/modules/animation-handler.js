@@ -144,14 +144,22 @@ export class AnimationHandler {
         });
     }
 
-    setExplosionFactor(explosionFactor) {
-        this.config.animationConfig.expFactor = explosionFactor;
+    setExplosionFactorAnimated(targetExplosionFactor) {
+        // Begrenzen des Faktors auf 0 bis 1 --> Auf und abrunden auf 0 bzw. 1
+        targetExplosionFactor = Math.min(Math.max(targetExplosionFactor, 0), 1);
+        
+        // Animiere zum Zielwert
+        animate(this.config.animationConfig, {
+            expFactor: targetExplosionFactor,
+            duration: 300, // Dauer der Glättung in ms
+            easing: 'easeOutQuad', // Sanfte Abflachung am Ende
+        });
     }
 
     // --- Initialisieren der Scrollanimation ---
     initScrollListener() {
-        this.scrollSensitivity = this.config.animationConfig.scrollSensitivity || 0.001;
-        this.targetExplosionFactor = this.config.animationConfig.expFactor;
+        this.scrollSensitivity = this.config.animationConfig.scrollSensitivity || 0.01;
+        let targetExplosionFactor = this.config.animationConfig.expFactor;
 
         // Event-Listener für scrollen auf der Seite
         this.renderer.domElement.addEventListener('wheel', (event) => {
@@ -162,17 +170,12 @@ export class AnimationHandler {
             }
 
             // Explosionsfaktor anpassen
-            this.targetExplosionFactor += event.deltaY * this.scrollSensitivity;
+            targetExplosionFactor += event.deltaY * this.scrollSensitivity;
             
-            // Begrenzen des Faktors auf 0 bis 1 --> Auf und abrunden auf 0 bzw. 1
-            this.targetExplosionFactor = Math.min(Math.max(this.targetExplosionFactor, 0), 1);
-            
-            // Animiere zum Zielwert
-            animate(this.config.animationConfig, {
-                expFactor: this.targetExplosionFactor,
-                duration: 300, // Dauer der Glättung in ms
-                easing: 'easeOutQuad', // Sanfte Abflachung am Ende
-            });
+            targetExplosionFactor = Math.min(Math.max(targetExplosionFactor, 0), 1);
+
+            this.setExplosionFactorAnimated(targetExplosionFactor);
+
         }, { passive: false });
     }
 }
