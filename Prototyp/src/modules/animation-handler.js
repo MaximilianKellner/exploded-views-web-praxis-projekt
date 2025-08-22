@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { animate } from 'animejs';
 
 /**
  * Verwaltet die Logik für die Explosionsansicht eines 3D-Modells.
@@ -7,11 +8,18 @@ import * as THREE from 'three';
  */
 
 export class AnimationHandler {
-    constructor(scene, animationConfig) {
+    constructor(scene, config, renderer) {
         this.scene = scene;
-        this.animationConfig = animationConfig;
+        this.config = config;
+        this.renderer = renderer;
+        this.animationConfig = config.animationConfig;
         this.explodableObjects = [];
         this.explosionConfig = null;
+        this.animation = null;
+
+        this.isAnimating = false;
+        this.isReversed = false;
+        this.isPaused = false;
     }
 
     // --- Initialisiert den AnimationHandler mit dem geladenen Modell und der Konfigurationn ---
@@ -79,5 +87,90 @@ export class AnimationHandler {
             
             item.object.position.copy(newPosition);
         });
+    }
+
+    // --- Aktuellen Status der Animation abfragen ---
+    getAnimationState() {
+        return {
+            isAnimating: this.isAnimating,
+            isReversed: this.isReversed,
+            isPaused: this.isPaused,
+            currentProgress: this.config.animationConfig.expFactor
+        }
+    }
+    
+    // --- Play/ Pause Animation ---
+    toggleAnimation() {
+        if (this.isAnimating){
+            this.pauseAnimation();
+        } else {
+            this.startAnimation();
+        }
+    }
+
+    pauseAnimation() {
+        this.isAnimating = false;
+        this.isPaused = true;
+        if (this.animation) {
+            this.animation.pause();
+        }
+    }
+
+    // --- Starten der Animation ---
+    startAnimation(){
+        if (this.isAnimating) return;
+        this.isAnimating = true;
+        this.isPaused = false;
+
+        // Zielwert der Animation basierend auf der Richtung bestimmen
+        let target = this.isReversed ? 0 : 1;
+
+        // Animiere den expFactor von seinem aktuellen Wert auf 1
+        this.animation = animate(this.config.animationConfig,{
+            expFactor: target,
+            duration: this.config.animationConfig.animationDuration || 1000, // Dauer in ms
+            ease: 'inOut(8)',
+            onUpdate: () => {
+            },
+            onComplete: () => {
+                this.isAnimating = false;
+                // Nur wenn die Animation vollständig abgeschlossen ist,
+                // wird die Richtung umgekehrt für die nächste Animation
+                if ((target === 1 && this.config.animationConfig.expFactor >= 0.99) || 
+                    (target === 0 && this.config.animationConfig.expFactor <= 0.01)) {
+                    this.isReversed = !this.isReversed;
+                }
+            }
+        });
+    }
+
+    setExplosionFactor(explosionFactor) {
+        this.config.animationConfig.expFactor = explosionFactor;
+    }
+
+    // --- Initialisieren der Scrollanimation ---
+    initScrollListener() {   
+        this.scrollSensitivity = this.config.animationConfig.scrollSensitivity || 0.001;   
+
+        // Event-Listener für scrollen auf der Seite
+        this.renderer.domElement.addEventListener('wheel', (event) => {
+            event.preventDefault();
+            
+            if(this.config.animationConfig.allowScrollAnimation === false){
+                return;
+            }
+
+            let explosionFactor = this.config.animationConfig.expFactor;
+
+            // Explosionsfaktor anpassen
+            explosionFactor += event.deltaY * this.scrollSensitivity;
+            
+            // Begrenzen des Faktors auf 0 bis 1 --> Auf und abrunden auf 0 bzw. 1
+            explosionFactor = Math.min(Math.max(explosionFactor, 0), 1);
+            
+            //console.log('Scroll-Event:', event.deltaY, 'Explosion Factor:', explosionFactor);
+            this.setExplosionFactor(explosionFactor);
+            
+        }, { passive: false }); // passive: false --> wichtig für preventDefault()
     }
 }

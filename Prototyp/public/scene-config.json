@@ -4,7 +4,8 @@
         "layerDistance": 0.5,
         "animationDuration": 1000,
         "globalExpDirection": [1, 1, 1],
-        "allowScrollAnimation": false
+        "allowScrollAnimation": false,
+        "scrollSensitivity": 0.001
     },
     "cardConfig": {
         "animationDuration": 700,

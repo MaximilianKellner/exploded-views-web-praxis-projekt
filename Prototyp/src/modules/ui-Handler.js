@@ -1,5 +1,4 @@
 import { Pane } from 'tweakpane';
-import { animate } from 'animejs';
 import { toggleDarkMode } from './theme-handler.js';
 
 export class UIHandler{
@@ -15,7 +14,7 @@ export class UIHandler{
         this.cameraFolder = null;
         this.lightsFolder = null;
         this.cardFolder = null;
-        this.isReversed = false;
+        this.animationHandler = null;
     }
 
     initialize(config, lights, scene, camera, controls) {
@@ -37,6 +36,10 @@ export class UIHandler{
         return this.pane;
     }
 
+    setAnimationHandler(animationHandler) {
+        this.animationHandler = animationHandler;
+    }
+
     // --- Animation Einstellungen ---
     initAnimationFolder() {
         this.animationFolder = this.pane.addFolder({ title: 'Animation', expanded: true });
@@ -51,10 +54,14 @@ export class UIHandler{
             { label: 'Progress', min: 0, max: 1, step: 0.0001 }
         );
 
-        const triggerAnimationButton = this.animationFolder.addButton(
+        this.triggerAnimationButton = this.animationFolder.addButton(
         {
             title: 'Start Animation',
             label: 'Animate'
+        });
+
+        this.triggerAnimationButton.on('click', () => {
+            this.animationHandler.toggleAnimation();
         });
 
         this.animationFolder.addBinding(
@@ -62,36 +69,7 @@ export class UIHandler{
             'animationDuration',
             { label: 'Duration (ms)',min: 100, max: 5000, step: 100}
         )
-
-        triggerAnimationButton.on('click', () => {
-            // Setze den Faktor auf 0 zurück, falls er schon 1 ist, um die Animation erneut zu starten
-            if (this.config.animationConfig.expFactor === 1) {
-                this.config.animationConfig.expFactor = 0;
-            }
-            
-            // Animiere den expFactor von seinem aktuellen Wert auf 1
-            const animation = animate(this.config.animationConfig,{
-                expFactor: 1,
-                duration: this.config.animationConfig.animationDuration || 1000, // Dauer in ms
-                reversed: this.isReversed,
-                ease: 'inOut(8)',
-                onUpdate: () => {
-                    // Aktualisiere den Slider in der UI
-                    this.animationFolder.refresh();
-                },
-                onComplete: () => {
-                    // Setze den Faktor auf 1, wenn die Animation abgeschlossen ist
-                    triggerAnimationButton.title = this.isReversed ? 'Reverse Animation' : 'Start Animation';
-                    this.animationFolder.refresh();
-                },
-                onBegin: () => {
-                    this.isReversed = !this.isReversed;
-                    triggerAnimationButton.title = 'animating...'
-                    this.animationFolder.refresh();
-                }
-            });
-        });
-        
+              
         // Scroll animation
         this.animationFolder.addBinding(this.config.animationConfig, 'allowScrollAnimation', {
             label: 'Scroll Animation'
@@ -221,10 +199,21 @@ export class UIHandler{
             toggleDarkMode(this.config.cardConfig.isDarkmode);
     }
 
-
     // --- Refresh - Methoden ---
     refreshAnimationFolder() {
         if (this.animationFolder) {
+            const state = this.animationHandler.getAnimationState();
+
+            // Buttontitel aktuallisieren
+            if (state.isAnimating) {
+                this.triggerAnimationButton.title = 'Pause Animation';
+            }if (state.isPaused) {
+                this.triggerAnimationButton.title = 'Resume Animation';
+            } else {
+                this.triggerAnimationButton.title = state.isReversed ? 
+                'Reverse Animation' : 'Start Animation';
+            }
+
             this.animationFolder.refresh();
         }
     }

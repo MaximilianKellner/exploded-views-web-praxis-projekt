@@ -68,7 +68,7 @@ async function init() {
     renderer.domElement.style.touchAction = 'none';
 
     // AnimationHandler initialisieren
-    animationHandler = new AnimationHandler(scene, config.animationConfig);
+    animationHandler = new AnimationHandler(scene, config, renderer);
 
     // Handler für Tweakpane UI komponente
     uiHandler = new UIHandler();
@@ -94,8 +94,10 @@ async function init() {
     // Ladeanimation der Camera
     cameraHandler.animateCameraOnLoad();
 
+    uiHandler.setAnimationHandler(animationHandler);
+
     // Scroll-Listener initialisieren
-    initScrollListener();
+    animationHandler.initScrollListener();
 
     // Animationsloop starten
     animate();
@@ -124,7 +126,8 @@ async function loadModel() {
         },
         // onProgress callback
         function (xhr) {
-            console.log('Model ' + (xhr.loaded / xhr.total * 100) + '% loaded');
+            const percent = xhr.loaded / xhr.total * 100;
+            console.log(`Model ${percent.toFixed(2)}% loaded`);
         },
         // onError callback
         function (error) {
@@ -165,34 +168,6 @@ function loadCooridinatesystem() {
     );
 }
 
-// --- Initialisieren der Scrollanimation ---
-function initScrollListener() {
-    let explosionFactor = 0;
-    
-    // Event-Listener für scrollen auf der Seite
-    renderer.domElement.addEventListener('wheel', (event) => {
-        event.preventDefault();
-        
-        if(config.animationConfig.allowScrollAnimation === false){
-            return;
-        }
-
-        explosionFactor = config.animationConfig.expFactor;
-
-        // Explosionsfaktor anpassen
-        explosionFactor += event.deltaY * 0.001; // Empfindlichkeit
-        
-        // Begrenzen des Faktors auf 0 bis 1 --> Auf und abrunden auf 0 bzw. 1
-        explosionFactor = Math.min(Math.max(explosionFactor, 0), 1);
-        
-        //console.log('Scroll-Event:', event.deltaY, 'Explosion Factor:', explosionFactor);
-        config.animationConfig.expFactor = explosionFactor;
-
-        uiHandler.refreshAnimationFolder();
-        
-    }, { passive: false }); // passive: false --> wichtig für preventDefault()
-}
-
 // --- Animationsloop ---
 function animate() {
     requestAnimationFrame(animate);
@@ -201,6 +176,11 @@ function animate() {
     // Animation aktualisieren, falls der Handler existiert
     if (animationHandler) {
         animationHandler.updateExplosion();
+    }
+
+    // Ui aktualisieren, falls der Handler existiert
+    if (uiHandler) {
+        uiHandler.refreshPane()
     }
 
     // Stats aktualisieren, falls der Handler existiert
