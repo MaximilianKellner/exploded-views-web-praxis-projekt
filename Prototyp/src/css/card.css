@@ -9,6 +9,8 @@
 .infoCard {
     display: none;
 
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+
     align-self: center;
     position: absolute;
     bottom: 0;

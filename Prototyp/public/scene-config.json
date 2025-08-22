@@ -8,10 +8,10 @@
     },
     "cardConfig": {
         "animationDuration": 700,
-        "isDarkmode": false
+        "isDarkmode": true
     },
     "sceneConfig": {
-        "backgroundColor": "#0e0e0e",
+        "backgroundColor": "#303030",
         "showCoordinatesystem": false,
         "camera": {
         "position": [3.5, 2, 5],
