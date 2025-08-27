@@ -53,6 +53,7 @@ export class AnimationHandler {
         // Explodierbare Objekte aus der Konfiguration
         const configObjects = this.explosionConfig.objects;
 
+        // maxSequence Bestimmen --> Anzahl der Animationsschritte / Zeitfenster
         this.maxSequence = 0;
         for (const key in configObjects) {
             const objectConfig = configObjects[key];
@@ -63,10 +64,7 @@ export class AnimationHandler {
             }
         }
 
-               console.log("---------------------------------------------------")
-        console.log("Maximale Sequenz aus Konfiguration:", this.maxSequence)
-        console.log("---------------------------------------------------")
-
+        // console.log("Maximale Sequenz aus Konfiguration:", this.maxSequence)
 
         model.traverse((child) => {
             if (configObjects[child.name]) {
@@ -78,7 +76,7 @@ export class AnimationHandler {
                     expDirection = this.animationConfig.globalExpDirection;
                 }
 
-                // Explodierbares Objekt mit relecanten Informationen speichern
+                // Explodierbares Objekt mit relevanten Informationen speichern
                 this.explodableObjects.push({
                     object: child,
                     originalPosition: child.position.clone(),
@@ -93,11 +91,9 @@ export class AnimationHandler {
         // Sortiere die Objekte nach ihrer Sequenznummer für den sequenziellen Modus
         this.explodableObjects.sort((a, b) => a.sequence - b.sequence);
 
-        // Objekte ohne Sequenz bekommen die Maximale Sequenz +1 --> maxSequenz neu berechnen
-        this.maxSequence = this.explodableObjects.reduce((max, item) => {
-            return isFinite(item.sequence) && item.sequence > 0 ? Math.max(max, item.sequence) : max;
-        }, 0);
-
+        // Objekte ohne Sequenz bekommen die Maximale Sequenz +1 und werden am Ende abgespielt --> maxSequenz neu berechnen
+        this.maxSequence += 1;
+        
         console.log('Explodierbare Objekte gefunden und vorbereitet:', this.explodableObjects);
         console.log('Finale maximale Sequenz für Animation:', this.maxSequence);
     }
@@ -106,8 +102,8 @@ export class AnimationHandler {
     updateExplosion() {
         const { expFactor, layerDistance, useSequenceAnim } = this.animationConfig;
 
-        // Sequenzielle Animation akitivert?
         if (useSequenceAnim) {
+            // -- Sequenzielle Animation ---  --> Objekte werden in Gruppen animiert
             if (this.maxSequence === 0) return;
 
             this.explodableObjects.forEach(item => {
@@ -125,16 +121,16 @@ export class AnimationHandler {
                 const progressEnd = item.sequence / this.maxSequence; // Ende des zeitfensters
 
                 // Berechnen des lokalen Fortschritts.
-                // Local Progress mapped einen wert zwischen progressStart und progressEnd auf basis von expFactor auf eine Lineare Funktion mit Steigung 1
+                // Local Progress mapped einen Wert zwischen progressStart und progressEnd auf Basis von expFactor auf eine Lineare Funktion mit Steigung 1
                 let localProgress = THREE.MathUtils.mapLinear(expFactor, progressStart, progressEnd, 0, 1);
-                // Vegrenzen auf Werte zwischen 0 und 1 um nur im lokalen Zeitfenster zu agieren
+                // Begrenzen auf Werte zwischen 0 und 1 um nur im lokalen Zeitfenster zu agieren
                 localProgress = THREE.MathUtils.clamp(localProgress, 0, 1);
 
                 // TODO: Weitere Easingsarten einfügen.
                 //easing für die sequenzielle Animation
                 const easedProgress = 1 - Math.pow(1 - localProgress, 3); // easeOutCubic
 
-                // Distanz basiert auf 'level', wird aber mit dem lokalen Fortschritt und Multiplikator skaliert
+                // Distanz zum main Objekt basiert auf 'targetLevel', wird aber mit dem lokalen Fortschritt und Multiplikator skaliert
                 const distance = item.targetLevel * layerDistance * easedProgress * item.speedMultiplier;
 
                 // Neue Position festlegen
@@ -146,7 +142,7 @@ export class AnimationHandler {
             });
 
         } else {
-            // Gleichzeitige Animation --> Alle Objekte werden gleichzeitig animiert
+            // --- Gleichzeitige Animation --> Alle Objekte werden gleichzeitig animiert ---
             this.explodableObjects.forEach(item => {
                 if (item.targetLevel > 0) {
                     const distance = item.targetLevel * layerDistance * expFactor * item.speedMultiplier;
