@@ -9,31 +9,21 @@
       "level": 1,
       "expDirection": [0, -1, -1]
     },
-    "FL": {
-      "level": 3,
-      "expDirection": [1, 0, 0],
-      "sequence": 1
-    },
-    "FLBremse": {
-      "level": 1,
-      "expDirection": [1, 0, 0]
-    },
-    "FR": {
-      "level": 3,
-      "expDirection": [-1, 0, 0],
-      "sequence": 1
-    },
-    "FRBremse": {
-      "level": 1,
-      "expDirection": [-1, 0, 0]
-    },
     "Kennzeichen": {
       "level": 1,
       "expDirection": [0, 0, -1]
     },
-    "Scheinwerfer": {
+    "Scheinwerfer-R": {
       "level": 1.5,
-      "expDirection": [0, 0, 1]
+      "expDirection": [0, 0, 1],
+      "sequence": 2,
+      "speedMultiplier": 2.5
+    },
+    "Scheinwerfer-L": {
+      "level": 1.5,
+      "expDirection": [0, 0, 1],
+      "sequence": 2,
+      "speedMultiplier": 1.5
     },
     "Licht": {
       "level": 1,
@@ -43,14 +33,25 @@
       "level": 1,
       "expDirection": [1, 0, 0]
     },
-    "RL": {
+    "FL": {
       "level": 3,
       "expDirection": [1, 0, 0],
       "sequence": 1
     },
-    "RLBremse": {
+    "FLBremse": {
       "level": 1,
-      "expDirection": [1, 0, 0]
+      "expDirection": [1, 0, 0],
+      "sequence": 2
+    },
+    "FR": {
+      "level": 3,
+      "expDirection": [-1, 0, 0],
+      "sequence": 1
+    },
+    "FRBremse": {
+      "level": 1,
+      "expDirection": [-1, 0, 0],
+      "sequence": 2
     },
     "RR": {
       "level": 3,
@@ -60,7 +61,21 @@
     },
     "RRBremse": {
       "level": 1,
-      "expDirection": [-1, 0, 0]
+      "expDirection": [-1, 0, 0],
+      "sequence": 2,
+      "speedMultiplier": 2
+    },
+    "RL": {
+      "level": 3,
+      "expDirection": [1, 0, 0],
+      "sequence": 1,
+      "speedMultiplier": 2
+    },
+    "RLBremse": {
+      "level": 1,
+      "expDirection": [1, 0, 0],
+      "sequence": 2,
+      "speedMultiplier": 2
     },
     "RSchweller": {
       "level": 1,
@@ -68,7 +83,9 @@
     },
     "Splitter": {
       "level": 2,
-      "expDirection": [0, 0, 1]
+      "expDirection": [0, 0, 1],
+      "sequence": 1,
+      "speedMultiplier": 1
     },
     "Spoiler": {
       "level": 1,

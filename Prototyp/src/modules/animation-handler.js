@@ -82,7 +82,7 @@ export class AnimationHandler {
                     originalPosition: child.position.clone(),
                     targetLevel: objectConfig.level !== undefined ? objectConfig.level : 0,
                     sequence: objectConfig.sequence !== undefined ? objectConfig.sequence : this.maxSequence + 1,
-                    speedMultiplier: objectConfig.speedMultiplier || 1.0,
+                    speedMultiplier: objectConfig.speedMultiplier >= 1 ? objectConfig.speedMultiplier : 1.0,
                     expDirection: new THREE.Vector3().fromArray(expDirection).normalize()
                 });
             }
@@ -142,7 +142,7 @@ export class AnimationHandler {
             });
 
         } else {
-            // --- Gleichzeitige Animation --> Alle Objekte werden gleichzeitig animiert ---
+            // --- Gleichzeitige Animation --- --> Alle Objekte werden gleichzeitig animiert 
             this.explodableObjects.forEach(item => {
                 if (item.targetLevel > 0) {
                     let localProgress = expFactor * item.speedMultiplier;
