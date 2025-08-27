@@ -78,7 +78,18 @@ export class UIHandler{
             this.config.animationConfig.allowScrollAnimation = ev.value
             this.controls.enableZoom = !ev.value
         });
-        
+
+        // Sequenzielle Animation
+        this.animationFolder.addBinding(this.config.animationConfig, 'useSequenceAnim', {
+            label: 'Sequenzielle Animation'
+        })
+        .on('change', (ev) => {
+            if (ev.value === true) {
+                console.warn("Stellen sie sicher, dass die sequenzielle Animation konfiguriert ist")
+            }
+            this.config.animationConfig.useSequenceAnim = ev.value;
+             
+        }) 
     }
 
     // --- Szene ---

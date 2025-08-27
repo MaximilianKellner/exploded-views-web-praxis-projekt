@@ -7,18 +7,16 @@
     },
     "Diffusor": {
       "level": 1,
-      "expDirection": [0, -1, -1],
-      "sequence": 2
+      "expDirection": [0, -1, -1]
     },
     "FL": {
       "level": 3,
       "expDirection": [1, 0, 0],
-      "sequence": 2
+      "sequence": 1
     },
     "FLBremse": {
       "level": 1,
-      "expDirection": [1, 0, 0],
-      "sequence": 2
+      "expDirection": [1, 0, 0]
     },
     "FR": {
       "level": 3,
@@ -47,7 +45,8 @@
     },
     "RL": {
       "level": 3,
-      "expDirection": [1, 0, 0]
+      "expDirection": [1, 0, 0],
+      "sequence": 1
     },
     "RLBremse": {
       "level": 1,
@@ -55,7 +54,9 @@
     },
     "RR": {
       "level": 3,
-      "expDirection": [-1, 0, 0]
+      "expDirection": [-1, 0, 0],
+      "sequence": 1,
+      "speedMultiplier": 2
     },
     "RRBremse": {
       "level": 1,

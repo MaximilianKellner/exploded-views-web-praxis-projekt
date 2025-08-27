@@ -81,7 +81,7 @@ export class AnimationHandler {
                     object: child,
                     originalPosition: child.position.clone(),
                     targetLevel: objectConfig.level !== undefined ? objectConfig.level : 0,
-                    sequence: objectConfig.sequence !== undefined ? objectConfig.sequence : 3,
+                    sequence: objectConfig.sequence !== undefined ? objectConfig.sequence : this.maxSequence + 1,
                     speedMultiplier: objectConfig.speedMultiplier || 1.0,
                     expDirection: new THREE.Vector3().fromArray(expDirection).normalize()
                 });
@@ -122,7 +122,7 @@ export class AnimationHandler {
 
                 // Berechnen des lokalen Fortschritts.
                 // Local Progress mapped einen Wert zwischen progressStart und progressEnd auf Basis von expFactor auf eine Lineare Funktion mit Steigung 1
-                let localProgress = THREE.MathUtils.mapLinear(expFactor, progressStart, progressEnd, 0, 1);
+                let localProgress = THREE.MathUtils.mapLinear(expFactor * item.speedMultiplier, progressStart, progressEnd, 0, 1);
                 // Begrenzen auf Werte zwischen 0 und 1 um nur im lokalen Zeitfenster zu agieren
                 localProgress = THREE.MathUtils.clamp(localProgress, 0, 1);
 
@@ -131,7 +131,7 @@ export class AnimationHandler {
                 const easedProgress = 1 - Math.pow(1 - localProgress, 3); // easeOutCubic
 
                 // Distanz zum main Objekt basiert auf 'targetLevel', wird aber mit dem lokalen Fortschritt und Multiplikator skaliert
-                const distance = item.targetLevel * layerDistance * easedProgress * item.speedMultiplier;
+                const distance = item.targetLevel * layerDistance * easedProgress ;
 
                 // Neue Position festlegen
                 const newPosition = new THREE.Vector3()
@@ -145,7 +145,10 @@ export class AnimationHandler {
             // --- Gleichzeitige Animation --> Alle Objekte werden gleichzeitig animiert ---
             this.explodableObjects.forEach(item => {
                 if (item.targetLevel > 0) {
-                    const distance = item.targetLevel * layerDistance * expFactor * item.speedMultiplier;
+                    let localProgress = expFactor * item.speedMultiplier;
+                    localProgress = THREE.MathUtils.clamp(localProgress, 0, 1);
+
+                    const distance = item.targetLevel * layerDistance * localProgress;
                     const newPosition = new THREE.Vector3()
                         .copy(item.originalPosition)
                         .addScaledVector(item.expDirection, distance);

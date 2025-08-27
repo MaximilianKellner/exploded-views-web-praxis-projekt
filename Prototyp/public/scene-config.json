@@ -1,7 +1,7 @@
 {
     "animationConfig": {
         "expFactor": 0,
-        "useSequenceAnim": true,
+        "useSequenceAnim": false,
         "layerDistance": 0.5,
         "animationDuration": 1000,
         "globalExpDirection": [1, 1, 1],
