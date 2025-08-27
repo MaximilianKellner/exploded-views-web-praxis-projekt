@@ -1,6 +1,7 @@
 {
     "animationConfig": {
         "expFactor": 0,
+        "useSequenceAnim": true,
         "layerDistance": 0.5,
         "animationDuration": 1000,
         "globalExpDirection": [1, 1, 1],
@@ -18,7 +19,7 @@
         "position": [3.5, 2, 5],
         "lookAt": [0, 0, 0],
         "minDistance": 3.5,
-        "maxDistance": 25
+        "maxDistance": 10
         },
         "lights": {
             "ambient": {

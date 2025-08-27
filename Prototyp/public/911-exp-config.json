@@ -7,19 +7,23 @@
     },
     "Diffusor": {
       "level": 1,
-      "expDirection": [0, -1, -1]
+      "expDirection": [0, -1, -1],
+      "sequence": 2
     },
     "FL": {
       "level": 3,
-      "expDirection": [1, 0, 0]
+      "expDirection": [1, 0, 0],
+      "sequence": 2
     },
     "FLBremse": {
       "level": 1,
-      "expDirection": [1, 0, 0]
+      "expDirection": [1, 0, 0],
+      "sequence": 2
     },
     "FR": {
       "level": 3,
-      "expDirection": [-1, 0, 0]
+      "expDirection": [-1, 0, 0],
+      "sequence": 1
     },
     "FRBremse": {
       "level": 1,

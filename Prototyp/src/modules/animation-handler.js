@@ -53,40 +53,93 @@ export class AnimationHandler {
         const configObjects = this.explosionConfig.objects;
 
         model.traverse((child) => {
-            // TODO isMesh Bug checken   if (child.isMesh && configObjects[child.name]) {
             if (configObjects[child.name]) {
                 const objectConfig = configObjects[child.name];
 
                 // expDirection lesen, fallback auf globalExpDirection
-                let expDirection = objectConfig.expDirection
+                let expDirection = objectConfig.expDirection;
                 if (!objectConfig.expDirection) {
-                    expDirection = this.animationConfig.globalExpDirection
-                }   
+                    expDirection = this.animationConfig.globalExpDirection;
+                }
 
                 // Explodierbares Objekt mit relecanten Informationen speichern
                 this.explodableObjects.push({
                     object: child,
                     originalPosition: child.position.clone(),
-                    targetLevel: objectConfig.level > 0 ? objectConfig.level : 0,
+                    targetLevel: objectConfig.level !== undefined ? objectConfig.level : 0,
+                    sequence: objectConfig.sequence !== undefined ? objectConfig.sequence : Infinity,
+                    speedMultiplier: objectConfig.speedMultiplier || 1.0,
                     expDirection: new THREE.Vector3().fromArray(expDirection).normalize()
                 });
             }
         });
-        console.log('Explodierbare Objekte gefunden:', this.explodableObjects);
+
+        // Sortiere die Objekte nach ihrer Sequenznummer für den sequenziellen Modus
+        this.explodableObjects.sort((a, b) => a.sequence - b.sequence);
+
+        console.log('Explodierbare Objekte gefunden und vorbereitet:', this.explodableObjects);
     }
 
     // --- Anwenden der Explosion auf die explodierbaren Objekte ---
     updateExplosion() {
-        const { expFactor, layerDistance } = this.animationConfig;
+        const { expFactor, layerDistance, useSequenceAnim } = this.animationConfig;
 
-        this.explodableObjects.forEach(item => {
-            const distance = item.targetLevel * layerDistance * expFactor;
-            const newPosition = new THREE.Vector3()
-                .copy(item.originalPosition)
-                .addScaledVector(item.expDirection, distance);
-            
-            item.object.position.copy(newPosition);
-        });
+        // Sequenzielle Animation akitivert?
+        if (useSequenceAnim) {
+            // Berrechnung der Anzahl der Animationschritte anhand der größten Sequenznummer
+            const maxSequence = this.explodableObjects.reduce((max, item) => {
+                return isFinite(item.sequence) && item.sequence > 0 ? Math.max(max, item.sequence) : max;
+            }, 0);
+
+            if (maxSequence === 0) return;
+
+            this.explodableObjects.forEach(item => {
+                // Objekte ohne Animation überspringen
+                if (!isFinite(item.sequence) || item.sequence === 0 || item.targetLevel === 0) {
+                    item.object.position.copy(item.originalPosition);
+                    return;
+                }
+
+                // "Zeitfenster" für die aktuelle Sequenz berechnen
+                // Bsp.: max Sequence = 2 
+                // item.sequence = 1 bewegt sich zwischen expFactor 0.0 und 0.5
+                // item.sequence = 2 bewegt sich zwischen expFactor 0.5 und 1.0
+                const progressStart = (item.sequence - 1) / maxSequence; // Start des Zeitfensters
+                const progressEnd = item.sequence / maxSequence; // Ende des zeitfensters
+
+                // Berechnen des lokalen Fortschritts.
+                // Local Progress mapped einen wert zwischen progressStart und progressEnd auf basis von expFactor auf eine Lineare Funktion mit Steigung 1
+                let localProgress = THREE.MathUtils.mapLinear(expFactor, progressStart, progressEnd, 0, 1);
+                // Vegrenzen auf Werte zwischen 0 und 1 um nur im lokalen Zeitfenster zu agieren
+                localProgress = THREE.MathUtils.clamp(localProgress, 0, 1);
+
+                // TODO: Weitere Easingsarten einfügen.
+                //easing für die sequenzielle Animation
+                const easedProgress = 1 - Math.pow(1 - localProgress, 3); // easeOutCubic
+
+                // Distanz basiert auf 'level', wird aber mit dem lokalen Fortschritt und Multiplikator skaliert
+                const distance = item.targetLevel * layerDistance * easedProgress * item.speedMultiplier;
+
+                // Neue Position festlegen
+                const newPosition = new THREE.Vector3()
+                    .copy(item.originalPosition)
+                    .addScaledVector(item.expDirection, distance);
+
+                item.object.position.copy(newPosition);
+            });
+
+        } else {
+            // Gleichzeitige Animation --> Alle Objekte werden gleichzeitig animiert
+            this.explodableObjects.forEach(item => {
+                if (item.targetLevel > 0) {
+                    const distance = item.targetLevel * layerDistance * expFactor * item.speedMultiplier;
+                    const newPosition = new THREE.Vector3()
+                        .copy(item.originalPosition)
+                        .addScaledVector(item.expDirection, distance);
+                    item.object.position.copy(newPosition);
+                }
+            });
+        }
     }
 
     // --- Aktuellen Status der Animation abfragen ---
