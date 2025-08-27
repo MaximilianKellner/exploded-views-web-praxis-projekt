@@ -16,6 +16,7 @@ export class AnimationHandler {
         this.explodableObjects = [];
         this.explosionConfig = null;
         this.animation = null;
+        this.maxSequence = null;
 
         this.isAnimating = false;
         this.isReversed = false;
@@ -52,6 +53,21 @@ export class AnimationHandler {
         // Explodierbare Objekte aus der Konfiguration
         const configObjects = this.explosionConfig.objects;
 
+        this.maxSequence = 0;
+        for (const key in configObjects) {
+            const objectConfig = configObjects[key];
+            if (objectConfig.sequence && isFinite(objectConfig.sequence)) {
+                if (objectConfig.sequence > this.maxSequence) {
+                    this.maxSequence = objectConfig.sequence;
+                }
+            }
+        }
+
+               console.log("---------------------------------------------------")
+        console.log("Maximale Sequenz aus Konfiguration:", this.maxSequence)
+        console.log("---------------------------------------------------")
+
+
         model.traverse((child) => {
             if (configObjects[child.name]) {
                 const objectConfig = configObjects[child.name];
@@ -67,7 +83,7 @@ export class AnimationHandler {
                     object: child,
                     originalPosition: child.position.clone(),
                     targetLevel: objectConfig.level !== undefined ? objectConfig.level : 0,
-                    sequence: objectConfig.sequence !== undefined ? objectConfig.sequence : Infinity,
+                    sequence: objectConfig.sequence !== undefined ? objectConfig.sequence : 3,
                     speedMultiplier: objectConfig.speedMultiplier || 1.0,
                     expDirection: new THREE.Vector3().fromArray(expDirection).normalize()
                 });
@@ -77,7 +93,13 @@ export class AnimationHandler {
         // Sortiere die Objekte nach ihrer Sequenznummer für den sequenziellen Modus
         this.explodableObjects.sort((a, b) => a.sequence - b.sequence);
 
+        // Objekte ohne Sequenz bekommen die Maximale Sequenz +1 --> maxSequenz neu berechnen
+        this.maxSequence = this.explodableObjects.reduce((max, item) => {
+            return isFinite(item.sequence) && item.sequence > 0 ? Math.max(max, item.sequence) : max;
+        }, 0);
+
         console.log('Explodierbare Objekte gefunden und vorbereitet:', this.explodableObjects);
+        console.log('Finale maximale Sequenz für Animation:', this.maxSequence);
     }
 
     // --- Anwenden der Explosion auf die explodierbaren Objekte ---
@@ -86,12 +108,7 @@ export class AnimationHandler {
 
         // Sequenzielle Animation akitivert?
         if (useSequenceAnim) {
-            // Berrechnung der Anzahl der Animationschritte anhand der größten Sequenznummer
-            const maxSequence = this.explodableObjects.reduce((max, item) => {
-                return isFinite(item.sequence) && item.sequence > 0 ? Math.max(max, item.sequence) : max;
-            }, 0);
-
-            if (maxSequence === 0) return;
+            if (this.maxSequence === 0) return;
 
             this.explodableObjects.forEach(item => {
                 // Objekte ohne Animation überspringen
@@ -104,8 +121,8 @@ export class AnimationHandler {
                 // Bsp.: max Sequence = 2 
                 // item.sequence = 1 bewegt sich zwischen expFactor 0.0 und 0.5
                 // item.sequence = 2 bewegt sich zwischen expFactor 0.5 und 1.0
-                const progressStart = (item.sequence - 1) / maxSequence; // Start des Zeitfensters
-                const progressEnd = item.sequence / maxSequence; // Ende des zeitfensters
+                const progressStart = (item.sequence - 1) / this.maxSequence; // Start des Zeitfensters
+                const progressEnd = item.sequence / this.maxSequence; // Ende des zeitfensters
 
                 // Berechnen des lokalen Fortschritts.
                 // Local Progress mapped einen wert zwischen progressStart und progressEnd auf basis von expFactor auf eine Lineare Funktion mit Steigung 1
