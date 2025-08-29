@@ -120,7 +120,18 @@
       "Manuell ausfahrbar per Tastendruck"
     ]
   },
-"Scheinwerfer": {
+"Scheinwerfer-L": {
+  "title": "LED-Matrix-Scheinwerfer",
+  "body": "Die Porsche Dynamic Light System Plus (PDLS+) Matrix-LED-Scheinwerfer kombinieren fortschrittlichste Lichttechnologie mit charakteristischem Design. Das intelligente System blendet entgegenkommende Fahrzeuge gezielt aus, während die übrigen Bereiche voll ausgeleuchtet bleiben.",
+  "pills": ["Beleuchtung", "Technologie", "Sicherheit"],
+  "list": [
+    "84 individuell ansteuerbare LEDs pro Scheinwerfer",
+    "Dynamisches Kurvenlicht",
+    "Automatische Reichweitenregulierung",
+    "Markantes Vier-Punkt-Tagfahrlicht"
+  ]
+},
+"Scheinwerfer-R": {
   "title": "LED-Matrix-Scheinwerfer",
   "body": "Die Porsche Dynamic Light System Plus (PDLS+) Matrix-LED-Scheinwerfer kombinieren fortschrittlichste Lichttechnologie mit charakteristischem Design. Das intelligente System blendet entgegenkommende Fahrzeuge gezielt aus, während die übrigen Bereiche voll ausgeleuchtet bleiben.",
   "pills": ["Beleuchtung", "Technologie", "Sicherheit"],

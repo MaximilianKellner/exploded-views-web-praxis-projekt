@@ -11,16 +11,16 @@ import { StatsHandler } from './modules/ui-stats-handler.js';
 // --- Globale Variablen ---
 
 // Porsche
-// const sceneConfigPath = '/scene-config.json'
-// const modelPath = '/911.glb'; // Pfad zum .glb Modell
-// const explosionConfigPath = '/911-exp-config.json'; // Pfad zur Explosions-Konfiguration
-// const cardDataPath = '/911-cards.json'// Pfad zu den Card Daten
+const sceneConfigPath = '/scene-config.json'
+const modelPath = '/911.glb'; // Pfad zum .glb Modell
+const explosionConfigPath = '/911-exp-config.json'; // Pfad zur Explosions-Konfiguration
+const cardDataPath = '/911-cards.json'// Pfad zu den Card Daten
 
 // Kopfhoerer
-const sceneConfigPath = '/kopfhoerer/scene-config.json'
-const modelPath = '/kopfhoerer/nothing-in-ear.glb'; // Pfad zum .glb Modell
-const explosionConfigPath = '/kopfhoerer/exp-config.json'; // Pfad zur Explosions-Konfiguration
-const cardDataPath = '/kopfhoerer/911-cards.json'// Pfad zu den Card Daten
+// const sceneConfigPath = '/kopfhoerer/scene-config.json'
+// const modelPath = '/kopfhoerer/nothing-in-ear.glb'; // Pfad zum .glb Modell
+// const explosionConfigPath = '/kopfhoerer/exp-config.json'; // Pfad zur Explosions-Konfiguration
+// const cardDataPath = '/kopfhoerer/911-cards.json'// Pfad zu den Card Daten
 
 const lights = {}; // Objekt zum Speichern der erstellten Lichter
 let scene,camera, renderer, controls;

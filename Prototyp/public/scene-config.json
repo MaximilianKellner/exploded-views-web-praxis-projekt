@@ -3,7 +3,7 @@
         "expFactor": 0,
         "useSequenceAnim": false,
         "layerDistance": 0.5,
-        "animationDuration": 1000,
+        "animationDuration": 1500,
         "globalExpDirection": [1, 1, 1],
         "allowScrollAnimation": false,
         "scrollSensitivity": 0.001
