@@ -1,0 +1,50 @@
+{
+  "_comment": "[X|Y|Z]",
+  "objects": {
+    "case": {
+      "level": 5,
+      "expDirection": [0, -1, -0.5],
+      "sequence": 1
+    },
+    "stem-l": {
+      "level": 2,
+      "expDirection": [0.1, 1, 0],
+      "sequence": 4
+    },
+    "main-l": {
+      "level": 0,
+      "expDirection": [-1, -0.1, 0],
+      "sequence": 4
+    },
+    "mesh-l": {
+      "level": 1.5,
+      "expDirection": [-1, -0.1, 0.7],
+      "sequence": 3
+    },
+    "silikon-l": {
+      "level": 3.5,
+      "expDirection": [-1, -0.1, 0.7],
+      "sequence": 2
+    },
+    "stem-r": {
+      "level": 2,
+      "expDirection": [-0.1, 1, 0],
+      "sequence": 4
+    },
+    "main-r": {
+      "level": 0,
+      "expDirection": [1, -0.1, 0],
+      "sequence": 4
+    },
+    "mesh-r": {
+      "level": 1.5,
+      "expDirection": [1, -0.1, 0.7],
+      "sequence": 3
+    },
+    "silikon-r": {
+      "level": 3.5,
+      "expDirection": [1, -0.1, 0.7],
+      "sequence": 2
+    }
+  }
+}

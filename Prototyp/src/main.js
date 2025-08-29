@@ -9,10 +9,18 @@ import { UIHandler } from './modules/ui-Handler.js';
 import { StatsHandler } from './modules/ui-stats-handler.js';
 
 // --- Globale Variablen ---
-const sceneConfigPath = '/scene-config.json'
-const modelPath = '/layer-test-911.glb'; // Pfad zum .glb Modell
-const explosionConfigPath = '/911-exp-config.json'; // Pfad zur Explosions-Konfiguration
-const cardDataPath = '/911-cards.json'// Pfad zu den Card Daten
+
+// Porsche
+// const sceneConfigPath = '/scene-config.json'
+// const modelPath = '/911.glb'; // Pfad zum .glb Modell
+// const explosionConfigPath = '/911-exp-config.json'; // Pfad zur Explosions-Konfiguration
+// const cardDataPath = '/911-cards.json'// Pfad zu den Card Daten
+
+// Kopfhoerer
+const sceneConfigPath = '/kopfhoerer/scene-config.json'
+const modelPath = '/kopfhoerer/nothing-in-ear.glb'; // Pfad zum .glb Modell
+const explosionConfigPath = '/kopfhoerer/exp-config.json'; // Pfad zur Explosions-Konfiguration
+const cardDataPath = '/kopfhoerer/911-cards.json'// Pfad zu den Card Daten
 
 const lights = {}; // Objekt zum Speichern der erstellten Lichter
 let scene,camera, renderer, controls;
@@ -29,8 +37,12 @@ let modelChildren = [];
 
 async function init() {
     // Konfiguration laden
-    const response = await fetch(sceneConfigPath);
-    config = await response.json();
+    try {
+        const response = await fetch(sceneConfigPath);
+        config = await response.json();
+    } catch (err) {
+        console.error('Fehler beim laden der scene config: ', err)
+    }
 
     // Szene
     scene = new THREE.Scene();
