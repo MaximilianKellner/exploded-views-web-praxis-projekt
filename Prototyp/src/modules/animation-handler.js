@@ -37,7 +37,9 @@ export class AnimationHandler {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             this.explosionConfig = await response.json();
-            console.log('Explosions-Konfiguration geladen:', this.explosionConfig);
+
+            console.log('Explosions-Konfiguration geladen');
+            //console.log(this.explosionConfig);
         } catch (error) {
             console.error('Fehler beim Laden der Explosions-Konfiguration:', error);
         }
@@ -63,8 +65,6 @@ export class AnimationHandler {
                 }
             }
         }
-
-        // console.log("Maximale Sequenz aus Konfiguration:", this.maxSequence)
 
         model.traverse((child) => {
             if (configObjects[child.name]) {
@@ -94,8 +94,8 @@ export class AnimationHandler {
         // Objekte ohne Sequenz bekommen die Maximale Sequenz +1 und werden am Ende abgespielt --> maxSequenz neu berechnen
         this.maxSequence += 1;
         
-        console.log('Explodierbare Objekte gefunden und vorbereitet:', this.explodableObjects);
-        console.log('Finale maxSequence:', this.maxSequence);
+        //console.log('Explodierbare Objekte gefunden und vorbereitet:', this.explodableObjects);
+        //console.log('Finale maxSequence:', this.maxSequence);
     }
 
     // --- Anwenden der Explosion auf die explodierbaren Objekte ---

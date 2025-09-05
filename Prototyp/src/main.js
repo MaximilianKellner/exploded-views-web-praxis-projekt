@@ -7,8 +7,8 @@ const sportwagen = {
     explosionConfigPath: '/911-exp-config.json', // Pfad zur Explosions config
     cardDataPath: '/911-cards.json', // Pfad zu den Card Inhalten
     showDebugUI: true,
+    showDebugLogs: true,
     showStats: true,
-
 }
 
 // Kopfhoerer
@@ -18,8 +18,8 @@ const kopfhoerer = {
     explosionConfigPath: '/kopfhoerer/exp-config.json', // Pfad zur Explosions config
     cardDataPath: '/kopfhoerer/911-cards.json', // Pfad zu den Card Inhalten
     showDebugUI: true,
+    showDebugLogs: true,
     showStats: true,
-
 }
 
 async function main() {

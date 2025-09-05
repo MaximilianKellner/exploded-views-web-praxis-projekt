@@ -28,7 +28,7 @@ export class ExplodedViewer {
         this.cardHandler = null;
         this.statsHandler = null;
     }
-
+    
     async init() {
         try {
             await this._loadConfig();

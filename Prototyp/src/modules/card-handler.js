@@ -31,7 +31,6 @@ export class CardHandler {
 
     // --- Initialisiert den CardHandler mit dem geladenen Modell und der Konfiguration ---
     async initialize(cardDataUrl, config) {
-        console.log("initializing CardHandler");
         this.config = config;
         await this._loadCardData(cardDataUrl);
     }
@@ -44,7 +43,8 @@ export class CardHandler {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             this.cardData = await response.json();
-            console.log('Card-Daten erfolgreich geladen:', this.cardData);
+            console.log('Card-Daten erfolgreich geladen');
+            //console.log(this.cardData);
         } catch (error) {
             console.error('Fehler beim Laden der Card-Daten:', error);
         }
@@ -62,7 +62,7 @@ export class CardHandler {
 
         // Für Elemente ohne Card
         if (!cardData) {
-            console.log(`Keine Daten für Objekt "${objectName}" gefunden.`);
+            //console.log(`Keine Daten für Objekt "${objectName}" gefunden.`);
 
             if (this.cardState !== 'closed') {
                 this.closeCard();
@@ -83,6 +83,7 @@ export class CardHandler {
             this.cardState = 'animating';
 
             //console.log('cardData', cardData)
+
             this.cardTitle.textContent = cardData.title || 'Information';
             this.cardBody.textContent = cardData.body || '';
 
