@@ -7,7 +7,6 @@ const sportwagen = {
     explosionConfigPath: '/911-exp-config.json', // Pfad zur Explosions config
     cardDataPath: '/911-cards.json', // Pfad zu den Card Inhalten
     showDebugUI: true,
-    showDebugLogs: true,
     showStats: true,
 }
 

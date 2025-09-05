@@ -3,8 +3,9 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { animate } from 'animejs';
 
 export class CameraHandler {
-    constructor(config) {
+    constructor(config, container) {
         this.config = config;
+        this.container = container;
         this.camera = null;
         this.controls = null;
         this.renderer = null;
@@ -14,7 +15,7 @@ export class CameraHandler {
 
         this.renderer = renderer
         //Kamera
-        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        this.camera = new THREE.PerspectiveCamera(75, this.container.clientWidth / this.container.clientHeight, 0.1, 1000);
         this.camera.position.fromArray(this.config.sceneConfig.camera.position);
 
         this.camera.position.z = 80
@@ -30,18 +31,6 @@ export class CameraHandler {
         this.controls.zoomSpeed = 1.5; // Standardwert: 1.0
         this.controls.rotateSpeed = 1.1; // Standardwert: 1.0
         this.controls.dampingFactor = 0.075; // Höherer Wert = weniger Nachschwingen
-        
-        // Resize Handler
-        window.addEventListener('resize', this.handleResize.bind(this));
-    }
-
-    // Fenster-Resize-Handler
-    handleResize() {
-        if (this.camera && this.renderer) {
-            this.camera.aspect = window.innerWidth / window.innerHeight;
-            this.camera.updateProjectionMatrix();
-            this.renderer.setSize(window.innerWidth, window.innerHeight);
-        }
     }
 
     // Getter für Zugriff auf die Kamera
@@ -52,6 +41,13 @@ export class CameraHandler {
     // Getter für Zugriff auf Controls
     getControls() {
         return this.controls;
+    }
+
+    resize(width, height) {
+        if (this.camera) {
+            this.camera.aspect = width / height;
+            this.camera.updateProjectionMatrix();
+        }
     }
 
     animateCameraOnLoad() {

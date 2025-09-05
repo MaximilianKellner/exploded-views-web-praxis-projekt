@@ -39,6 +39,7 @@ export class ExplodedViewer {
             this._setupHandlers();
             await this._loadModel();
             this._loadCoordinateSystem();
+            this._setupResizeListener();
 
             this.cameraHandler.animateCameraOnLoad();
             this.animationHandler.initScrollListener();
@@ -47,7 +48,7 @@ export class ExplodedViewer {
             
             console.log('ExplodedViewer erfolgreich initialisiert.');
         } catch (err) {
-            console.error('Fehler beim initialisieren des ExplodedViewers')
+            console.error('Fehler beim initialisieren des ExplodedViewers:', err)
         }
     }
 
@@ -67,14 +68,14 @@ export class ExplodedViewer {
 
     _setupRenderer() {
         this.renderer = new THREE.WebGLRenderer({ antialias: true });
-        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.container.appendChild(this.renderer.domElement);
         this.renderer.domElement.style.touchAction = 'none';
     }
 
     _setupCamera() {
-        this.cameraHandler = new CameraHandler(this.config);
+        this.cameraHandler = new CameraHandler(this.config, this.container);
         this.cameraHandler.initialize(this.renderer);
         this.camera = this.cameraHandler.getCamera();
         this.controls = this.cameraHandler.getControls();
@@ -82,6 +83,19 @@ export class ExplodedViewer {
 
     _setupLights() {
         setupLights(this.config.sceneConfig.lights, this.scene, this.lights);
+    }
+
+    _setupResizeListener() {
+        window.addEventListener('resize', () => {
+            const width = this.container.clientWidth;
+            const height = this.container.clientHeight;
+
+            // Kamera-Aspektverhältnis aktualisieren
+            this.cameraHandler.resize(width, height)
+
+            // Renderer-Größe aktualisieren
+            this.renderer.setSize(width, height);
+        });
     }
 
     _setupHandlers() {
