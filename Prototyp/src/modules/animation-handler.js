@@ -95,7 +95,7 @@ export class AnimationHandler {
         this.maxSequence += 1;
         
         console.log('Explodierbare Objekte gefunden und vorbereitet:', this.explodableObjects);
-        console.log('Finale maximale Sequenz für Animation:', this.maxSequence);
+        console.log('Finale maxSequence:', this.maxSequence);
     }
 
     // --- Anwenden der Explosion auf die explodierbaren Objekte ---
