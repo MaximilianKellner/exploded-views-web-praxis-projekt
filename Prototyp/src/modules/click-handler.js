@@ -1,10 +1,10 @@
 import * as THREE from 'three';
 
 export class ClickHandler {
-    constructor(camera, scene, cardHandler) {
+    constructor(camera, scene, infoElementHandler) {
         this.camera = camera;
         this.scene = scene;
-        this.cardHandler = cardHandler;
+        this.infoElementHandler = infoElementHandler;
         this.modelChildren = [];
 
         this.raycaster = new THREE.Raycaster();
@@ -60,15 +60,16 @@ export class ClickHandler {
 
             let topLevelObject = this._findTopLevelObject(clickedObject);
 
-            // 5. Den CardHandler mit dem geklickten Objekt aufrufen
-            if (this.cardHandler) {
-                this.cardHandler.openCard(topLevelObject);
+            // 5. Den infoElementHandler mit dem geklickten Objekt aufrufen
+            if (this.infoElementHandler) {
+                this.infoElementHandler.open(topLevelObject);
                 //console.log('topLevelObject: ',topLevelObject)
                 this.highlightClickedComponent(topLevelObject);
             }
         }
     }
 
+    // --- Helperelemente sollen nicht clickable sein ---
     _filterHelperElements(elements){
         return elements.filter(element => {
             return !(element.object instanceof THREE.AxesHelper || 
@@ -93,8 +94,8 @@ export class ClickHandler {
         if(this.lastHighlightedObject && this.lastHighlightedObject === clickedComponent){
             this.lastHighlightedObject = null;
 
-            if (this.cardHandler) {
-                this.cardHandler.closeCard();
+            if (this.infoElementHandler) {
+                this.infoElementHandler.close();
             }
         return;
         }
@@ -155,7 +156,7 @@ export class ClickHandler {
         }
 
         // Speicher freigeben
-        this.cardHandler = null;
+        this.infoElementHandler = null;
         this.modelChildren = [];
         this.raycaster = null;
         this.mouse = null;

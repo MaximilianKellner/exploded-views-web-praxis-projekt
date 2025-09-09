@@ -3,10 +3,13 @@
  * Liest eine Konfigurationsdatei, identifiziert geklickte Teile im Modell
  * und generiert entsprechende Karten.
  */
+
+import { InfoElementHandler } from './info-element-handler.js'; // <--- Import ergänzen
 import { animate } from 'animejs';
 
-export class CardHandler {
+export class CardHandler extends InfoElementHandler {
     constructor() {
+        super();
         this.cardData = null;
         this.config = null;
 
@@ -51,7 +54,7 @@ export class CardHandler {
             if (this.closeCardButton) {
                 this._closeListener = (event) => {
                     event.stopPropagation();
-                    this.closeCard();
+                    this.close();
                 };
                 this.closeCardButton.addEventListener('click', this._closeListener);
             }
@@ -59,10 +62,10 @@ export class CardHandler {
     }
 
     // --- Initialisiert den CardHandler mit dem geladenen Modell und der Konfiguration ---
-    async initialize(cardDataUrl, config) {
+    async initialize(dataPath, config) {
         this.addCardToDOM();
         this.config = config;
-        await this._loadCardData(cardDataUrl);
+        await this._loadCardData(dataPath);
     }
 
     // --- Lädt die Daten für die Karten ---
@@ -80,10 +83,10 @@ export class CardHandler {
         }
     }
 
-    openCard(clickedObject) {
+    open(clickedObject) {
 
         if (!clickedObject || !this.cardData){
-            this.closeCard();
+            this.close();
             console.error('clickedObject oder Card Data nicht bereit.');
             return;
         }
@@ -95,7 +98,7 @@ export class CardHandler {
             //console.log(`Keine Daten für Objekt "${objectName}" gefunden.`);
 
             if (this.cardState !== 'closed') {
-                this.closeCard();
+                this.close();
             }
             return;
         }
@@ -135,7 +138,7 @@ export class CardHandler {
         }
     }
 
-    closeCard(){
+    close() {
     if (this.cardElement && this.cardState !== 'closed') {
             this.cardState = 'animating';
 
@@ -155,26 +158,26 @@ export class CardHandler {
         window.dispatchEvent(event);
     }
 
-destroy() {
-    // Event-Listener entfernen
-    if (this.closeCardButton && this._closeListener) {
-        this.closeCardButton.removeEventListener('click', this._closeListener);
-        this._closeListener = null;
+    destroy() {
+        // Event-Listener entfernen
+        if (this.closeCardButton && this._closeListener) {
+            this.closeCardButton.removeEventListener('click', this._closeListener);
+            this._closeListener = null;
+        }
+        // Card aus dem DOM entfernen
+        if (this.cardElement && this.cardElement.parentNode) {
+            this.cardElement.parentNode.removeChild(this.cardElement);
+        }
+        
+        // Speicher freigeben
+        this.cardElement = null;
+        this.cardTitle = null;
+        this.cardBody = null;
+        this.cardPillRow = null;
+        this.cardList = null;
+        this.closeCardButton = null;
+        this.cardData = null;
+        this.config = null;
+        this.cardState = null;
     }
-    // Card aus dem DOM entfernen
-    if (this.cardElement && this.cardElement.parentNode) {
-        this.cardElement.parentNode.removeChild(this.cardElement);
-    }
-    
-    // Speicher freigeben
-    this.cardElement = null;
-    this.cardTitle = null;
-    this.cardBody = null;
-    this.cardPillRow = null;
-    this.cardList = null;
-    this.closeCardButton = null;
-    this.cardData = null;
-    this.config = null;
-    this.cardState = null;
-}
 }
