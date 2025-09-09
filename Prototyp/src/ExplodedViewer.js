@@ -47,8 +47,9 @@ export class ExplodedViewer {
             this._animate();
             
             console.log('ExplodedViewer erfolgreich initialisiert.');
-        } catch (err) {
-            console.error('Fehler beim initialisieren des ExplodedViewers:', err)
+
+        } catch (error) {
+            console.error('Fehler beim initialisieren des ExplodedViewers:', error)
         }
     }
 
@@ -56,8 +57,8 @@ export class ExplodedViewer {
         try {
             const response = await fetch(this.options.sceneConfigPath);
             this.config = await response.json();
-        } catch (err) {
-            console.error('Fehler beim laden der scene-config: ', err)
+        } catch (error) {
+            console.error('Fehler beim laden der scene-config: ', error)
         }
     }
 
@@ -86,7 +87,7 @@ export class ExplodedViewer {
     }
 
     _setupResizeListener() {
-        window.addEventListener('resize', () => {
+        this._resizeListener = () => {
             const width = this.container.clientWidth;
             const height = this.container.clientHeight;
 
@@ -95,7 +96,8 @@ export class ExplodedViewer {
 
             // Renderer-Größe aktualisieren
             this.renderer.setSize(width, height);
-        });
+        };
+        window.addEventListener('resize', this._resizeListener);
     }
 
     _setupHandlers() {
@@ -129,8 +131,8 @@ export class ExplodedViewer {
             this.scene.add(this.model);
             
             await this.animationHandler.initialize(this.model, this.options.explosionConfigPath);
-        } catch (err) {
-            console.error("Fahler beim Laden des Modells oder initialisieren der Animation:", err)
+        } catch (error) {
+            console.error("Fahler beim Laden des Modells oder initialisieren der Animation:", error)
         }
     }
 
@@ -148,7 +150,7 @@ export class ExplodedViewer {
     }
 
     _animate() {
-        requestAnimationFrame(() => this._animate());
+        this._animationFrameId = requestAnimationFrame(() => this._animate());
         this.controls.update();
 
         // Animation aktualisieren, falls der Handler existiert
@@ -167,5 +169,69 @@ export class ExplodedViewer {
         } 
 
         this.renderer.render(this.scene, this.camera);
+    }
+
+    destroy() {
+
+        if (this._animationFrameId) {
+            cancelAnimationFrame(this._animationFrameId);
+            this._animationFrameId = null;
+        }
+        
+        if (this._resizeListener) {
+            window.removeEventListener('resize', this._resizeListener);
+        }
+            
+        // Handler zerstören
+        if (this.animationHandler) this.animationHandler.destroy();
+        if (this.clickHandler) this.clickHandler.destroy();
+        if (this.cardHandler) this.cardHandler.destroy();
+        if (this.uiHandler) this.uiHandler.destroy();
+        if (this.statsHandler) this.statsHandler.destroy();
+        if (this.cameraHandler) this.cameraHandler.destroy();
+
+        // Szene bereinigen
+        if (this.scene) {
+            this.scene.traverse(object => {
+                if (object.isMesh) {
+                    if (object.geometry) {
+                        object.geometry.dispose();
+                    }
+                    if (object.material) {
+                        if (Array.isArray(object.material)) {
+                            object.material.forEach(material => material.dispose());
+                        } else {
+                            object.material.dispose();
+                        }
+                    }
+                }
+            });
+        }
+
+        // Renderer und controlls entfernen
+        if (this.controls) this.controls.dispose();
+        if (this.renderer) {
+            this.renderer.dispose();
+            if (this.renderer.domElement && this.container.contains(this.renderer.domElement)) {
+                this.container.removeChild(this.renderer.domElement);
+            }
+        }
+
+    // Szene und Kamera entfernen
+        this.scene = null;
+        this.camera = null;
+        this.model = null;
+        this.renderer = null;
+        this.controls = null;
+        this.cameraHandler = null;
+        this.animationHandler = null;
+        this.uiHandler = null;
+        this.clickHandler = null;
+        this.cardHandler = null;
+        this.statsHandler = null;
+        this.config = null;
+        this.lights = null;
+        this.options = null;
+        this.container = null;
     }
 }

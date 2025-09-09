@@ -265,4 +265,22 @@ export class UIHandler{
     getPane() {
         return this.pane;
     }
+
+    destroy() {
+        if (this.pane) {
+            this.pane.dispose();
+            this.pane = null;
+        }
+        this.config = null;
+        this.lights = null;
+        this.scene = null;
+        this.camera = null;
+        this.controls = null;
+        this.animationFolder = null;
+        this.sceneFolder = null;
+        this.cameraFolder = null;
+        this.lightsFolder = null;
+        this.cardFolder = null;
+        this.animationHandler = null;
+    }
 }

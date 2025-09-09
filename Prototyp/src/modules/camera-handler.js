@@ -67,8 +67,9 @@ export class CameraHandler {
                 //},
                 onComplete: () => {
                     //console.log(" --- FINISHED CAMERA ANIMATION ---")
-                    this.controls.maxDistance = originalMaxDistance;
-                }
+                    if (this.controls) {
+                        this.controls.maxDistance = originalMaxDistance;
+                    }                }
             }
         )
 
@@ -78,5 +79,16 @@ export class CameraHandler {
         if (this.controls) {
             this.controls.update();
         }
+    }
+
+    destroy() {
+        if (this.controls) {
+            this.controls.dispose();
+        }
+        this.config = null;
+        this.container = null;
+        this.camera = null;
+        this.controls = null;
+        this.renderer = null;
     }
 }

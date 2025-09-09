@@ -1,4 +1,3 @@
-
 /**
  * Verwaltet die Logik für die Cards des 3D-Modells.
  * Liest eine Konfigurationsdatei, identifiziert geklickte Teile im Modell
@@ -9,28 +8,59 @@ import { animate } from 'animejs';
 export class CardHandler {
     constructor() {
         this.cardData = null;
+        this.config = null;
 
-        // Referenzen auf die HTML-Elemente der Karte
-        this.cardElement = document.querySelector('.infoCard');
-        this.cardTitle = document.querySelector('.cardTitle');
-        this.cardBody = document.querySelector('.cardText');
-        this.cardPillRow = document.querySelector('.ulRow');
-        this.cardList = document.querySelector('.cardList');
-        this.closeCardButton = document.getElementById('closeCard');
-        this.cardState = 'closed';
-        this.config = null
+        this.cardElement = null;
+        this.cardTitle = null;
+        this.cardBody = null;
+        this.cardPillRow = null;
+        this.cardList = null;
+        this.closeCardButton = null;
+        this.cardState = null;
+    }
 
-        if (this.closeCardButton) {
-            this.closeCardButton.addEventListener('click', (event) => {
-                // Event-Ausbreitung stoppen
-                event.stopPropagation();
-                this.closeCard()
-            });
+    addCardToDOM() {
+        if (!this.cardElement) {
+            // Card-HTML erzeugen
+            const cardHTML = `
+            <div class="infoCard" style="display:none;">
+                <div class="row">
+                    <ul class="ulRow"></ul>
+                    <button id="closeCard">
+                        <img src="/img/close.svg" alt="close">
+                    </button>
+                </div>
+                <h2 class="cardTitle"></h2>
+                <p class="cardText"></p>
+                <ul class="cardList"></ul>
+            </div>
+            `;
+            
+            // In den Container einfügen
+            const container = document.getElementById('exp-container') || document.body;
+            container.insertAdjacentHTML('beforeend', cardHTML);
+
+            // Referenzen aktualisieren
+            this.cardElement = container.querySelector('.infoCard');
+            this.cardTitle = this.cardElement.querySelector('.cardTitle');
+            this.cardBody = this.cardElement.querySelector('.cardText');
+            this.cardPillRow = this.cardElement.querySelector('.ulRow');
+            this.cardList = this.cardElement.querySelector('.cardList');
+            this.closeCardButton = this.cardElement.querySelector('#closeCard');
+
+            if (this.closeCardButton) {
+                this._closeListener = (event) => {
+                    event.stopPropagation();
+                    this.closeCard();
+                };
+                this.closeCardButton.addEventListener('click', this._closeListener);
+            }
         }
     }
 
     // --- Initialisiert den CardHandler mit dem geladenen Modell und der Konfiguration ---
     async initialize(cardDataUrl, config) {
+        this.addCardToDOM();
         this.config = config;
         await this._loadCardData(cardDataUrl);
     }
@@ -124,4 +154,27 @@ export class CardHandler {
         const event = new CustomEvent('cardClosed');
         window.dispatchEvent(event);
     }
+
+destroy() {
+    // Event-Listener entfernen
+    if (this.closeCardButton && this._closeListener) {
+        this.closeCardButton.removeEventListener('click', this._closeListener);
+        this._closeListener = null;
+    }
+    // Card aus dem DOM entfernen
+    if (this.cardElement && this.cardElement.parentNode) {
+        this.cardElement.parentNode.removeChild(this.cardElement);
+    }
+    
+    // Speicher freigeben
+    this.cardElement = null;
+    this.cardTitle = null;
+    this.cardBody = null;
+    this.cardPillRow = null;
+    this.cardList = null;
+    this.closeCardButton = null;
+    this.cardData = null;
+    this.config = null;
+    this.cardState = null;
+}
 }

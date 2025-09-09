@@ -21,10 +21,13 @@ export class ClickHandler {
 
     initialize() {
         window.addEventListener('click', this._onObjectClick);
-        window.addEventListener('cardClosed', () => {
-            this.resetHighlighting()
+            
+        this._cardClosedListener = () => {
+            this.resetHighlighting();
             this.lastHighlightedObject = null;
-            });
+        };
+        window.addEventListener('cardClosed', this._cardClosedListener);
+
 
         this.wireframeMaterial = new THREE.MeshBasicMaterial({
             wireframe: true,
@@ -138,4 +141,28 @@ export class ClickHandler {
         this.currentHighlightedObject = null;
     }
 
+    destroy() {
+        // Event-Listener entfernen
+        window.removeEventListener('click', this._onObjectClick);
+        if (this._cardClosedListener) {
+            window.removeEventListener('cardClosed', this._cardClosedListener);
+            this._cardClosedListener = null;
+        }
+
+        if (this.wireframeMaterial) {
+            this.wireframeMaterial.dispose();
+            this.wireframeMaterial = null;
+        }
+
+        // Speicher freigeben
+        this.cardHandler = null;
+        this.modelChildren = [];
+        this.raycaster = null;
+        this.mouse = null;
+        this.originalMaterials = null;
+        this.currentHighlightedObject = null;
+        this.lastHighlightedObject = null;
+        this.scene = null;
+        this.camera = null;
+    }
 }

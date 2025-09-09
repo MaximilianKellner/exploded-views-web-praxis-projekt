@@ -231,7 +231,7 @@ export class AnimationHandler {
         let targetExplosionFactor = this.config.animationConfig.expFactor;
 
         // Event-Listener für scrollen auf der Seite
-        this.renderer.domElement.addEventListener('wheel', (event) => {
+        this._wheelListener = (event) => {
             event.preventDefault();
             
             if(this.config.animationConfig.allowScrollAnimation === false){
@@ -245,6 +245,31 @@ export class AnimationHandler {
 
             this.setExplosionFactorAnimated(targetExplosionFactor);
 
-        }, { passive: false });
+        };
+        this.renderer.domElement.addEventListener('wheel', this._wheelListener, { passive: false });
+    }
+
+    destroy() {
+        // Animation stoppen
+        if (this.animation) {
+            this.animation.pause();
+            this.animation = null;
+        }
+        // Event-Listiner entfernen
+        if (this.renderer && this.renderer.domElement) {
+            this.renderer.domElement.removeEventListener('wheel', this._wheelListener, { passive: false });
+        }
+        // Speicher freigeben
+        this.explodableObjects = null;
+        this.explosionConfig = null;
+        this.scene = null;
+        this.config = null;
+        this.renderer = null;
+        this.animationConfig = null;
+        this.maxSequence = null;
+        this.isAnimating = null;
+        this.isReversed = null;
+        this.isPaused = null;
+        this._wheelListener = null;
     }
 }
