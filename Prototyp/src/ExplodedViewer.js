@@ -3,7 +3,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { setupLights } from './scene/lights.js';
 import { AnimationHandler } from './modules/animation-handler.js';
 import { ClickHandler } from './modules/click-handler.js';
-import { CardHandler } from './modules/card-handler.js';
+import { CardHandler } from './modules/info-elements/card-handler.js';
 import { CameraHandler } from './modules/camera-handler.js';
 import { UIHandler } from './modules/ui-Handler.js';
 import { StatsHandler } from './modules/ui-stats-handler.js';
