@@ -28,14 +28,16 @@ export class CardHandler extends InfoElementHandler {
             const cardHTML = `
             <div class="infoCard" style="display:none;">
                 <div class="row">
-                    <ul class="ulRow"></ul>
+                    <h2 class="cardTitle"></h2>
                     <button id="closeCard">
                         <img src="/img/close.svg" alt="close">
                     </button>
                 </div>
-                <h2 class="cardTitle"></h2>
                 <p class="cardText"></p>
                 <ul class="cardList"></ul>
+                <div class="row">
+                    <ul class="ulRow"></ul>
+                </div>
             </div>
             `;
             

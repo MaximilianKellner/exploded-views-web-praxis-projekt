@@ -1,11 +1,12 @@
 import * as THREE from 'three';
 
 export class ClickHandler {
-    constructor(camera, scene, infoElementHandler) {
+    constructor(camera, scene, infoElementHandler, renderer) {
         this.camera = camera;
         this.scene = scene;
         this.infoElementHandler = infoElementHandler;
         this.modelChildren = [];
+        this.renderer = renderer;
 
         this.raycaster = new THREE.Raycaster();
         this.mouse = new THREE.Vector2();
@@ -39,9 +40,12 @@ export class ClickHandler {
 
     // --- Verarbeitung vom click Event ---
     _onObjectClick(event) {
-        // 1. Mausposition normalisieren (-1 bis +1) --> Raycaster verwendet -1 bis +1 pro achse, Mittelpunkt ist (0,0)
-        this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        this.mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+        // Die Bounding Box des Canvas-Elements abrufen
+        const rect = this.renderer.domElement.getBoundingClientRect();
+
+        // 1. Mausposition normalisieren (-1 bis +1) --> Raycaster verwendet -1 bis +1 pro achse, Mittelpunkt ist (0,0) basierend auf dem canvas
+        this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 
         // 2. Raycaster mit Kamera und Mausposition aktualisieren
         this.raycaster.setFromCamera(this.mouse, this.camera);
@@ -157,6 +161,7 @@ export class ClickHandler {
 
         // Speicher freigeben
         this.infoElementHandler = null;
+        this.renderer = null;
         this.modelChildren = [];
         this.raycaster = null;
         this.mouse = null;

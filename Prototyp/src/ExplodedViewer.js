@@ -121,7 +121,7 @@ export class ExplodedViewer {
 
         this.infoElementHandler.initialize(this.options.cardDataPath, this.config);
 
-        this.clickHandler = new ClickHandler(this.camera, this.scene, this.infoElementHandler);
+        this.clickHandler = new ClickHandler(this.camera, this.scene, this.infoElementHandler, this.renderer);
         this.clickHandler.initialize();
 
         if (this.options.showDebugUI) {
