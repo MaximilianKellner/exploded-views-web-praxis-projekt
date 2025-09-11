@@ -32,6 +32,7 @@ export class UIHandler{
         this.initAnimationFolder();
         this.initSceneFolder();
         this.initCardFolder();
+        this.initPointerFolder();
 
         return this.pane;
     }
@@ -208,6 +209,14 @@ export class UIHandler{
             });
 
             toggleDarkMode(this.config.cardConfig.isDarkmode);
+    }
+
+    // --- Pointer ---
+    initPointerFolder() {
+        this.pointerFolder = this.pane.addFolder({ title: 'Pointer', expanded: true});
+        this.pointerFolder.addBinding(this.config.pointerConfig, 'titleColor', { label: 'Title Color' });
+        this.pointerFolder.addBinding(this.config.pointerConfig, 'lineColor', { label: 'Line Color' });
+        this.pointerFolder.addBinding(this.config.pointerConfig, 'bodyColor', { label: 'Body Color' });
     }
 
     // --- Refresh - Methoden ---

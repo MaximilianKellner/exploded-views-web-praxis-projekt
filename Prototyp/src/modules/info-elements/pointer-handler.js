@@ -7,10 +7,11 @@ export class PointerHandler extends InfoElementHandler {
         this.camera = camera;
         this.labelData = {};
         this.labels = [];
-        
+        this.config = null;
+
         const defaultOptions = {
             maxWidth: 1800,
-            defaultSide: 'right', // 'left', 'right', 'auto' Die Seite des Pointers
+            defaultSide: 'auto', // 'left', 'right', 'auto' Die Seite des Pointers
             rotationY: 0 //'auto' für Ausrichtung zur Kamera, oder eine Zahl (z.B. 45 gür 45° Drehung)
         };
         // Einpflegen deer defaultOptions falls keine Optionen angegeben wurden
@@ -20,6 +21,7 @@ export class PointerHandler extends InfoElementHandler {
 
     async initialize(dataPath, config) {
         await this._loadLabelData(dataPath);
+        this.config = config;
     }
 
     async _loadLabelData(url) {
@@ -185,15 +187,18 @@ export class PointerHandler extends InfoElementHandler {
         const lineY = titleY + titleHeight + (spaceBetweenTitleAndBody / 2);
         const bodyY = lineY + (spaceBetweenTitleAndBody / 2);
 
+        // Farben aus der Config
+        const colors = this.config.pointerConfig;
+
         // Titel zeichnen
         ctx.font = fontTitle;
-        ctx.fillStyle = '#fff';
+        ctx.fillStyle = colors.titleColor;
         ctx.textAlign = 'left';
         ctx.textBaseline = 'top';
         this._wrapTextAndMeasureHeight(ctx, labelInfo.title, textBlockX + padding, titleY, textBlockCanvasWidth - (2 * padding), lineHeightTitle, true);
 
         // Durchgehende Linie (Pointer + Divider)
-        ctx.strokeStyle = '#ffffffff';
+        ctx.strokeStyle = colors.lineColor;
         ctx.lineWidth = 6;
         ctx.beginPath();
         ctx.moveTo(0, lineY);
@@ -202,7 +207,7 @@ export class PointerHandler extends InfoElementHandler {
 
         // Body zeichnen
         ctx.font = fontBody;
-        ctx.fillStyle = '#9b9b9b';
+        ctx.fillStyle = colors.bodyColor;
         ctx.textAlign = 'left';
         ctx.textBaseline = 'top';
         this._wrapTextAndMeasureHeight(ctx, labelInfo.body || '', textBlockX + padding, bodyY, textBlockCanvasWidth - (2 * padding), lineHeightBody, true);

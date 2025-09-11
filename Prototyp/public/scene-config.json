@@ -12,6 +12,11 @@
         "animationDuration": 700,
         "isDarkmode": true
     },
+    "pointerConfig": {
+        "titleColor": "#ffffff",
+        "bodyColor": "#999999",
+        "lineColor": "#ebebeb"
+    },
     "sceneConfig": {
         "backgroundColor": "#303030",
         "showCoordinatesystem": false,

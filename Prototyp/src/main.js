@@ -23,9 +23,13 @@ const kopfhoerer = {
     explosionConfigPath: '/kopfhoerer/exp-config.json', // Pfad zur Explosions config
     cardDataPath: '/kopfhoerer/911-cards.json', // Pfad zu den Card Inhalten
     showDebugUI: true,
-    showDebugLogs: true,
     showStats: true,
-    infoElementType: 'pointer'
+    infoElementType: 'pointer',
+        pointerOptions: {
+        defaultSide: 'auto', // 'left', 'right' oder 'auto'
+        rotationY: '0',   // 'auto' für Ausrichtung zur Kamera, oder eine Zahl (z.B. 45)
+        maxWidth: 1800
+    }
 }
 
 async function main() {
