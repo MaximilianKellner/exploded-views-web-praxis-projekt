@@ -3,10 +3,13 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { setupLights } from './scene/lights.js';
 import { AnimationHandler } from './modules/animation-handler.js';
 import { ClickHandler } from './modules/click-handler.js';
-import { CardHandler } from './modules/info-elements/card-handler.js';
 import { CameraHandler } from './modules/camera-handler.js';
 import { UIHandler } from './modules/ui-Handler.js';
 import { StatsHandler } from './modules/ui-stats-handler.js';
+
+import { CardHandler } from './modules/info-elements/card-handler.js';
+import { PointerHandler } from './modules/info-elements/pointer-handler.js';
+
 
 export class ExplodedViewer {
     constructor(container, options) {
@@ -103,13 +106,23 @@ export class ExplodedViewer {
     _setupHandlers() {
         this.animationHandler = new AnimationHandler(this.scene, this.config, this.renderer);
         
-        // TODO: anpassen falls alternativen zu Cards aus den POCs wieder integriert werden.
-        if (this.options.cardDataPath) {
-            this.cardHandler = new CardHandler();
-            this.cardHandler.initialize(this.options.cardDataPath, this.config);
-            this.clickHandler = new ClickHandler(this.camera, this.scene, this.cardHandler);
-            this.clickHandler.initialize();
-        }
+            // Handler je nach Infoelement Typ auswählen
+            let handlerType = this.options.infoElementType || 'card';
+            switch (handlerType) {
+                case 'pointer':
+                    this.infoElementHandler = new PointerHandler(this.camera, this.options.pointerOptions);
+                    break;
+                case 'card':
+                    this.infoElementHandler = new CardHandler();
+                //TODDO: case 'overlay2d: ?
+                default:
+                    this.infoElementHandler = new CardHandler();
+            }
+
+        this.infoElementHandler.initialize(this.options.cardDataPath, this.config);
+
+        this.clickHandler = new ClickHandler(this.camera, this.scene, this.infoElementHandler);
+        this.clickHandler.initialize();
 
         if (this.options.showDebugUI) {
             this.uiHandler = new UIHandler();
@@ -137,9 +150,10 @@ export class ExplodedViewer {
     }
 
     async _loadCoordinateSystem() {
-        if (!this.options.coordinateSystemPath) return;
         try {
             const loader = new GLTFLoader();
+            const gltf = await loader.loadAsync('/coordinatesystem.glb');
+
             const coordinateSystem = gltf.scene;
             coordinateSystem.name = 'Coordinatesystem';
             coordinateSystem.visible = this.config.sceneConfig.showCoordinatesystem;

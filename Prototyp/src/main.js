@@ -8,6 +8,12 @@ const sportwagen = {
     cardDataPath: '/911-cards.json', // Pfad zu den Card Inhalten
     showDebugUI: true,
     showStats: true,
+    infoElementType: 'pointer', // 'pointer' oder 'card'
+    pointerOptions: {
+        defaultSide: 'auto', // 'left', 'right' oder 'auto'
+        rotationY: '0',   // 'auto' für Ausrichtung zur Kamera, oder eine Zahl (z.B. 45)
+        maxWidth: 1800
+    }
 }
 
 // Kopfhoerer
@@ -19,6 +25,7 @@ const kopfhoerer = {
     showDebugUI: true,
     showDebugLogs: true,
     showStats: true,
+    infoElementType: 'pointer'
 }
 
 async function main() {
