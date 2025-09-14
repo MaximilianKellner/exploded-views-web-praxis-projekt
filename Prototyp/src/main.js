@@ -21,7 +21,7 @@ const kopfhoerer = {
     sceneConfigPath: '/kopfhoerer/scene-config.json', // Pfad zum explodierbaren .glb Modell
     modelPath: '/kopfhoerer/nothing-in-ear.glb', // Pfad zur Explosions-Konfiguration
     explosionConfigPath: '/kopfhoerer/exp-config.json', // Pfad zur Explosions config
-    cardDataPath: '/kopfhoerer/911-cards.json', // Pfad zu den Card Inhalten
+    cardDataPath: '/911-cards.json', // Pfad zu den Card Inhalten
     showDebugUI: true,
     showStats: true,
     infoElementType: 'pointer',
@@ -40,7 +40,7 @@ async function main() {
     }
 
     const expOptions = sportwagen;
-    // const expOptions = kopfhoerer;
+    // sportwagen || kopfhoerer;
 
     const expViewer = new ExplodedViewer(container, expOptions);
     await expViewer.init();

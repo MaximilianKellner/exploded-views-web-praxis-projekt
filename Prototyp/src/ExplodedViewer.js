@@ -106,18 +106,18 @@ export class ExplodedViewer {
     _setupHandlers() {
         this.animationHandler = new AnimationHandler(this.scene, this.config, this.renderer);
         
-            // Handler je nach Infoelement Typ auswählen
-            let handlerType = this.options.infoElementType || 'card';
-            switch (handlerType) {
-                case 'pointer':
-                    this.infoElementHandler = new PointerHandler(this.camera, this.options.pointerOptions);
-                    break;
-                case 'card':
-                    this.infoElementHandler = new CardHandler();
-                //TODDO: case 'overlay2d: ?
-                default:
-                    this.infoElementHandler = new CardHandler();
-            }
+        // Handler je nach Infoelement Typ auswählen
+        let handlerType = this.options.infoElementType || 'card';
+        switch (handlerType) {
+            case 'pointer':
+                this.infoElementHandler = new PointerHandler(this.camera, this.options.pointerOptions);
+                break;
+            case 'card':
+                this.infoElementHandler = new CardHandler();
+            //TODDO: case 'overlay2d: ?
+            default:
+                this.infoElementHandler = new CardHandler();
+        }
 
         this.infoElementHandler.initialize(this.options.cardDataPath, this.config);
 
