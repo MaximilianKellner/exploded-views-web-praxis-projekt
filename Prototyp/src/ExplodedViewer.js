@@ -9,6 +9,7 @@ import { StatsHandler } from './modules/ui-stats-handler.js';
 
 import { CardHandler } from './modules/info-elements/card-handler.js';
 import { PointerHandler } from './modules/info-elements/pointer-handler.js';
+import { AttachedCardHandler } from './modules/info-elements/attached-card-handler.js';
 
 
 export class ExplodedViewer {
@@ -111,10 +112,16 @@ export class ExplodedViewer {
         switch (handlerType) {
             case 'pointer':
                 this.infoElementHandler = new PointerHandler(this.camera, this.options.pointerOptions);
+                console.log('pointer');
                 break;
             case 'card':
                 this.infoElementHandler = new CardHandler();
-            //TODDO: case 'overlay2d: ?
+                console.log('card');
+                break;
+            case 'attached-card':
+                this.infoElementHandler = new AttachedCardHandler();
+                console.log('attached-card');
+                break;
             default:
                 this.infoElementHandler = new CardHandler();
         }
@@ -183,6 +190,10 @@ export class ExplodedViewer {
         } 
 
         this.renderer.render(this.scene, this.camera);
+
+        if (this.infoElementHandler?.labelRenderer) {
+        this.infoElementHandler.labelRenderer.render(this.scene, this.camera);
+        }
     }
 
     destroy() {

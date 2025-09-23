@@ -4,7 +4,7 @@
  * und generiert entsprechende Karten.
  */
 
-import { InfoElementHandler } from './info-element-handler.js'; // <--- Import ergänzen
+import { InfoElementHandler } from './info-element-handler.js';
 import { animate } from 'animejs';
 
 export class CardHandler extends InfoElementHandler {
@@ -22,11 +22,34 @@ export class CardHandler extends InfoElementHandler {
         this.cardState = null;
     }
 
+    // --- Initialisiert den CardHandler mit dem geladenen Modell und der Konfiguration ---
+    async initialize(dataPath, config) {
+        this.addCardToDOM();
+        this.config = config;
+        await this._loadCardData(dataPath);
+    }
+
+    // --- Lädt die Daten für die Karten ---
+    async _loadCardData(cardDataUrl) {
+        try {
+            const response = await fetch(cardDataUrl);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            this.cardData = await response.json();
+            console.log('Card-Daten erfolgreich geladen');
+            //console.log(this.cardData);
+        } catch (error) {
+            console.error('Fehler beim Laden der Card-Daten:', error);
+        }
+    }
+
+    // --- Erstellt falls nötig das CardElement im Dom ---
     addCardToDOM() {
         if (!this.cardElement) {
             // Card-HTML erzeugen
             const cardHTML = `
-            <div class="infoCard" style="display:none;">
+            <div class="infoCard bottomCard" style="display:none;">
                 <div class="row">
                     <h2 class="cardTitle"></h2>
                     <button id="closeCard">
@@ -63,30 +86,7 @@ export class CardHandler extends InfoElementHandler {
         }
     }
 
-    // --- Initialisiert den CardHandler mit dem geladenen Modell und der Konfiguration ---
-    async initialize(dataPath, config) {
-        this.addCardToDOM();
-        this.config = config;
-        await this._loadCardData(dataPath);
-    }
-
-    // --- Lädt die Daten für die Karten ---
-    async _loadCardData(cardDataUrl) {
-        try {
-            const response = await fetch(cardDataUrl);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            this.cardData = await response.json();
-            console.log('Card-Daten erfolgreich geladen');
-            //console.log(this.cardData);
-        } catch (error) {
-            console.error('Fehler beim Laden der Card-Daten:', error);
-        }
-    }
-
     open(clickedObject) {
-
         if (!clickedObject || !this.cardData){
             this.close();
             console.error('clickedObject oder Card Data nicht bereit.');
@@ -141,7 +141,7 @@ export class CardHandler extends InfoElementHandler {
     }
 
     close() {
-    if (this.cardElement && this.cardState !== 'closed') {
+        if (this.cardElement && this.cardState !== 'closed') {
             this.cardState = 'animating';
 
             animate('.infoCard', { 
