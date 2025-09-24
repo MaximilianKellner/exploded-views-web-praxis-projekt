@@ -114,7 +114,10 @@ export class PointerHandler extends InfoElementHandler {
         const lineHeightTitle = 90;
         const fontBody = '65px Arial';
         const lineHeightBody = 75;
+        const fontList = '65px Arial';
+        const lineHeightList = 75;
         const spaceBetweenTitleAndBody = 50;
+        const spaceBetweenBodyAndList = 50;
 
         // Text und Canvas Größe berechnen
         const measureCanvas = document.createElement('canvas');
@@ -132,8 +135,22 @@ export class PointerHandler extends InfoElementHandler {
         const bodyMetrics = this._wrapTextAndMeasureHeight(measureCtx, labelInfo.body || '', 0, 0, textBlockCanvasWidth - (2 * padding), lineHeightBody, false);
         const bodyHeight = bodyMetrics.height;
 
+        // Listenhöhe berechnen (falls vorhanden)
+        let listHeight = 0;
+        if (labelInfo.list && labelInfo.list.length > 0) {
+            measureCtx.font = fontList;
+            labelInfo.list.forEach(item => {
+                const itemMetrics = this._wrapTextAndMeasureHeight(measureCtx, `• ${item}`, 0, 0, textBlockCanvasWidth - (2 * padding), lineHeightList, false);
+                listHeight += itemMetrics.height;
+            });
+            // Platz zwischen Body und Liste hinzufügen, wenn beides vorhanden ist
+            if (bodyHeight > 0) {
+                listHeight += spaceBetweenBodyAndList;
+            }
+        }
+
         // Gesamthöhe berechnen
-        const canvasHeight = titleHeight + spaceBetweenTitleAndBody + bodyHeight + 2 * padding;
+        const canvasHeight = titleHeight + spaceBetweenTitleAndBody + bodyHeight + listHeight + 2 * padding;
         const totalCanvasWidth = textBlockCanvasWidth + pointerCanvasWidth;
 
         // Canvas erstellen und zeichnen
@@ -186,6 +203,10 @@ export class PointerHandler extends InfoElementHandler {
         const titleY = padding;
         const lineY = titleY + titleHeight + (spaceBetweenTitleAndBody / 2);
         const bodyY = lineY + (spaceBetweenTitleAndBody / 2);
+        let listY = bodyY + bodyHeight;
+        if (bodyHeight > 0 && listHeight > 0) {
+            listY += spaceBetweenBodyAndList;
+        }
 
         // Farben aus der Config
         const colors = this.config.pointerConfig;
@@ -211,6 +232,19 @@ export class PointerHandler extends InfoElementHandler {
         ctx.textAlign = 'left';
         ctx.textBaseline = 'top';
         this._wrapTextAndMeasureHeight(ctx, labelInfo.body || '', textBlockX + padding, bodyY, textBlockCanvasWidth - (2 * padding), lineHeightBody, true);
+
+        // Liste zeichnen (falls vorhanden)
+        if (labelInfo.list && labelInfo.list.length > 0) {
+            ctx.font = fontList;
+            ctx.fillStyle = colors.bodyColor; // Gleiche Farbe wie Body
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'top';
+            let currentListY = listY;
+            labelInfo.list.forEach(item => {
+                const wrappedItem = this._wrapTextAndMeasureHeight(ctx, `• ${item}`, textBlockX + padding, currentListY, textBlockCanvasWidth - (2 * padding), lineHeightList, true);
+                currentListY += wrappedItem.height;
+            });
+        }
 
         // --- Three.js Mesh erstellen ---
         const texture = new THREE.CanvasTexture(canvas);
