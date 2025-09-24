@@ -103,12 +103,15 @@ export class AttachedCardHandler extends InfoElementHandler {
         
         // CSS2DObject erzeugen falls es nicht erstellt ist
         if (!this.cardLabelObject) {
+
             this.cardLabelObject = new CSS2DObject(this.cardElement);
+            this.cardLabelObject.position.set(2,0,0);
         }
         
         // Inhalte setzen
         this.cardTitle.textContent = data.title || '';
         this.cardBody.textContent = data.body  || '';
+        
         this.cardList.innerHTML = '';
         if (data.list) {
             data.list.forEach(listElem => { this.cardList.innerHTML += `<li>${listElem}</li>`; });
