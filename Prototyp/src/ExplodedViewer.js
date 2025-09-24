@@ -9,7 +9,7 @@ import { StatsHandler } from './modules/ui-stats-handler.js';
 
 import { CardHandler } from './modules/info-elements/card-handler.js';
 import { PointerHandler } from './modules/info-elements/pointer-handler.js';
-import { AttachedCardHandler } from './modules/info-elements/attached-card-handler.js';
+import { AttachedCardHandler } from './modules/info-elements/ttached-card-handler.js';
 
 
 export class ExplodedViewer {
