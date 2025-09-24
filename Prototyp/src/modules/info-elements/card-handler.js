@@ -1,7 +1,7 @@
 /**
  * Verwaltet die Logik für die Cards des 3D-Modells.
  * Liest eine Konfigurationsdatei, identifiziert geklickte Teile im Modell
- * und generiert entsprechende Karten.
+ * und generiert entsprechende Karten, welche absolut platziert sind.
  */
 
 import { InfoElementHandler } from './info-element-handler.js';
