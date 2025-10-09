@@ -8,13 +8,12 @@
    * Laden von Label-Definitionen aus einer externen Datei (JSON oder YAML).
    * Identifizieren von 3D-Objekten in der Szene anhand der Namenskonvention `exp-L<Ebenennummer>-dir<Richtungscode>-<OptionalerName>`.
    * Zuordnen der Label-Texte zu den entsprechenden 3D-Objekten basierend auf dem `<OptionalerName>` oder der gesamten Namensstruktur.
-   * Implementierung der Logik zur Anzeige von 2D-Textlabels im 3D-Raum, die an den jeweiligen Objekten "hängen".
+   * Implementierung der Logik zur Anzeige von Textlabels im 3D-Raum, welche am 3D-Objekt positioniert werden und diesem folgen.
    * Sicherstellen, dass sich die Label korrekt mit den Objekten bewegen.
    * Testen der Aktualisierung von Label-Positionen bei Objektanimationen.
 
 ### Resources:
    * Three.js
-   * HTML/CSS für die Label-Darstellung (z.B. `CSS2DRenderer` oder `CSS3DRenderer` von Three.js)
    * Ein 3D-Modell mit Objekten, die der definierten Namenskonvention folgen.
    * Eine JSON- oder YAML-Datei mit Label-Definitionen.
 
@@ -24,7 +23,7 @@
 ### Success Criteria:
    * Das 3D-Modell wird erfolgreich geladen.
    * Label-Definitionen werden erfolgreich aus der externen Datei (JSON/YAML) geladen.
-   * Textlabel werden korrekt den Objekten anhand der Namenskonvention zugeordnet und im 3D-Raum in der Nähe der Objekte angezeigt.
+   * Textlabel werden korrekt den Objekten anhand der Namenskonvention zugeordnet und im 3D-Raum angezeigt.
    * Die Label bleiben bei Objekttransformationen (Verschiebung, Rotation, Skalierung) korrekt an den Objekten positioniert.
    * Die Label sind lesbar
 
@@ -34,6 +33,4 @@
    * Die externe Konfiguration der Label ist nicht umsetzbar.
 
 ### Fallbacks:
-   * Manuelle Platzierung von statischen HTML-Elementen als Label.
-   * Reduktion der Detailtiefe der Label oder Verzicht auf Label für bestimmte Objekte.
-   * Nutzung von Tooltips, die nur bei Mouse-Over erscheinen, anstatt permanenter Label.
+   * Alternative Label Implementationen.
