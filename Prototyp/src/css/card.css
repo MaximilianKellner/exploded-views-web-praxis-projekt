@@ -15,10 +15,12 @@
     right: 0;
 
     width: 100%;
-    max-width: 1800px;
+    max-width: 900px;
     margin-left: auto;
     margin-right: auto;
 
+    border-top-left-radius:  var(--border-radius);
+    border-top-right-radius:  var(--border-radius);
 }
 
 .attachedCard {
@@ -26,12 +28,13 @@
     width: 400px;
 
     margin-left: var(--xl);
+    margin-left: 200px;
 }
 
 .infoCard {
+    padding: var(--l);
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 
-    padding: var(--m);
     box-sizing: border-box;
 
     background-color: var(--primary);

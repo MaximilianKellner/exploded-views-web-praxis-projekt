@@ -242,7 +242,7 @@ export class ExplodedViewer {
             }
         }
 
-    // Szene und Kamera entfernen
+        // Szene und Kamera entfernen
         this.scene = null;
         this.camera = null;
         this.model = null;

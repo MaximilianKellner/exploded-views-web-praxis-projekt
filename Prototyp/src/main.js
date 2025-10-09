@@ -8,7 +8,7 @@ const sportwagen = {
     cardDataPath: '/911-cards.json', // Pfad zu den Card Inhalten
     showDebugUI: true,
     showStats: true,
-    infoElementType: 'attached-card', // 'pointer', 'attached-card' oder 'card'
+    infoElementType: 'card', // 'pointer', 'attached-card' oder 'card'
     pointerOptions: {
         defaultSide: 'auto', // 'left', 'right' oder 'auto'
         rotationY: '0',   // 'auto' für Ausrichtung zur Kamera, oder eine Zahl (z.B. 45)

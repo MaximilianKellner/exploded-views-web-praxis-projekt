@@ -105,7 +105,7 @@ export class AttachedCardHandler extends InfoElementHandler {
         if (!this.cardLabelObject) {
 
             this.cardLabelObject = new CSS2DObject(this.cardElement);
-            this.cardLabelObject.position.set(2,0,0);
+            this.cardLabelObject.position.set(1,0,0);
         }
         
         // Inhalte setzen

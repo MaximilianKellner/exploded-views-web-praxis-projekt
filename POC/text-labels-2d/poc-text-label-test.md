@@ -1,4 +1,4 @@
-## POC: Textlabel-Integration
+Zier ## POC: Textlabel-Integration
 
 ### Problem:
    * Untersuchung, wie Textlabel dynamisch zu spezifischen 3D-Objekten hinzugefügt und positioniert werden können, sodass sie mit den Objekten verbunden bleiben und sich synchron bewegen. Die Label-Informationen sollen extern (JSON/YAML) definiert und über eine Namenskonvention den Objekten zugeordnet werden.
