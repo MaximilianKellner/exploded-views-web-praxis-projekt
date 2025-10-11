@@ -156,8 +156,7 @@ export class CardHandler extends InfoElementHandler {
         }
 
         // Custom event für den Highlight reset
-        const event = new CustomEvent('cardClosed');
-        window.dispatchEvent(event);
+        super.close();
     }
 
     destroy() {

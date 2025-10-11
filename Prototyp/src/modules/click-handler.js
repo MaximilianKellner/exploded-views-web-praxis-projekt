@@ -18,14 +18,6 @@ export class ClickHandler {
 
     initialize() {
         window.addEventListener('click', this._onObjectClick);
-            
-        this._cardClosedListener = () => {
-            if (this.highlightHandler) {
-                this.highlightHandler.resetHighlighting();
-                this.highlightHandler.lastHighlightedObject = null;
-            }
-        };
-        window.addEventListener('cardClosed', this._cardClosedListener);
     }
 
     // --- Verarbeitung vom click Event ---
@@ -54,8 +46,9 @@ export class ClickHandler {
 
             let topLevelObject = this._findTopLevelObject(clickedObject);
 
-            console.log(this.lastHighlightedObject)
+            //console.log(this.lastHighlightedObject)
 
+            // Beim 2. Klick auf ein Objekt wird der zustand wieder zurückgesetzt
             if( this.lastHighlightedObject && topLevelObject === this.lastHighlightedObject) {
                 if (this.infoElementHandler) {
                     this.infoElementHandler.close();

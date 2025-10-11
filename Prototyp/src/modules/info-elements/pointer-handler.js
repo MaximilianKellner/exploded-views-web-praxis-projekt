@@ -69,6 +69,9 @@ export class PointerHandler extends InfoElementHandler {
             label.geometry.dispose();
         });
         this.labels = [];
+
+        // Custom event für den Highlight reset
+        super.close();
     }
 
     destroy() {

@@ -222,10 +222,18 @@ export class UIHandler{
         this.pointerFolder.addBinding(this.config.pointerConfig, 'bodyColor', { label: 'Body Color' });
     }
 
+    // --- Highlight ---
     initHighlightFolder() {
         if (!this.options.highlightOptions) return;
 
         this.highlightFolder = this.pane.addFolder({ title: 'Highlight', expanded: true });
+
+        this.highlightFolder.addBinding(this.options.highlightOptions, 'highlightComponent', {
+            label: 'Highlight'
+        }).on('change', (ev) => {
+            this.options.highlightOptions.highlightComponent = ev.value
+        });
+
         this.highlightFolder.addBinding(this.options.highlightOptions, 'mode', {
             label: 'Mode',
             options: {

@@ -14,7 +14,9 @@ export class InfoElementHandler {
     }
 
     close() {
-        throw new Error('close muss implementiert werden');
+        // Custom event für den Highlight reset
+        const event = new CustomEvent('infoElementClosed');
+        window.dispatchEvent(event);
     }
 
     destroy() {

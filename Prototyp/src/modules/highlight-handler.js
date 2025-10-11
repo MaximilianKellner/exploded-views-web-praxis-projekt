@@ -15,6 +15,12 @@ export class HighlightHandler {
     }
 
     initialize() {
+        this._infoElementClosedListener = () => {
+            this.resetHighlighting();
+            this.lastHighlightedObject = null;
+        };
+        window.addEventListener('infoElementClosed', this._infoElementClosedListener);
+
         this.wireframeMaterial = new THREE.MeshBasicMaterial({
             wireframe: true,
             transparent: true,
@@ -39,9 +45,9 @@ export class HighlightHandler {
         this.resetHighlighting();
 
         // Beim 2. Klick auf ein Objekt wird der zustand wieder zurückgesetzt
-        if (this.lastHighlightedObject && this.lastHighlightedObject === clickedComponent) {
+        if(this.lastHighlightedObject && this.lastHighlightedObject === clickedComponent){
             this.lastHighlightedObject = null;
-
+            return;
         }
 
         this.currentHighlightedObject = clickedComponent;
