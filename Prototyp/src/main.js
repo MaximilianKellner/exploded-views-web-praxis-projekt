@@ -6,9 +6,12 @@ const sportwagen = {
     modelPath: '/911.glb', // Pfad zur Explosions-Konfiguration
     explosionConfigPath: '/911-exp-config.json', // Pfad zur Explosions config
     cardDataPath: '/911-cards.json', // Pfad zu den Card Inhalten
+    highlightOptions: {
+        mode: 'ghost' // 'wireframe' oder 'ghost'
+    },
     showDebugUI: true,
     showStats: true,
-    infoElementType: 'pointer', // 'pointer', 'attached-card' oder 'card'
+    infoElementType: 'card', // 'pointer', 'attached-card' oder 'card'
     pointerOptions: {
         defaultSide: 'auto', // 'left', 'right' oder 'auto'
         rotationY: '0',   // 'auto' für Ausrichtung zur Kamera, oder eine Zahl (z.B. 45)

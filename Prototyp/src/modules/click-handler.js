@@ -1,12 +1,13 @@
 import * as THREE from 'three';
 
 export class ClickHandler {
-    constructor(camera, scene, infoElementHandler, renderer) {
+    constructor(camera, scene, infoElementHandler, renderer, highlightOptions) {
         this.camera = camera;
         this.scene = scene;
         this.infoElementHandler = infoElementHandler;
         this.modelChildren = [];
         this.renderer = renderer;
+        this.highlightOptions = highlightOptions || { mode: 'wireframe' };
 
         this.raycaster = new THREE.Raycaster();
         this.mouse = new THREE.Vector2();
@@ -15,6 +16,7 @@ export class ClickHandler {
         this.lastHighlightedObject = null;
         this.originalMaterials = new Map();
         this.wireframeMaterial = null;
+        this.ghostMaterial = null;
 
         // 'this'-Kontext wird an den ClickHandler gebunden. (bei click wird nicht auf window.<> verwiesen sondern auf Clickhandler.camera, .raycaster usw.)
         this._onObjectClick = this._onObjectClick.bind(this);
@@ -35,6 +37,14 @@ export class ClickHandler {
             transparent: true,
             opacity: 0.3,
             color: new THREE.Color(.4,.4,.4)
+        });
+
+        this.ghostMaterial = new THREE.MeshStandardMaterial({
+            transparent: true,
+            opacity: 0.9,
+            color: new THREE.Color(0.7, 0.7, 0.7),
+            metalness: 0.1,
+            roughness: 0.7
         });
     }
 
@@ -113,19 +123,21 @@ export class ClickHandler {
             //console.log('----------------------------------------------------------');
 
             if(child.uuid !== clickedComponent.uuid) {
-                this._applyWireframeToObject(child);
+                this._applyHighlightToObject(child);
             }
         });
     }
 
-    _applyWireframeToObject(object){
+    _applyHighlightToObject(object){
+        const materialToApply = this.highlightOptions.mode === 'ghost' ? this.ghostMaterial : this.wireframeMaterial;
+
         object.traverse((child) => {
         if(child.material && !this.originalMaterials.has(child.uuid)) {
             // Original-Material im Cache speichern
             this.originalMaterials.set(child.uuid, child.material);
                 
-            // Wireframe-Material zuweisen
-            child.material = this.wireframeMaterial;
+            // Highlight-Material zuweisen
+            child.material = materialToApply;
             }
         });
     }
@@ -157,6 +169,11 @@ export class ClickHandler {
         if (this.wireframeMaterial) {
             this.wireframeMaterial.dispose();
             this.wireframeMaterial = null;
+        }
+
+        if (this.ghostMaterial) {
+            this.ghostMaterial.dispose();
+            this.ghostMaterial = null;
         }
 
         // Speicher freigeben
