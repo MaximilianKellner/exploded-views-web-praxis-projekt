@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { setupLights } from './scene/lights.js';
 import { AnimationHandler } from './modules/animation-handler.js';
+import { HighlightHandler } from './modules/highlight-handler.js';
 import { ClickHandler } from './modules/click-handler.js';
 import { CameraHandler } from './modules/camera-handler.js';
 import { UIHandler } from './modules/ui-Handler.js';
@@ -29,6 +30,7 @@ export class ExplodedViewer {
         this.animationHandler = null;
         this.uiHandler = null;
         this.clickHandler = null;
+        this.highlightHandler = null;
         this.cardHandler = null;
         this.statsHandler = null;
     }
@@ -128,7 +130,10 @@ export class ExplodedViewer {
 
         this.infoElementHandler.initialize(this.options.cardDataPath, this.config);
 
-        this.clickHandler = new ClickHandler(this.camera, this.scene, this.infoElementHandler, this.renderer, this.options.highlightOptions);
+        this.highlightHandler = new HighlightHandler(this.scene, this.options.highlightOptions);
+        this.highlightHandler.initialize();
+
+        this.clickHandler = new ClickHandler(this.camera, this.scene, this.infoElementHandler, this.renderer, this.highlightHandler);
         this.clickHandler.initialize();
 
         if (this.options.showDebugUI) {
@@ -147,7 +152,7 @@ export class ExplodedViewer {
             const loader = new GLTFLoader();
             const gltf = await loader.loadAsync(this.options.modelPath);
             this.model = gltf.scene;
-            this.clickHandler.modelChildren = this.model.children;
+            this.highlightHandler.modelChildren = this.model.children;
             this.scene.add(this.model);
             
             await this.animationHandler.initialize(this.model, this.options.explosionConfigPath);
@@ -210,6 +215,7 @@ export class ExplodedViewer {
         // Handler zerstören
         if (this.animationHandler) this.animationHandler.destroy();
         if (this.clickHandler) this.clickHandler.destroy();
+        if (this.highlightHandler) this.highlightHandler.destroy();
         if (this.cardHandler) this.cardHandler.destroy();
         if (this.uiHandler) this.uiHandler.destroy();
         if (this.statsHandler) this.statsHandler.destroy();
