@@ -133,7 +133,7 @@ export class ExplodedViewer {
 
         if (this.options.showDebugUI) {
             this.uiHandler = new UIHandler();
-            this.uiHandler.initialize(this.config, this.lights, this.scene, this.camera, this.controls);
+            this.uiHandler.initialize(this.config, this.lights, this.scene, this.camera, this.controls, this.options);
             this.uiHandler.setAnimationHandler(this.animationHandler);
         }
 

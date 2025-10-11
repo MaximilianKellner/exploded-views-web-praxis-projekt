@@ -15,14 +15,16 @@ export class UIHandler{
         this.lightsFolder = null;
         this.cardFolder = null;
         this.animationHandler = null;
+        this.highlightFolder = null;
     }
 
-    initialize(config, lights, scene, camera, controls) {
+    initialize(config, lights, scene, camera, controls, options) {
         this.config = config;
         this.lights = lights;
         this.scene = scene;
         this.camera = camera;
         this.controls = controls;
+        this.options = options;
 
         // Init Tweakpane
         this.pane = new Pane({
@@ -33,6 +35,7 @@ export class UIHandler{
         this.initSceneFolder();
         this.initCardFolder();
         this.initPointerFolder();
+        this.initHighlightFolder();
 
         return this.pane;
     }
@@ -219,6 +222,19 @@ export class UIHandler{
         this.pointerFolder.addBinding(this.config.pointerConfig, 'bodyColor', { label: 'Body Color' });
     }
 
+    initHighlightFolder() {
+        if (!this.options.highlightOptions) return;
+
+        this.highlightFolder = this.pane.addFolder({ title: 'Highlight', expanded: true });
+        this.highlightFolder.addBinding(this.options.highlightOptions, 'mode', {
+            label: 'Mode',
+            options: {
+                Wireframe: 'wireframe',
+                Ghost: 'ghost',
+            },
+        });
+    }
+
     // --- Refresh - Methoden ---
     refreshAnimationFolder() {
         if (this.animationFolder) {
@@ -262,12 +278,19 @@ export class UIHandler{
         }
     }
 
+    refreshhighlightFolder() {
+        if (this.highlightFolder) {
+             this.highlightFolder.refresh();
+        }
+    }
+
     refreshPane() {
         this.refreshAnimationFolder();
         this.refreshSceneFolder();
         this.refreshCameraFolder();
         this.refreshLightsFolder();
         this.refreshCardFolder();
+        this.refreshhighlightFolder();
     }
 
     // Getter für den Zugriff auf das Pane-Objekt
@@ -291,5 +314,6 @@ export class UIHandler{
         this.lightsFolder = null;
         this.cardFolder = null;
         this.animationHandler = null;
+        this.highlightFolder = null;
     }
 }
