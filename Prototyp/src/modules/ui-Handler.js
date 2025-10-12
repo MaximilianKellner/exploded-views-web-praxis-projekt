@@ -198,15 +198,6 @@ export class UIHandler{
     initInfoElementFolder(){
         this.infoElementFolder =  this.pane.addFolder({ title: 'Info Element', expanded: true });
 
-        this.infoElementFolder.addBinding(this.config, 'infoElementType', {
-            label: 'Type',
-            options: {
-                Card: 'card',
-                Pointer: 'pointer',
-                'Attached Card': 'attached-card',
-            },
-        });
-
         this.initCardFolder();
         this.initPointerFolder();
         this.initHighlightFolder();

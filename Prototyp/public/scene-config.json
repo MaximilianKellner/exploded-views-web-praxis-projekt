@@ -1,5 +1,5 @@
 {
-    "infoElementType": "pointer",
+    "infoElementType": "card",
     "highlightOptions": {
         "highlightComponent": false,
         "mode": "ghost"
