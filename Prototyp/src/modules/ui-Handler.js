@@ -16,6 +16,7 @@ export class UIHandler{
         this.cardFolder = null;
         this.animationHandler = null;
         this.highlightFolder = null;
+        this.infoElementFolder = null
     }
 
     initialize(config, lights, scene, camera, controls) {
@@ -32,9 +33,7 @@ export class UIHandler{
 
         this.initAnimationFolder();
         this.initSceneFolder();
-        this.initCardFolder();
-        this.initPointerFolder();
-        this.initHighlightFolder();
+        this.initInfoElementFolder();
 
         return this.pane;
     }
@@ -194,9 +193,28 @@ export class UIHandler{
         }
     }
     
+
+    // --- Info Element ---
+    initInfoElementFolder(){
+        this.infoElementFolder =  this.pane.addFolder({ title: 'Info Element', expanded: true });
+
+        this.infoElementFolder.addBinding(this.config, 'infoElementType', {
+            label: 'Type',
+            options: {
+                Card: 'card',
+                Pointer: 'pointer',
+                'Attached Card': 'attached-card',
+            },
+        });
+
+        this.initCardFolder();
+        this.initPointerFolder();
+        this.initHighlightFolder();
+    }
+
     // --- Card ---
     initCardFolder() {
-        this.cardFolder = this.pane.addFolder({ title: 'Card', expanded: true });
+        this.cardFolder = this.infoElementFolder.addFolder({ title: 'Card', expanded: true });
         this.cardFolder.addBinding(
             this.config.cardConfig,
             'animationDuration',
@@ -215,7 +233,18 @@ export class UIHandler{
 
     // --- Pointer ---
     initPointerFolder() {
-        this.pointerFolder = this.pane.addFolder({ title: 'Pointer', expanded: true});
+        this.pointerFolder = this.infoElementFolder.addFolder({ title: 'Pointer', expanded: true});
+        this.pointerFolder.addBinding(this.config.pointerConfig, 'defaultSide', { 
+            label: 'Default Side',
+            options: {
+                Auto: 'auto',
+                Left: 'left',
+                Right: 'right',
+            }
+        });
+
+        this.pointerFolder.addBinding(this.config.pointerConfig, 'rotationY', { label: 'Rotation Y' });
+        this.pointerFolder.addBinding(this.config.pointerConfig, 'maxWidth', { label: 'Size', min: 500, max: 2500, step: 100 });
         this.pointerFolder.addBinding(this.config.pointerConfig, 'titleColor', { label: 'Title Color' });
         this.pointerFolder.addBinding(this.config.pointerConfig, 'lineColor', { label: 'Line Color' });
         this.pointerFolder.addBinding(this.config.pointerConfig, 'bodyColor', { label: 'Body Color' });
@@ -225,7 +254,7 @@ export class UIHandler{
     initHighlightFolder() {
         if (!this.config.highlightOptions) return;
 
-        this.highlightFolder = this.pane.addFolder({ title: 'Highlight', expanded: true });
+        this.highlightFolder = this.infoElementFolder.addFolder({ title: 'Highlight', expanded: true });
 
         this.highlightFolder.addBinding(this.config.highlightOptions, 'highlightComponent', {
             label: 'Highlight'
@@ -291,6 +320,18 @@ export class UIHandler{
         }
     }
 
+    refreshInfoelementFolder() {
+        if (this.infoElementFolder) {
+             this.infoElementFolder.refresh();
+        }
+    }
+
+    refreshPointerFolder() {
+        if (this.pointerFolder) {
+            this.pointerFolder.refresh();
+        }
+    }
+
     refreshPane() {
         this.refreshAnimationFolder();
         this.refreshSceneFolder();
@@ -298,6 +339,8 @@ export class UIHandler{
         this.refreshLightsFolder();
         this.refreshCardFolder();
         this.refreshhighlightFolder();
+        this.refreshInfoelementFolder();
+        this.refreshPointerFolder();
     }
 
     // Getter für den Zugriff auf das Pane-Objekt
@@ -322,5 +365,7 @@ export class UIHandler{
         this.cardFolder = null;
         this.animationHandler = null;
         this.highlightFolder = null;
+        this.infoElementFolder = null;
+        this.pointerFolder = null;
     }
 }

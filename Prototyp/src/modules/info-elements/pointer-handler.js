@@ -2,21 +2,12 @@ import { InfoElementHandler } from './info-element-handler.js';
 import * as THREE from 'three';
 
 export class PointerHandler extends InfoElementHandler {
-    constructor(camera, options = {}) {
+    constructor(camera) {
         super();
         this.camera = camera;
         this.labelData = {};
         this.labels = [];
         this.config = null;
-
-        const defaultOptions = {
-            maxWidth: 1800,
-            defaultSide: 'auto', // 'left', 'right', 'auto' Die Seite des Pointers
-            rotationY: 0 //'auto' für Ausrichtung zur Kamera, oder eine Zahl (z.B. 45 gür 45° Drehung)
-        };
-        // Einpflegen deer defaultOptions falls keine Optionen angegeben wurden
-        this.options = { ...defaultOptions, ...options };
-        this.maxWidth = this.options.maxWidth;
     }
 
     async initialize(dataPath, config) {
@@ -126,7 +117,7 @@ export class PointerHandler extends InfoElementHandler {
         const measureCanvas = document.createElement('canvas');
         const measureCtx = measureCanvas.getContext('2d');
         
-        const textBlockCanvasWidth = this.maxWidth;
+        const textBlockCanvasWidth = this.config.pointerConfig.maxWidth;
 
         // Titel Höhe berechnen
         measureCtx.font = fontTitle;
@@ -165,8 +156,8 @@ export class PointerHandler extends InfoElementHandler {
 
         // Pointer-Seite und Text-Position bestimmen
         let pointerSide;
-        if (this.options.defaultSide === 'left' || this.options.defaultSide === 'right') {
-            pointerSide = this.options.defaultSide;
+        if (this.config.pointerConfig.defaultSide === 'left' || this.config.pointerConfig.defaultSide === 'right') {
+            pointerSide = this.config.pointerConfig.defaultSide;
         } else {
             // 'auto' label positionierung links/rechts basierend auf der Kamera position
 
@@ -194,7 +185,7 @@ export class PointerHandler extends InfoElementHandler {
             //   Das Zeigeelement kommt also auf die linke Seite
 
             // - Wenn dot < 0: Die Kamera schaut eher auf die "linke" Seite des Objekts
-            //   Das Zeigeelement wird also auf der rechten Seite platziert
+            //   Das Zeigelement wird also auf der rechten Seite platziert
 
             pointerSide = dot > 0 ? 'right' : 'left';
         }
@@ -270,12 +261,12 @@ export class PointerHandler extends InfoElementHandler {
         geometry.translate(-pointerXOnPlane, -pointerYOnPlane, 0);
 
         // Rotation anwenden
-        if (this.options.rotationY === 'auto') {
+        if (this.config.pointerConfig.rotationY === 'auto') {
             // Kopieren der Ausrichtung der Kamera, damit das Label immer zum Benutzer zeigt.
             textMesh.quaternion.copy(this.camera.quaternion);
-        } else if (this.options.rotationY !== 0) {
+        } else if (this.config.pointerConfig.rotationY !== 0) {
             // Feste Rotation anwenden
-            textMesh.rotation.y = THREE.MathUtils.degToRad(this.options.rotationY);
+            textMesh.rotation.y = THREE.MathUtils.degToRad(this.config.pointerConfig.rotationY);
         }
 
         // --- Position des Labels im 3D-Raum berechnen ---

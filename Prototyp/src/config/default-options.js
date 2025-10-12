@@ -6,6 +6,7 @@ export const defaultOptions = {
     
     showDebugUI: true,
     showStats: true, //FPS + Latenz
+
     infoElementType: 'card', // 'pointer', 'attached-card', 'card'
 
     highlightOptions: {
@@ -27,7 +28,7 @@ export const defaultOptions = {
     },
     pointerConfig: {
         defaultSide: 'auto', // 'left', 'right' oder 'auto'
-        rotationY: 'auto', // 'auto' für Ausrichtung zur Kamera, oder eine Zahl (z.B. 45) für 45°
+        rotationY: '0', // 'auto' für Ausrichtung zur Kamera, oder eine Zahl (z.B. 45) für 45°
         maxWidth: 1800,
         titleColor: "#ffffff",
         bodyColor: "#999999",

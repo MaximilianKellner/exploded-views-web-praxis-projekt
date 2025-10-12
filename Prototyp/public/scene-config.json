@@ -5,8 +5,7 @@
         "mode": "ghost"
     },
     "pointerConfig": {
-        "defaultSide": "auto",
-        "rotationY": "0"
+        "defaultSide": "auto"
     },
     "sceneConfig": {
         "camera": {

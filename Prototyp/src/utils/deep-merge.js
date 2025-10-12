@@ -1,3 +1,7 @@
+/**
+ *  Alternative zu NPM package. Diese Datei wird verwendet um die Konfigurationsdateien zu mergen.
+ */
+
 function isObject(item) {
     return (item && typeof item === 'object' && !Array.isArray(item));
 }
