@@ -7,6 +7,8 @@ import { ClickHandler } from './modules/click-handler.js';
 import { CameraHandler } from './modules/camera-handler.js';
 import { UIHandler } from './modules/ui-Handler.js';
 import { StatsHandler } from './modules/ui-stats-handler.js';
+import { defaultOptions } from './config/default-options.js';
+import { deepMerge } from './utils/deep-merge.js';
 
 import { CardHandler } from './modules/info-elements/card-handler.js';
 import { PointerHandler } from './modules/info-elements/pointer-handler.js';
@@ -16,7 +18,7 @@ import { AttachedCardHandler } from './modules/info-elements/attached-card-handl
 export class ExplodedViewer {
     constructor(container, options) {
         this.container = container;
-        this.options = options;
+        this.userOptions = options;
 
         this.lights = {};
         this.scene = null;
@@ -37,7 +39,7 @@ export class ExplodedViewer {
     
     async init() {
         try {
-            await this._loadConfig();
+            await this._loadAndMergeConfigs();
             this._setupScene();
             this._setupRenderer();
             this._setupCamera();
@@ -59,13 +61,27 @@ export class ExplodedViewer {
         }
     }
 
-    async _loadConfig() {
-        try {
-            const response = await fetch(this.options.sceneConfigPath);
-            this.config = await response.json();
-        } catch (error) {
-            console.error('Fehler beim laden der scene-config: ', error)
+    async _loadAndMergeConfigs() {
+        // 1. Standardwerte laden
+        let mergedConfig = JSON.parse(JSON.stringify(defaultOptions));
+
+        // 2. JSON-Datei des nutzers laden, falls sie angegeben ist
+        const configPath = this.userOptions.sceneConfigPath || mergedConfig.sceneConfigPath;
+        if (configPath) {
+            try {
+                const response = await fetch(configPath);
+                const fileConfig = await response.json();
+                // Konfigurationsdatei mit den Defaults mergen
+                mergedConfig = deepMerge(mergedConfig, fileConfig);
+            } catch (error) {
+                console.error(`Fehler beim Laden der Konfigurationsdatei: ${configPath}`, error);
+            }
         }
+
+        // 3. userOptions aus dem Konstruktor mit der merged Config kombinieren (höchste Priorität)
+        // Prio:
+        // Default --> Json --> userOptions
+        this.config = deepMerge(mergedConfig, this.userOptions);
     }
 
     _setupScene() {
@@ -110,10 +126,10 @@ export class ExplodedViewer {
         this.animationHandler = new AnimationHandler(this.scene, this.config, this.renderer);
         
         // Handler je nach Infoelement Typ auswählen
-        let handlerType = this.options.infoElementType || 'card';
+        let handlerType = this.config.infoElementType || 'card';
         switch (handlerType) {
             case 'pointer':
-                this.infoElementHandler = new PointerHandler(this.camera, this.options.pointerOptions);
+                this.infoElementHandler = new PointerHandler(this.camera, this.config.pointerConfig);
                 console.log('pointer');
                 break;
             case 'card':
@@ -128,21 +144,21 @@ export class ExplodedViewer {
                 this.infoElementHandler = new CardHandler();
         }
 
-        this.infoElementHandler.initialize(this.options.cardDataPath, this.config);
+        this.infoElementHandler.initialize(this.config.cardDataPath, this.config);
 
-        this.highlightHandler = new HighlightHandler(this.scene, this.options.highlightOptions);
+        this.highlightHandler = new HighlightHandler(this.scene, this.config.highlightOptions);
         this.highlightHandler.initialize();
 
         this.clickHandler = new ClickHandler(this.camera, this.scene, this.infoElementHandler, this.renderer, this.highlightHandler);
         this.clickHandler.initialize();
 
-        if (this.options.showDebugUI) {
+        if (this.config.showDebugUI) {
             this.uiHandler = new UIHandler();
-            this.uiHandler.initialize(this.config, this.lights, this.scene, this.camera, this.controls, this.options);
+            this.uiHandler.initialize(this.config, this.lights, this.scene, this.camera, this.controls);
             this.uiHandler.setAnimationHandler(this.animationHandler);
         }
 
-        if (this.options.showStats) {
+        if (this.config.showStats) {
             this.statsHandler = new StatsHandler();
         }
     }
@@ -150,12 +166,12 @@ export class ExplodedViewer {
     async _loadModel() {
         try {
             const loader = new GLTFLoader();
-            const gltf = await loader.loadAsync(this.options.modelPath);
+            const gltf = await loader.loadAsync(this.config.modelPath);
             this.model = gltf.scene;
             this.highlightHandler.modelChildren = this.model.children;
             this.scene.add(this.model);
             
-            await this.animationHandler.initialize(this.model, this.options.explosionConfigPath);
+            await this.animationHandler.initialize(this.model, this.config.explosionConfigPath);
         } catch (error) {
             console.error("Fahler beim Laden des Modells oder initialisieren der Animation:", error)
         }

@@ -4,8 +4,7 @@ export class HighlightHandler {
     constructor(scene, highlightOptions) {
         this.scene = scene;
         this.modelChildren = [];
-        this.highlightOptions = highlightOptions || { mode: 'ghost', highlightComponent: false,
-        };
+        this.highlightOptions = highlightOptions;
 
         this.currentHighlightedObject = null;
         this.lastHighlightedObject = null;

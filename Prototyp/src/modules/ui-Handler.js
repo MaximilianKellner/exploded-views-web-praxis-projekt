@@ -18,13 +18,12 @@ export class UIHandler{
         this.highlightFolder = null;
     }
 
-    initialize(config, lights, scene, camera, controls, options) {
+    initialize(config, lights, scene, camera, controls) {
         this.config = config;
         this.lights = lights;
         this.scene = scene;
         this.camera = camera;
         this.controls = controls;
-        this.options = options;
 
         // Init Tweakpane
         this.pane = new Pane({
@@ -224,17 +223,17 @@ export class UIHandler{
 
     // --- Highlight ---
     initHighlightFolder() {
-        if (!this.options.highlightOptions) return;
+        if (!this.config.highlightOptions) return;
 
         this.highlightFolder = this.pane.addFolder({ title: 'Highlight', expanded: true });
 
-        this.highlightFolder.addBinding(this.options.highlightOptions, 'highlightComponent', {
+        this.highlightFolder.addBinding(this.config.highlightOptions, 'highlightComponent', {
             label: 'Highlight'
         }).on('change', (ev) => {
-            this.options.highlightOptions.highlightComponent = ev.value
+            this.config.highlightOptions.highlightComponent = ev.value
         });
 
-        this.highlightFolder.addBinding(this.options.highlightOptions, 'mode', {
+        this.highlightFolder.addBinding(this.config.highlightOptions, 'mode', {
             label: 'Mode',
             options: {
                 Wireframe: 'wireframe',
