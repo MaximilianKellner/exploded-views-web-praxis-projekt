@@ -2,19 +2,19 @@
 
 ## 1. Installation
 Laden sie die relevanten Inhalte herunter
-```
+```sh
 npm install github:MaximilianKellner/exploded-views-web-praxis-projekt#subdirectory=Prototyp
 ```
 
 ## 2. Setup
 
 fügen sie ein Container-Element in ihre HTML-Struktur ein.
-```
+```html
 <div id="exp-container" style="width: 100vw; height: 100vh;"></div>
 ```
 
 bearbeiten sie ihre `main.js`
-```
+```js
 import { ExplodedViewer } from 'exploded-views';
 
 // Ein Container-Element in Ihrer HTML (z.B. <div id="viewer"></div>)
@@ -40,7 +40,7 @@ Falls sie die Standardeinstellungen  überschreiben wollen, geben sie eine `scen
 
 ### Beispiel für eine `scene-config.json`
 
-```
+```json
 {
     "infoElementType": "card",
     "highlightOptions": {
@@ -63,7 +63,7 @@ Falls sie die Standardeinstellungen  überschreiben wollen, geben sie eine `scen
 
 ### Beispiel für die `main.js` 
 
-```
+```js
 const sportwagen = {
 
     // Pfad zur Szenenkonfiguration
@@ -88,3 +88,25 @@ const sportwagen = {
     },
 }
 ```
+
+## 4. Animation erstellen
+
+Um die Animation der Explosionsansicht zu steuern, benötigen Sie eine `exp-config.json`. Diese Datei definiert für jedes Objekt im 3D-Modell, wie es sich während der Explosion verhält.
+
+Die wichtigsten Eigenschaften:
+- `level`: Ein Multiplikator für die Explosionsdistanz. Dieser Wert bestimmt auf welcher Ebene sich das Objekt zum Abschluss der Animation befindet.
+- `expDirection`: Ein Vektor `[X, Y, Z]`, der die Richtung der Bewegung angibt.
+- `sequence` (optional): Definiert die Reihenfolge der Animation. Teile mit der gleichen Sequenznummer bewegen sich gleichzeitig.
+- `speedMultiplier` (optional): Ein Multiplikator für die Geschwindigkeit der Animation für ein bestimmtes Teil. Dadurch erreicht das Objekt die Zielebene schneller.
+
+### Beispiel für eine `exp-config.json`
+
+```json
+{
+  "_comment": "Die Richtung der Explosion (expDirection) wird als Vektor [X, Y, Z] angegeben.",
+  "objects": {
+  }
+}
+```
+
+
