@@ -15,7 +15,7 @@ import { PointerHandler } from './modules/info-elements/pointer-handler.js';
 import { AttachedCardHandler } from './modules/info-elements/attached-card-handler.js';
 
 
-export class ExplodedViewer {
+class ExplodedViewer {
     constructor(container, options) {
         this.container = container;
         this.userOptions = options;
@@ -282,3 +282,5 @@ export class ExplodedViewer {
         this.container = null;
     }
 }
+
+export default ExplodedViewer;

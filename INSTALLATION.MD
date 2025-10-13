@@ -1,9 +1,15 @@
 # Installationsanleitung
 
 ## 1. Installation
+
+erstellen sie eine `.npmrc`-Datei im Hauptverzeichnis
+```
+@maximiliankellner:registry=https://npm.pkg.github.com/
+```
+
 Laden sie die relevanten Inhalte herunter
 ```sh
-npm install github:MaximilianKellner/exploded-views-web-praxis-projekt#main:Prototyp
+npm install npm install @maximiliankellner/exploded-views
 ```
 
 ## 2. Setup
@@ -15,10 +21,13 @@ fügen sie ein Container-Element in ihre HTML-Struktur ein.
 
 bearbeiten sie ihre `main.js`
 ```js
-import { ExplodedViewer } from 'exploded-views';
+import { ExplodedViewer } from '@maximiliankellner/exploded-views';
 
-// Ein Container-Element in Ihrer HTML (z.B. <div id="viewer"></div>)
-const viewerContainer = document.getElementById('viewer');
+// Container element
+const expContainer = document.getElementById('exp-container');
+if (!expContainer) {
+    console.error('Container #exp-container konnte nicht gefunden werden.');
+}
 
 // Optionen für die Szene
 const options = {
@@ -31,7 +40,7 @@ const options = {
 };
 
 // Viewer erstellen und initialisieren
-const expViewer = new ExplodedViewer(viewerContainer, options);
+const expViewer = new ExplodedViewer(expContainer, options);
 expViewer.init();
 ```
 
