@@ -1,4 +1,4 @@
-import { ExplodedViewer } from './ExplodedViewer.js';
+import ExplodedViewer from './ExplodedViewer.js';
 
 // Sportwagen
 const sportwagen = {

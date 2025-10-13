@@ -133,9 +133,9 @@ export class UIHandler{
 
         this.cameraFolder.addBinding(cameraPosition, 'position', { 
             label: 'Position', 
-            x: {min: minDist, max: maxDist, step: 0.1}, 
-            y: {min: minDist, max: maxDist, step: 0.1}, 
-            z: {min: minDist, max: maxDist, step: 0.1} 
+            x: {step: 0.1}, 
+            y: {step: 0.1}, 
+            z: {step: 0.1} 
         })
         .on('change', (ev) => {
             // Kamera-Position aktualisieren

@@ -114,6 +114,12 @@ Die wichtigsten Eigenschaften:
 {
   "_comment": "Die Richtung der Explosion (expDirection) wird als Vektor [X, Y, Z] angegeben.",
   "objects": {
+    "Cube000": {
+      "level": 0,
+      "expDirection": [-1, -0.5, 0],
+      "sequence": 1
+    },
+    [...]
   }
 }
 ```
