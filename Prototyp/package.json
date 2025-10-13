@@ -1,13 +1,37 @@
 {
-  "name": "prototyp",
-  "private": true,
-  "version": "0.0.0",
+  "name": "@maximiliankellner/exploded-views",
+  "version": "1.0.0",
+  "description": "Eine Komponente um interaktive 3D exploded views zu erstellen.",
+  "main": "src/ExplodedViewer.js",
   "type": "module",
+  "files": [
+    "src/",
+    "public/"
+  ],
   "scripts": {
     "dev": "vite",
     "start": "vite",
     "build": "vite build",
     "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt.git"
+  },
+  "keywords": [
+    "3d",
+    "three.js",
+    "exploded-view",
+    "web-component"
+  ],
+  "author": "Maximilian Kellner",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt/issues"
+  },
+  "homepage": "https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt#readme",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   },
   "devDependencies": {
     "vite": "^6.3.5"

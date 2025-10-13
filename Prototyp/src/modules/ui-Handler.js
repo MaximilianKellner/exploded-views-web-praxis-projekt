@@ -192,7 +192,6 @@ export class UIHandler{
             }
         }
     }
-    
 
     // --- Info Element ---
     initInfoElementFolder(){
