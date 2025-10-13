@@ -1,16 +1,23 @@
 {
   "name": "@maximiliankellner/exploded-views",
+  "private": false,
   "version": "1.0.0",
   "description": "Eine Komponente um interaktive 3D exploded views zu erstellen.",
-  "main": "src/ExplodedViewer.js",
   "type": "module",
+  "main": "./dist/exploded-viewer.umd.cjs",
+  "module": "./dist/exploded-viewer.js",
+  "exports": {
+    ".": {
+      "import": "./dist/exploded-viewer.js",
+      "require": "./dist/exploded-viewer.umd.cjs"
+    },
+    "./dist/style.css": "./dist/style.css"
+  },
   "files": [
-    "src/",
-    "public/"
+    "dist"
   ],
   "scripts": {
     "dev": "vite",
-    "start": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -34,12 +41,12 @@
     "registry": "https://npm.pkg.github.com"
   },
   "devDependencies": {
-    "vite": "^6.3.5"
+    "vite": "^5.2.0"
   },
   "dependencies": {
-    "animejs": "^4.0.2",
+    "animejs": "^3.2.2",
     "stats.js": "^0.17.0",
-    "three": "^0.176.0",
-    "tweakpane": "^4.0.5"
+    "three": "^0.164.1",
+    "tweakpane": "^4.0.3"
   }
 }
