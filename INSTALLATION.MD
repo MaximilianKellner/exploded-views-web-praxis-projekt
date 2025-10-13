@@ -3,7 +3,7 @@
 ## 1. Installation
 Laden sie die relevanten Inhalte herunter
 ```sh
-npm install github:MaximilianKellner/exploded-views-web-praxis-projekt#subdirectory=Prototyp
+npm install github:MaximilianKellner/exploded-views-web-praxis-projekt#main:Prototyp
 ```
 
 ## 2. Setup
