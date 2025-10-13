@@ -125,6 +125,8 @@ class ExplodedViewer {
     _setupHandlers() {
         this.animationHandler = new AnimationHandler(this.scene, this.config, this.renderer);
         
+        if(!this.config.cardDataPath){
+
         // Handler je nach Infoelement Typ auswählen
         let handlerType = this.config.infoElementType || 'card';
         switch (handlerType) {
@@ -152,6 +154,8 @@ class ExplodedViewer {
         this.clickHandler = new ClickHandler(this.camera, this.scene, this.infoElementHandler, this.renderer, this.highlightHandler);
         this.clickHandler.initialize();
 
+        }
+        
         if (this.config.showDebugUI) {
             this.uiHandler = new UIHandler();
             this.uiHandler.initialize(this.config, this.lights, this.scene, this.camera, this.controls);
@@ -180,7 +184,7 @@ class ExplodedViewer {
     async _loadCoordinateSystem() {
         try {
             const loader = new GLTFLoader();
-            const gltf = await loader.loadAsync('/coordinatesystem.glb');
+            const gltf = await loader.loadAsync('./coordinatesystem.glb');
 
             const coordinateSystem = gltf.scene;
             coordinateSystem.name = 'Coordinatesystem';
