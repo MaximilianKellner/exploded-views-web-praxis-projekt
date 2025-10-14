@@ -5,6 +5,8 @@
  */
 
 import { InfoElementHandler } from './info-element-handler.js';
+// Asset-URL wird von Vite beim Build aufgelöst --> für npm package benötigt
+const closeIconUrl = new URL('../../assets/close.svg', import.meta.url).href;
 import { animate } from 'animejs';
 
 export class CardHandler extends InfoElementHandler {
@@ -53,7 +55,7 @@ export class CardHandler extends InfoElementHandler {
                 <div class="row">
                     <h2 class="cardTitle"></h2>
                     <button id="closeCard">
-                        <img src="/img/close.svg" alt="close">
+                        <img src="${closeIconUrl}" alt="close">
                     </button>
                 </div>
                 <p class="cardText"></p>

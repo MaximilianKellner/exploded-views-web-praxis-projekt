@@ -7,6 +7,9 @@
 import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
 import { InfoElementHandler } from './info-element-handler.js';
 
+// Asset-URL wird von Vite beim Build aufgelöst --> für npm package benötigt
+const closeIconUrl = new URL('../../assets/close.svg', import.meta.url).href;
+
 export class AttachedCardHandler extends InfoElementHandler {
     constructor() {
         super();
@@ -64,7 +67,7 @@ export class AttachedCardHandler extends InfoElementHandler {
         <div class="row">
             <h2 class="cardTitle"></h2>
             <button id="closeCard">
-            <img src="/img/close.svg" alt="close">
+            <img src="${closeIconUrl}" alt="close">
             </button>
         </div>
         <p class="cardText"></p>

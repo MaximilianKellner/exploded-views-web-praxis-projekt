@@ -14,6 +14,9 @@ import { CardHandler } from './modules/info-elements/card-handler.js';
 import { PointerHandler } from './modules/info-elements/pointer-handler.js';
 import { AttachedCardHandler } from './modules/info-elements/attached-card-handler.js';
 
+import './css/main.css';
+// Assets so referenzieren, dass der Bundler sie mitnimmt
+const coordinateSystemUrl = new URL('./assets/coordinatesystem.glb', import.meta.url).href;
 
 class ExplodedViewer {
     constructor(container, options) {
@@ -180,7 +183,7 @@ class ExplodedViewer {
     async _loadCoordinateSystem() {
         try {
             const loader = new GLTFLoader();
-            const gltf = await loader.loadAsync('./coordinatesystem.glb');
+            const gltf = await loader.loadAsync(coordinateSystemUrl);
 
             const coordinateSystem = gltf.scene;
             coordinateSystem.name = 'Coordinatesystem';
