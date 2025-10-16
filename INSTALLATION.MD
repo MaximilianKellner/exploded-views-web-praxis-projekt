@@ -23,6 +23,10 @@ bearbeiten sie ihre `main.js`
 ```js
 import { ExplodedViewer } from '@maximiliankellner/exploded-views';
 
+//(optional) Import card Styling
+import '@maximiliankellner/exploded-views/style.css';
+
+
 // Container element
 const expContainer = document.getElementById('exp-container');
 if (!expContainer) {
