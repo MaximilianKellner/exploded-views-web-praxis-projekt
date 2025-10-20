@@ -249,8 +249,8 @@ export class PointerHandler extends InfoElementHandler {
         const material = new THREE.MeshBasicMaterial({
             map: texture,
             transparent: true,
-            side: THREE.DoubleSide
-            ,depthTest: false
+            side: THREE.DoubleSide,
+            depthTest: false
         });
         const geometry = new THREE.PlaneGeometry(planeBaseWidth, planeHeight);
         const textMesh = new THREE.Mesh(geometry, material);
