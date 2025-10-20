@@ -36,7 +36,7 @@ export class HighlightHandler {
         });
     }
 
-    highlightClickedComponent(clickedComponent, infoElementHandler) {
+    highlightClickedComponent(clickedComponent) {
         if (!this.highlightOptions.highlightComponent) {
             return;
         }

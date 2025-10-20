@@ -250,9 +250,11 @@ export class PointerHandler extends InfoElementHandler {
             map: texture,
             transparent: true,
             side: THREE.DoubleSide
+            ,depthTest: false
         });
         const geometry = new THREE.PlaneGeometry(planeBaseWidth, planeHeight);
         const textMesh = new THREE.Mesh(geometry, material);
+        textMesh.renderOrder = 100000; // Ein Wert > 0 sorgt dafür, dass es nach den Standardobjekten gerendert wird
 
          // Pivotpunkt der Geometrie an die Spitze des Zeigers verschieben
         const pointerXOnCanvas = (pointerSide === 'left') ? 0 : totalCanvasWidth;

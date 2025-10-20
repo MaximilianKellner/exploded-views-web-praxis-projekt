@@ -13,6 +13,7 @@ const sportwagen = {
         highlightComponent: true,
         mode: "ghost"
     },
+    infoElementType: 'pointer', // 'pointer', 'attached-card', 'card'
 }
 
 // Kopfhoerer

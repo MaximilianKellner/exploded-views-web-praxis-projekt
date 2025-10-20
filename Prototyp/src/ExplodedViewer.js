@@ -172,6 +172,7 @@ class ExplodedViewer {
             const gltf = await loader.loadAsync(this.config.modelPath);
             this.model = gltf.scene;
             this.highlightHandler.modelChildren = this.model.children;
+            //console.log(this.model.children)
             this.scene.add(this.model);
             
             await this.animationHandler.initialize(this.model, this.config.explosionConfigPath);

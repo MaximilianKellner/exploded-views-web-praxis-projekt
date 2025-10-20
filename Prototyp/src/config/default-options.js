@@ -10,7 +10,7 @@ export const defaultOptions = {
     infoElementType: 'card', // 'pointer', 'attached-card', 'card'
 
     highlightOptions: {
-        highlightComponent: false,
+        highlightComponent: true,
         mode: 'ghost' // 'wireframe' oder 'ghost'
     },
     animationConfig: {

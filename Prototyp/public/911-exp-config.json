@@ -1,6 +1,6 @@
 {
   "_comment": "[X|Y|Z]",
-  "objects": {
+  "objects": {    
     "main-body": {
       "level": 0,
       "expDirection": [0, 0, 0]
