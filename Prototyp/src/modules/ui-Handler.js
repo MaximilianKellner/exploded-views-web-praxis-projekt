@@ -15,11 +15,12 @@ export class UIHandler{
         this.lightsFolder = null;
         this.cardFolder = null;
         this.animationHandler = null;
+        this.cameraHandler = null;
         this.highlightFolder = null;
         this.infoElementFolder = null
     }
 
-    initialize(config, lights, scene, camera, controls) {
+    initialize(config, lights, scene, camera, controls, cameraHandler) {
         this.config = config;
         this.lights = lights;
         this.scene = scene;
@@ -40,6 +41,10 @@ export class UIHandler{
 
     setAnimationHandler(animationHandler) {
         this.animationHandler = animationHandler;
+    }
+
+    setCameraHandler(cameraHandler) {
+        this.cameraHandler = cameraHandler;
     }
 
     // --- Animation Einstellungen ---
@@ -152,6 +157,18 @@ export class UIHandler{
             .on('change', () => {
                 this.controls.update();
                 this.cameraFolder.refresh();
+            });
+
+        this.cameraFolder.addBinding(this.config.sceneConfig.camera, 'lockHorizontal', { label: 'Lock Horizontal' })
+            .on('change', (ev) => {
+                this.config.sceneConfig.camera.lockHorizontal = ev.value;
+                this.cameraHandler.updateLocks();
+            });
+
+        this.cameraFolder.addBinding(this.config.sceneConfig.camera, 'lockVertical', { label: 'Lock Vertical' })
+            .on('change', (ev) => {
+                this.config.sceneConfig.camera.lockVertical = ev.value;
+                this.cameraHandler.updateLocks();
             });
     }
 

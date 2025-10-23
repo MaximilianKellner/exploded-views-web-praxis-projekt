@@ -41,7 +41,9 @@ export const defaultOptions = {
             position: [5, 3, 5],
             lookAt: [0, 0, 0],
             minDistance: 1,
-            maxDistance: 20
+            maxDistance: 20,
+            lockHorizontal: false,
+            lockVertical: false
         },
         lights: {
             "ambient": {

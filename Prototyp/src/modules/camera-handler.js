@@ -31,6 +31,30 @@ export class CameraHandler {
         this.controls.zoomSpeed = 1.5; // Standardwert: 1.0
         this.controls.rotateSpeed = 1.1; // Standardwert: 1.0
         this.controls.dampingFactor = 0.075; // Höherer Wert = weniger Nachschwingen
+
+        this.updateLocks();
+    }
+
+    updateLocks() {
+        // Vertikale Sperre
+        if (this.config.sceneConfig.camera.lockVertical) {
+            const currentPolarAngle = this.controls.getPolarAngle();
+            this.controls.minPolarAngle = currentPolarAngle;
+            this.controls.maxPolarAngle = currentPolarAngle;
+        } else {
+            this.controls.minPolarAngle = 0;
+            this.controls.maxPolarAngle = Math.PI;
+        }
+
+        // Horizontale Sperre
+        if (this.config.sceneConfig.camera.lockHorizontal) {
+            const currentAzimuthAngle = this.controls.getAzimuthalAngle();
+            this.controls.minAzimuthAngle = currentAzimuthAngle;
+            this.controls.maxAzimuthAngle = currentAzimuthAngle;
+        } else {
+            this.controls.minAzimuthAngle = -Infinity;
+            this.controls.maxAzimuthAngle = Infinity;
+        }
     }
 
     // Getter für Zugriff auf die Kamera

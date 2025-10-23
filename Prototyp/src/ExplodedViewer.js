@@ -159,6 +159,7 @@ class ExplodedViewer {
             this.uiHandler = new UIHandler();
             this.uiHandler.initialize(this.config, this.lights, this.scene, this.camera, this.controls);
             this.uiHandler.setAnimationHandler(this.animationHandler);
+            this.uiHandler.setCameraHandler(this.cameraHandler);
         }
 
         if (this.config.showStats) {
