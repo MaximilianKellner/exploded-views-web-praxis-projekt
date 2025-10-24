@@ -128,7 +128,7 @@ Die wichtigsten Eigenschaften:
 }
 ```
 
-## Beispieldaten
+# Beispieldaten
 
 Beispiel 1: [Auto](https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt/tree/main/Prototyp/public/car)
 
