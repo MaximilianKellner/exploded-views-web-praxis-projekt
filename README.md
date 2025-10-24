@@ -1,11 +1,16 @@
 # Exploded Views – Interaktive 3D-Visualisierungen im Web
 
-[![NPM-Version](https://img.shields.io/npm/v/@maximiliankellner/exploded-views)](https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt/pkgs/npm/exploded-views)
+[![NPM-Version](https://img.shields.io/github/package-json/v/MaximilianKellner/exploded-views-web-praxis-projekt?filename=Prototyp/package.json)](https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt/pkgs/npm/exploded-views)
 [![Lizenz](https://img.shields.io/github/license/MaximilianKellner/exploded-views-web-praxis-projekt)](https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt/blob/main/LICENSE)
 
 Ein Framework zur einfachen Erstellung, Steuerung und Integration von interaktiven Explosionsansichten für das Web.
 
-**[Füge hier ein GIF oder einen Screenshot deines Projekts ein!]**
+<img src="img/top-down-ezgif.com-video-to-webp-converter.webp" alt="Exploded View Demo" width="600px"/>
+
+<img src="img/children-ezgif.com-video-to-webp-converter.webp" alt="Exploded View Demo" width="600px"/>
+
+<img src="img/rear-ezgif.com-video-to-webp-converter.webp" alt="Exploded View Demo" width="100%"/>
+
 
 ## Projektbeschreibung
 
