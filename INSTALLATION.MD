@@ -129,3 +129,7 @@ Die wichtigsten Eigenschaften:
 ```
 
 ## Beispieldaten
+
+Beispiel 1: [Auto](https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt/tree/main/Prototyp/public/car)
+
+Beispiel 2: [Kopfhörer](https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt/tree/main/Prototyp/public/kopfhoerer)
