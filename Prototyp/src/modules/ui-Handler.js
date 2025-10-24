@@ -218,47 +218,9 @@ export class UIHandler{
     initInfoElementFolder(){
         this.infoElementFolder =  this.pane.addFolder({ title: 'Info Element', expanded: true });
 
+        this.initHighlightFolder();
         this.initCardFolder();
         this.initPointerFolder();
-        this.initHighlightFolder();
-    }
-
-    // --- Card ---
-    initCardFolder() {
-        this.cardFolder = this.infoElementFolder.addFolder({ title: 'Card', expanded: true });
-        this.cardFolder.addBinding(
-            this.config.cardConfig,
-            'animationDuration',
-            { label: 'Duration (ms)',min: 100, max: 5000, step: 100}
-        )
-
-        this.cardFolder.addBinding(
-            this.config.cardConfig,
-            'isDarkmode',
-            { label: 'Darkmode' }).on('change', (ev) => {
-                toggleDarkMode(ev.value);
-            });
-
-            toggleDarkMode(this.config.cardConfig.isDarkmode);
-    }
-
-    // --- Pointer ---
-    initPointerFolder() {
-        this.pointerFolder = this.infoElementFolder.addFolder({ title: 'Pointer', expanded: true});
-        this.pointerFolder.addBinding(this.config.pointerConfig, 'defaultSide', { 
-            label: 'Default Side',
-            options: {
-                Auto: 'auto',
-                Left: 'left',
-                Right: 'right',
-            }
-        });
-
-        this.pointerFolder.addBinding(this.config.pointerConfig, 'rotationY', { label: 'Rotation Y' });
-        this.pointerFolder.addBinding(this.config.pointerConfig, 'maxWidth', { label: 'Size', min: 500, max: 2500, step: 100 });
-        this.pointerFolder.addBinding(this.config.pointerConfig, 'titleColor', { label: 'Title Color' });
-        this.pointerFolder.addBinding(this.config.pointerConfig, 'lineColor', { label: 'Line Color' });
-        this.pointerFolder.addBinding(this.config.pointerConfig, 'bodyColor', { label: 'Body Color' });
     }
 
     // --- Highlight ---
@@ -280,6 +242,44 @@ export class UIHandler{
                 Ghost: 'ghost',
             },
         });
+    }
+
+    // --- Card ---
+    initCardFolder() {
+        this.cardFolder = this.infoElementFolder.addFolder({ title: 'Card', expanded: false });
+        this.cardFolder.addBinding(
+            this.config.cardConfig,
+            'animationDuration',
+            { label: 'Duration (ms)',min: 100, max: 5000, step: 100}
+        )
+
+        this.cardFolder.addBinding(
+            this.config.cardConfig,
+            'isDarkmode',
+            { label: 'Darkmode' }).on('change', (ev) => {
+                toggleDarkMode(ev.value);
+            });
+
+            toggleDarkMode(this.config.cardConfig.isDarkmode);
+    }
+
+    // --- Pointer ---
+    initPointerFolder() {
+        this.pointerFolder = this.infoElementFolder.addFolder({ title: 'Pointer', expanded: false});
+        this.pointerFolder.addBinding(this.config.pointerConfig, 'defaultSide', { 
+            label: 'Default Side',
+            options: {
+                Auto: 'auto',
+                Left: 'left',
+                Right: 'right',
+            }
+        });
+
+        this.pointerFolder.addBinding(this.config.pointerConfig, 'rotationY', { label: 'Rotation Y' });
+        this.pointerFolder.addBinding(this.config.pointerConfig, 'maxWidth', { label: 'Size', min: 500, max: 2500, step: 100 });
+        this.pointerFolder.addBinding(this.config.pointerConfig, 'titleColor', { label: 'Title Color' });
+        this.pointerFolder.addBinding(this.config.pointerConfig, 'lineColor', { label: 'Line Color' });
+        this.pointerFolder.addBinding(this.config.pointerConfig, 'bodyColor', { label: 'Body Color' });
     }
 
     // --- Refresh - Methoden ---
