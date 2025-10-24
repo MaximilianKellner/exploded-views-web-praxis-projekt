@@ -155,12 +155,10 @@ class ExplodedViewer {
         this.clickHandler = new ClickHandler(this.camera, this.scene, this.infoElementHandler, this.renderer, this.highlightHandler);
         this.clickHandler.initialize();
 
-        if (this.config.showDebugUI) {
-            this.uiHandler = new UIHandler();
-            this.uiHandler.initialize(this.config, this.lights, this.scene, this.camera, this.controls);
-            this.uiHandler.setAnimationHandler(this.animationHandler);
-            this.uiHandler.setCameraHandler(this.cameraHandler);
-        }
+        this.uiHandler = new UIHandler();
+        this.uiHandler.initialize(this.config, this.lights, this.scene, this.camera, this.controls);
+        this.uiHandler.setAnimationHandler(this.animationHandler);
+        this.uiHandler.setCameraHandler(this.cameraHandler);
 
         if (this.config.showStats) {
             this.statsHandler = new StatsHandler();

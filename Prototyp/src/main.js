@@ -6,7 +6,7 @@ const sportwagen = {
     modelPath: '/911.glb', // Pfad zum explodierbaren .glb Modell
     explosionConfigPath: '/911-exp-config.json', // Pfad zur Explosions-Konfiguration
     cardDataPath: '/911-cards.json', // Pfad zu den Card-Inhalten
-    showDebugUI: true,
+    showDebugUI: false,
     showStats: true,
     
     highlightOptions: {

@@ -33,9 +33,10 @@ export class UIHandler{
         });
 
         this.initAnimationFolder();
-        this.initSceneFolder();
-        this.initInfoElementFolder();
-
+        if(this.config.showDebugUI){
+            this.initSceneFolder();
+            this.initInfoElementFolder();   
+        }
         return this.pane;
     }
 
