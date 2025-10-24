@@ -43,7 +43,10 @@ export const defaultOptions = {
             minDistance: 1,
             maxDistance: 20,
             lockHorizontal: false,
-            lockVertical: false
+            lockVertical: false,
+            zoomSpeed: 1.5,
+            rotateSpeed: 1.1,
+            dampingFactor: 0.075 // Höherer Wert --> Weniger nachschwingen
         },
         lights: {
             "ambient": {

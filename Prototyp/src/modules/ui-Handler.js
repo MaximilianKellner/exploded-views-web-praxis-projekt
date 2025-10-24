@@ -159,6 +159,10 @@ export class UIHandler{
                 this.cameraFolder.refresh();
             });
 
+        this.cameraFolder.addBinding(this.controls, 'zoomSpeed', { label: 'Zoom Speed', min: 0.1, max: 5, step: 0.1 });
+        this.cameraFolder.addBinding(this.controls, 'rotateSpeed', { label: 'Rotate Speed', min: 0.1, max: 5, step: 0.1 });
+        this.cameraFolder.addBinding(this.controls, 'dampingFactor', { label: 'Damping', min: 0, max: 0.2, step: 0.005 });
+
         this.cameraFolder.addBinding(this.config.sceneConfig.camera, 'lockHorizontal', { label: 'Lock Horizontal' })
             .on('change', (ev) => {
                 this.config.sceneConfig.camera.lockHorizontal = ev.value;
