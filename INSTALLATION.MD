@@ -49,7 +49,7 @@ expViewer.init();
 ```
 
 ## 3. Konfiguration
-Falls sie die Standardeinstellungen  überschreiben wollen, geben sie eine `scene-config.json` an oder fügen sie optionen in die options in ihrer `main.js` ein. die Standardeinstellungen sind unter `src/config/default-options.js` zu finden.
+Falls sie die Standardeinstellungen  überschreiben wollen, geben sie eine `scene-config.json` an oder fügen sie optionen in die options in ihrer `main.js` ein. die Standardeinstellungen und verfügbare Optionen sind unter [`src/config/default-options.js`](https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt/blob/main/Prototyp/src/config/default-options.js) zu finden.
 
 ### Beispiel für eine `scene-config.json`
 
@@ -128,4 +128,4 @@ Die wichtigsten Eigenschaften:
 }
 ```
 
-
+## Beispieldaten

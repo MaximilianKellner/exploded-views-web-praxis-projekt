@@ -2,11 +2,11 @@ import ExplodedViewer from './ExplodedViewer.js';
 
 // Sportwagen
 const sportwagen = {
-    sceneConfigPath: '/scene-config.json', // Pfad zur Szenenkonfiguration
-    modelPath: '/911.glb', // Pfad zum explodierbaren .glb Modell
-    explosionConfigPath: '/911-exp-config.json', // Pfad zur Explosions-Konfiguration
-    cardDataPath: '/911-cards.json', // Pfad zu den Card-Inhalten
-    showDebugUI: false,
+    sceneConfigPath: '/car/scene-config.json', // Pfad zur Szenenkonfiguration
+    modelPath: '/car/911.glb', // Pfad zum explodierbaren .glb Modell
+    explosionConfigPath: '/car/911-exp-config.json', // Pfad zur Explosions-Konfiguration
+    cardDataPath: '/car/911-cards.json', // Pfad zu den Card-Inhalten
+    showDebugUI: true,
     showStats: true,
     
     highlightOptions: {
