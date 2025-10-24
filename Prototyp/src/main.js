@@ -10,7 +10,7 @@ const sportwagen = {
     showStats: true,
 
     sceneConfig: {
-        backgroundColor: "#1f1f1f",
+        backgroundColor: "#0d1117",
     },
     
     highlightOptions: {

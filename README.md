@@ -5,7 +5,7 @@
 
 Ein Framework zur einfachen Erstellung, Steuerung und Integration von interaktiven Explosionsansichten für das Web.
 
-<img src="img/top-down-datk-ezgif.com-video-to-webp-converter.webp" alt="Exploded View Demo" width="600px"/>
+<img src="img/Bildschirmaufnahme2025-10-24202510-ezgif.com-video-to-webp-converter.webp" alt="Exploded View Demo" width="600px"/>
 
 ## Projektbeschreibung
 
