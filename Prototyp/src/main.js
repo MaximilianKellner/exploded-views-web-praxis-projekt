@@ -8,6 +8,10 @@ const sportwagen = {
     cardDataPath: '/car/911-cards.json', // Pfad zu den Card-Inhalten
     showDebugUI: true,
     showStats: true,
+
+    sceneConfig: {
+        backgroundColor: "#1f1f1f",
+    },
     
     highlightOptions: {
         highlightComponent: true,

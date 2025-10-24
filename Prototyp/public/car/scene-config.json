@@ -9,7 +9,7 @@
     },
     "sceneConfig": {
         "camera": {
-        "position": [0, 5, 6],
+        "position": [0, 5, 7],
         "lookAt": [0, 0, 0],
         "minDistance": 3.5,
         "maxDistance": 10
