@@ -8,6 +8,8 @@ Ein Framework zur einfachen Erstellung, Steuerung und Integration von interaktiv
 <p align="center">
   <img src="img/Bildschirmaufnahme2025-10-24202510-ezgif.com-video-to-webp-converter.webp" alt="Exploded View Demo" style="max-height: 450px;"/>
 </p>
+
+
 ## Projektbeschreibung
 
 Dieses Projekt, welches im Rahmen des Praxisprojekts an der TH Köln bei Prof. Christian Noss entwickelt wurde, bietet eine Wiederverwendbare Möglichkeit zur Erstellung modularer und interaktiver Exploded Views, als JavaScript-Bibliothek.
