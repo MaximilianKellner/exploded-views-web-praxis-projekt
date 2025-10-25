@@ -1,4 +1,4 @@
-# Exploded Views – Interaktive 3D-Visualisierungen im Web
+# Konzeption und Entwicklung eines interaktiven (Visualisierungs-)Systems für Exploded Views im Web.
 
 [![NPM-Version](https://img.shields.io/github/package-json/v/MaximilianKellner/exploded-views-web-praxis-projekt?filename=Prototyp/package.json)](https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt/pkgs/npm/exploded-views)
 [![Lizenz](https://img.shields.io/github/license/MaximilianKellner/exploded-views-web-praxis-projekt)](https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt/blob/main/LICENSE)
@@ -8,6 +8,7 @@ Ein Framework zur einfachen Erstellung, Steuerung und Integration von interaktiv
 <p align="center">
   <img src="img/Bildschirmaufnahme2025-10-24202510-ezgif.com-video-to-webp-converter.webp" alt="Exploded View Demo" style="max-height: 450px;"/>
 </p>
+
 ## Projektbeschreibung
 
 Dieses Projekt, welches im Rahmen des Praxisprojekts an der TH Köln bei Prof. Christian Noss entwickelt wurde, bietet eine Wiederverwendbare Möglichkeit zur Erstellung modularer und interaktiver Exploded Views, als JavaScript-Bibliothek.

@@ -4,6 +4,7 @@ import ExplodedViewer from './ExplodedViewer.js';
 const sportwagen = {
     sceneConfigPath: '/car/scene-config.json', // Pfad zur Szenenkonfiguration
     modelPath: '/car/911.glb', // Pfad zum explodierbaren .glb Modell
+    modelPath: '/car/911-with-ground.glb', // Pfad zum explodierbaren .glb Modell
     explosionConfigPath: '/car/911-exp-config.json', // Pfad zur Explosions-Konfiguration
     cardDataPath: '/car/911-cards.json', // Pfad zu den Card-Inhalten
     showDebugUI: true,
@@ -11,11 +12,16 @@ const sportwagen = {
 
     sceneConfig: {
         backgroundColor: "#0d1117",
+
+        camera: {
+            position: [5, 3, 6],
+            maxDistance: 50,
+        }
     },
     
     highlightOptions: {
         highlightComponent: true,
-        mode: "ghost"
+        mode: "wireframe"  // 'wireframe' oder 'ghost'
     },
     infoElementType: 'pointer', // 'pointer', 'attached-card', 'card'
 }
