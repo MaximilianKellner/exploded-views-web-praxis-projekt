@@ -1,3 +1,5 @@
+// Alle möglichen Optionen, welche der Nutzer anpassen kann mit ihrem zugewiesenen Standardwert.
+
 export const defaultOptions = {
     sceneConfigPath: null, // Pfad zur Szenenkonfiguration
     modelPath: null, // Pfad zum explodierbaren .glb Modell

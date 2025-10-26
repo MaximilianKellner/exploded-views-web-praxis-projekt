@@ -1,5 +1,9 @@
 import ExplodedViewer from './ExplodedViewer.js';
 
+/**
+ * Beispielhaftes Setup des Exploded viewers.
+ */
+
 // Sportwagen
 const sportwagen = {
     sceneConfigPath: '/car/scene-config.json', // Pfad zur Szenenkonfiguration

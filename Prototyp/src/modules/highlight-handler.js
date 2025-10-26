@@ -1,5 +1,10 @@
 import * as THREE from 'three';
 
+/**
+ * Verwaltet die Logik für die Hervorhebung von Komponenten.
+ */
+
+
 export class HighlightHandler {
     constructor(scene, highlightOptions) {
         this.scene = scene;
@@ -24,13 +29,13 @@ export class HighlightHandler {
             wireframe: true,
             transparent: true,
             opacity: 0.3,
-            color: new THREE.Color(0.4, 0.4, 0.4)
+            color: new THREE.Color(0xaaaaaa)
         });
 
         this.ghostMaterial = new THREE.MeshStandardMaterial({
             transparent: true,
             opacity: 0.9,
-            color: new THREE.Color(0.7, 0.7, 0.7),
+            color: new THREE.Color(0xc4c4c4),
             metalness: 0.1,
             roughness: 0.7
         });

@@ -1,6 +1,11 @@
 import { Pane } from 'tweakpane';
 import { toggleDarkMode } from './theme-handler.js';
 
+/**
+ * Verwaltet die Logik für die Tweakpane GUI, welche zum Debugging und Testen genutz wird. 
+ */
+
+
 export class UIHandler{
     constructor() {
         this.pane = null;

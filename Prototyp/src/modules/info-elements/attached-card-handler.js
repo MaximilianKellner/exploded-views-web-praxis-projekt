@@ -1,7 +1,7 @@
 /**
  * Verwaltet die Logik für die Attached Cards des 3D-Modells.
- * Liest eine Konfigurationsdatei, identifiziert geklickte Teile im Modell
- * und generiert entsprechende Karten, welche am 3D Objekt befestigt sind und ich mitbewegen.
+ * Liest eine Konfigurationsdatei und generiert entsprechende Karten,
+ * welche am 3D Objekt befestigt sind und ich mitbewegen.
  */
 
 import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js';

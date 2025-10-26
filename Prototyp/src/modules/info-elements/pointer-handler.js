@@ -1,6 +1,12 @@
 import { InfoElementHandler } from './info-element-handler.js';
 import * as THREE from 'three';
 
+/**
+ * Verwaltet die Logik für die Pointer Elements für das 3D-Modell.
+ * Liest eine Konfigurationsdatei, generiert die Pointer elemente und formatiert die Inhalte.
+ * Die Pointer werden im 3D-Raum positioniert.
+ */
+
 export class PointerHandler extends InfoElementHandler {
     constructor(camera) {
         super();

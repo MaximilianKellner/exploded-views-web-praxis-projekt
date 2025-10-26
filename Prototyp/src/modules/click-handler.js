@@ -1,5 +1,10 @@
 import * as THREE from 'three';
 
+/**
+ * Verwaltet die Logik zum öffnen und schließen der Beschriftungselemente. Über einen Raycaster werden die geklickten objekte festgestellt
+ * und das entsprechende Infoelement wird geöffnet
+ */
+
 export class ClickHandler {
     constructor(camera, scene, infoElementHandler, renderer, highlightHandler) {
         this.camera = camera;
@@ -69,7 +74,7 @@ export class ClickHandler {
         }
     }
 
-    // --- Helperelemente sollen nicht clickable sein ---
+    // Helperelemente, wie das Koordinatensystem werden von klicks ausgeschlossen. Diese Methode würde auch andere Helper abfangen
     _filterHelperElements(elements){
         return elements.filter(element => {
             return !(element.object instanceof THREE.AxesHelper || 
@@ -77,6 +82,7 @@ export class ClickHandler {
         });
     }
 
+    // Das Parent Objekt wird gefunden. dies ist wichig um die richige Beschrifung zu finden.
     _findTopLevelObject(clickedObject){
         while (clickedObject.parent && clickedObject.parent.parent.type !== "Scene") {
             clickedObject = clickedObject.parent;

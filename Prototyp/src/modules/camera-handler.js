@@ -2,6 +2,10 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { animate } from 'animejs';
 
+/**
+ * Verwaltet die Logik für die Kamera, OrbitControlls und den renderer.
+ */
+
 export class CameraHandler {
     constructor(config, container) {
         this.config = config;

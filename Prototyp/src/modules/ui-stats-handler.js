@@ -1,5 +1,10 @@
 import Stats from 'stats.js'
 
+/**
+ * Verwaltet die Statistikanzeige, welche Latenz und FPS darstellt.
+ */
+
+
 export class StatsHandler {
     constructor() {
         this.fpsStats = new Stats();

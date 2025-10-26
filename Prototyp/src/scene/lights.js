@@ -1,5 +1,9 @@
 import * as THREE from 'three';
 
+/** Diese Funktion verwaltet die Lichter in der Szene. Die Lichter werden aus der Konfiguration ausgelesen und der Szene hinzugefügt.
+ * Zudem wird hier die Schatten Konfiguration umgesetzt.
+ */
+
 function setupLights(mainConfig, scene, lightsObject) {
     const lightsConfig = mainConfig.sceneConfig.lights;
     for (const lightName in lightsConfig) {
