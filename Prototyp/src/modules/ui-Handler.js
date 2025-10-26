@@ -55,6 +55,10 @@ export class UIHandler{
         this.cameraHandler = cameraHandler;
     }
 
+    setHighlightHandler(highlightHandler) {
+        this.highlightHandler = highlightHandler;
+    }
+
     // --- Animation Einstellungen ---
     initAnimationFolder() {
         this.animationFolder = this.pane.addFolder({ title: 'Animation', expanded: true });
@@ -264,6 +268,18 @@ export class UIHandler{
                 Wireframe: 'wireframe',
                 Ghost: 'ghost',
             },
+        });
+
+        this.highlightFolder.addBinding(this.config.highlightOptions, 'wireframeColor', {
+            label: 'Wireframe Color'
+        }).on('change', (ev) => {
+            this.highlightHandler.wireframeMaterial.color.set(ev.value);
+        });
+
+        this.highlightFolder.addBinding(this.config.highlightOptions, 'ghostColor', {
+            label: 'Ghost Color'
+        }).on('change', (ev) => {
+            this.highlightHandler.ghostMaterial.color.set(ev.value);
         });
     }
 

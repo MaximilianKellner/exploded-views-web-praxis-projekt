@@ -29,13 +29,13 @@ export class HighlightHandler {
             wireframe: true,
             transparent: true,
             opacity: 0.3,
-            color: new THREE.Color(0xaaaaaa)
+            color: new THREE.Color(this.highlightOptions.wireframeColor)
         });
 
         this.ghostMaterial = new THREE.MeshStandardMaterial({
             transparent: true,
             opacity: 0.9,
-            color: new THREE.Color(0xc4c4c4),
+            color: new THREE.Color(this.highlightOptions.ghostColor),
             metalness: 0.1,
             roughness: 0.7
         });

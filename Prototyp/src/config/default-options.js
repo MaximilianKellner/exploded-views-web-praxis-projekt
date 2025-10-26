@@ -13,7 +13,9 @@ export const defaultOptions = {
 
     highlightOptions: {
         highlightComponent: true,
-        mode: 'ghost' // 'wireframe' oder 'ghost'
+        mode: 'ghost', // 'wireframe' oder 'ghost'
+        wireframeColor: '#aaaaaa',
+        ghostColor: '#c4c4c4'
     },
     animationConfig: {
         expFactor: 0,

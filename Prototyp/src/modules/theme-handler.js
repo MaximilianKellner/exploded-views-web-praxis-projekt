@@ -1,3 +1,5 @@
+// Funktion, welche den Wechsel zwischen Darkmode und lightmode verwaltet. Diese Funktion wirkt sich auf des Design der Karten aus.
+
 export function toggleDarkMode(isDarkmode) {
     const root = document.documentElement;
     
