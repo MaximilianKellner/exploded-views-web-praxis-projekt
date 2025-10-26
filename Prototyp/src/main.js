@@ -15,17 +15,17 @@ const sportwagen = {
     showStats: true,
 
     sceneConfig: {
-        backgroundColor: "#0d1117",
-
+        backgroundColor: "#6480be", //old: 0d1117
         camera: {
-            position: [5, 3, 6],
+            position: [5, 3, 9],
             maxDistance: 50,
+            lockVertical: true,
         }
     },
     
     highlightOptions: {
         highlightComponent: true,
-        mode: "wireframe"  // 'wireframe' oder 'ghost'
+        mode: "ghost"  // 'wireframe' oder 'ghost'
     },
     infoElementType: 'card', // 'pointer', 'attached-card', 'card'
 }

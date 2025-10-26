@@ -82,7 +82,13 @@ export class CameraHandler {
         // Zielposition aus der Konfiguration
         const targetPosition = this.config.sceneConfig.camera.position;
 
-        const originalMaxDistance = this.controls.maxDistance
+        //tmp Daten
+        const originalMaxDistance = this.controls.maxDistance;
+        const originalLockVertical = this.config.sceneConfig.camera.lockVertical;
+        const originalLockHorizontal = this.config.sceneConfig.camera.lockHorizontal;
+
+        this.config.sceneConfig.camera.lockVertical = false;
+        this.config.sceneConfig.camera.lockHorizontal = false;
         this.controls.maxDistance = 9999;
 
         animate( this.camera.position,
@@ -97,6 +103,8 @@ export class CameraHandler {
                     //console.log(" --- FINISHED CAMERA ANIMATION ---")
                     if (this.controls) {
                         this.controls.maxDistance = originalMaxDistance;
+                        this.config.sceneConfig.camera.lockVertical = originalLockVertical;
+                        this.config.sceneConfig.camera.lockHorizontal = originalLockHorizontal;
                     }                }
             }
         )
