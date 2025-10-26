@@ -95,9 +95,18 @@ const sportwagen = {
     showStats: true,
     
     // --------------- OPTIONEN ---------------
+    sceneConfig: {
+        backgroundColor: "#6480be",
+        camera: {
+            position: [5, 3, 9],
+            maxDistance: 50,
+            lockVertical: true,
+        }
+    },
+    
     highlightOptions: {
         highlightComponent: true,
-        mode: "ghost"
+        mode: "ghost"  // 'wireframe' oder 'ghost'
     },
 }
 ```
