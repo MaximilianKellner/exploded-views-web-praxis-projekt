@@ -23,7 +23,7 @@ export const defaultOptions = {
         scrollSensitivity: 0.001
     },
     cardConfig: {
-        animationDuration: 700,
+        animationDuration: 500,
         isDarkmode: true
     },
     pointerConfig: {
@@ -37,6 +37,7 @@ export const defaultOptions = {
     sceneConfig: {
         backgroundColor: "#303030",
         showCoordinatesystem: false,
+        shadowsEnabled: true,
         camera: {
             position: [5, 3, 5],
             lookAt: [0, 0, 0],

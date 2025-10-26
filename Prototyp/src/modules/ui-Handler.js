@@ -9,6 +9,7 @@ export class UIHandler{
         this.scene = null;
         this.camera = null;
         this.controls = null;
+        this.renderer = null;
         this.animationFolder = null;
         this.sceneFolder = null;
         this.cameraFolder = null;
@@ -20,12 +21,13 @@ export class UIHandler{
         this.infoElementFolder = null
     }
 
-    initialize(config, lights, scene, camera, controls, cameraHandler) {
+    initialize(config, lights, scene, camera, controls, cameraHandler, renderer) {
         this.config = config;
         this.lights = lights;
         this.scene = scene;
         this.camera = camera;
         this.controls = controls;
+        this.renderer = renderer;
 
         // Init Tweakpane
         this.pane = new Pane({
@@ -106,6 +108,21 @@ export class UIHandler{
         this.sceneFolder.addBinding(this.config.sceneConfig, 'backgroundColor', { label: 'Background' })
         .on('change', (ev) => {
             this.scene.background.set(ev.value);
+        });
+
+        this.sceneFolder.addBinding(this.config.sceneConfig, 'shadowsEnabled', { label: 'Shadows' })
+        .on('change', (ev) => {
+            this.renderer.shadowMap.enabled = ev.value;
+
+            this.scene.traverse(child => {
+                if (child.isLight && child.castShadow !== undefined) {
+                    child.castShadow = ev.value;
+                }
+                if (child.material) {
+                    // Neukompilierung der Shader
+                    child.material.needsUpdate = true;
+                }
+            });
         });
 
         this.sceneFolder.addBinding(this.config.sceneConfig, 'showCoordinatesystem', { label: 'Coordinate system ' })

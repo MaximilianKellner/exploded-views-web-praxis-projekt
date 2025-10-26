@@ -3,16 +3,12 @@
 [![NPM-Version](https://img.shields.io/github/package-json/v/MaximilianKellner/exploded-views-web-praxis-projekt?filename=Prototyp/package.json)](https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt/pkgs/npm/exploded-views)
 [![Lizenz](https://img.shields.io/github/license/MaximilianKellner/exploded-views-web-praxis-projekt)](https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt/blob/main/LICENSE)
 
-Ein Framework zur einfachen Erstellung, Steuerung und Integration von interaktiven Explosionsansichten für das Web.
+Ein Paket zur einfachen Erstellung und Integration von interaktiven Exploded Views mit Beschriftungselementen für das Web.
 
 <p align="center">
   <img src="img/Bildschirmaufnahme2025-10-24202510-ezgif.com-video-to-webp-converter.webp" alt="Exploded View Demo" style="max-height: 450px;"/>
 </p>
 
-<<<<<<< HEAD
-=======
-
->>>>>>> de46e1268f8e65feed2be22710205dcda03916b8
 ## Projektbeschreibung
 
 Dieses Projekt, welches im Rahmen des Praxisprojekts an der TH Köln bei Prof. Christian Noss entwickelt wurde, bietet eine Wiederverwendbare Möglichkeit zur Erstellung modularer und interaktiver Exploded Views, als JavaScript-Bibliothek.
@@ -21,29 +17,27 @@ Dieses Projekt, welches im Rahmen des Praxisprojekts an der TH Köln bei Prof. C
 
 1. Wie lassen sich Exploded Views im Web modular und wiederverwendbar umsetzen und welche Best Practices sowie Herausforderungen existieren dabei?
 2. Welche Vorteile und Möglichkeiten bieten 3D Modelle und Exploded Views im Hinblick auf Storytelling?
-
-> optional: <br>
-    Wie lassen sich Interaktivität und Animation (z.B.  Scroll-  oder Hover-Effekte) integrieren? -->    Geschwindigkeit, easing  (Bewegungskurven), 
+3. Wie lassen sich Interaktivität und Animation (z.B.  Scroll-  oder Hover-Effekte) integrieren?
 
 Der Fokus liegt auf:
 
 - **Nahtloser Integration**: Einfache Einbettung in bestehende Web-Layouts.
-- **User Experience**: Intuitive Bedienung durch Interaktivität und Animationen.
+- **User Experience**: Intuitive Bedienung der Beschriftungselemente und Animationen.
 - **Kofigurierbarkeit**: Breiter Funktionsrahmen mit diversen Optionen. 
-- **Kofigurierbarkeit**: Breiter Funktionsrahmen mit diversen Optionen. 
+- **Beschriftungselemente**: Auswahl an verschiedenen Beschriftungselementen. 
 
 ## Features
 
 - **Modell-Unterstützung**: Lädt `.glb`-Modelle.
 - **Animationssteuerung**: Definiere komplexe Explosionsanimationen über eine `JSON`-Konfigurationsdatei.
 - **Interaktivität**: Reagiere auf Klicks, hebe einzelne Bauteile hervor und zeige dynamisch Informationen an.
-- **Informationsanzeige**: Stelle Informationen in 2D oder in 3D über "Cards" und "Pointer" dar.
+- **Informationsanzeige**: Stelle Informationen in 2D oder in 3D über "Cards" oder "Pointer" dar.
 - **Debugging**: Eine integrierte Debug-UI ([Tweakpane](https://tweakpane.github.io/docs/)) zur einfachen Anpassung von Parametern.
 - **Kofigurierbarkeit**: Konfiguriere Kamera, Beleuchtung, Highlighting-Effekte und mehr.
 
 ## Installation
 
-Eine detaillierte Anleitung und alle verfügbaren sind in der [**INSTALLATION.md**](INSTALLATION.md) zu finden.
+Eine detaillierte Anleitung und alle verfügbaren sind in der [**INSTALLATION.md**](https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt/blob/main/INSTALLATION.MD) zu finden.
 
 - **Beispieldaten Auto**: [/Prototyp/public/car](https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt/tree/main/Prototyp/public/car)
 - **Beispieldaten Kopfhörer**: [/Prototyp/public/kopfhoerer](https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt/tree/main/Prototyp/public/kopfhoerer)

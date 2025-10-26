@@ -23,7 +23,7 @@ const sportwagen = {
         highlightComponent: true,
         mode: "wireframe"  // 'wireframe' oder 'ghost'
     },
-    infoElementType: 'pointer', // 'pointer', 'attached-card', 'card'
+    infoElementType: 'card', // 'pointer', 'attached-card', 'card'
 }
 
 // Kopfhoerer

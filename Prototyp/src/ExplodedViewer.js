@@ -94,6 +94,8 @@ class ExplodedViewer {
 
     _setupRenderer() {
         this.renderer = new THREE.WebGLRenderer({ antialias: true });
+        this.renderer.shadowMap.enabled = this.config.sceneConfig.shadowsEnabled;
+        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.container.appendChild(this.renderer.domElement);
@@ -108,7 +110,7 @@ class ExplodedViewer {
     }
 
     _setupLights() {
-        setupLights(this.config.sceneConfig.lights, this.scene, this.lights);
+        setupLights(this.config, this.scene, this.lights);
     }
 
     _setupResizeListener() {
@@ -156,7 +158,7 @@ class ExplodedViewer {
         this.clickHandler.initialize();
 
         this.uiHandler = new UIHandler();
-        this.uiHandler.initialize(this.config, this.lights, this.scene, this.camera, this.controls);
+        this.uiHandler.initialize(this.config, this.lights, this.scene, this.camera, this.controls, this.cameraHandler, this.renderer);
         this.uiHandler.setAnimationHandler(this.animationHandler);
         this.uiHandler.setCameraHandler(this.cameraHandler);
 
@@ -174,6 +176,12 @@ class ExplodedViewer {
             //console.log(this.model.children)
             this.scene.add(this.model);
             
+            this.model.traverse(function(child) {
+            if (child.isMesh) {
+                child.castShadow = true;
+                child.receiveShadow = true;
+            }});
+
             await this.animationHandler.initialize(this.model, this.config.explosionConfigPath);
         } catch (error) {
             console.error("Fahler beim Laden des Modells oder initialisieren der Animation:", error)
