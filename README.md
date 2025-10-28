@@ -36,8 +36,7 @@ Der Fokus liegt auf:
 - **Kofigurierbarkeit**: Konfiguriere Kamera, Beleuchtung, Highlighting-Effekte und mehr.
 
 ## Installation
-
-Eine detaillierte Anleitung und alle verfügbaren sind in der [**INSTALLATION.md**](https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt/blob/main/INSTALLATION.MD) zu finden.
+Eine detaillierte Anleitung und alle verfügbaren optionen sind in der [**INSTALLATION.md**](https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt/blob/main/INSTALLATION.MD) zu finden. Um Probleme beim Erstellen der Animation zu vermeiden sind hier einige [Tipps](https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt/wiki/empfohlener-Workflow) für das Vorgehen zu finden.
 
 - **Beispieldaten Auto**: [/Prototyp/public/car](https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt/tree/main/Prototyp/public/car)
 - **Beispieldaten Kopfhörer**: [/Prototyp/public/kopfhoerer](https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt/tree/main/Prototyp/public/kopfhoerer)

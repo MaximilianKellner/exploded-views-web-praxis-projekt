@@ -2,6 +2,9 @@ import { resolve } from 'path';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+  server: {
+    host: true // Erlaubt den Zugriff aus dem lokalen Netzwerk
+  },
   build: {
     lib: {
       // Could also be a dictionary or array of multiple entry points

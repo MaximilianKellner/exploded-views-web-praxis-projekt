@@ -44,7 +44,7 @@
   },
   "FLBremse": {
     "title": "Keramik-Verbundbremsanlage (PCCB) VL",
-    "body": "Die optionale Porsche Ceramic Composite Brake (PCCB) bietet eine herausragende Bremsleistung und Fadingstabilität. Die gelochten Keramikbremsscheiben sind extrem leicht und langlebig.",
+    "body": "Die optionale Ceramic Composite Brake (PCCB) bietet eine herausragende Bremsleistung und Fadingstabilität. Die gelochten Keramikbremsscheiben sind extrem leicht und langlebig.",
     "pills": ["Bremssystem", "Sicherheit", "Keramik"],
     "list": [
       "6-Kolben-Aluminium-Monobloc-Festsättel",
@@ -55,7 +55,7 @@
   },
   "FRBremse": {
     "title": "Keramik-Verbundbremsanlage (PCCB) VR",
-    "body": "Die optionale Porsche Ceramic Composite Brake (PCCB) bietet eine herausragende Bremsleistung und Fadingstabilität. Die gelochten Keramikbremsscheiben sind extrem leicht und langlebig.",
+    "body": "Die optionale Ceramic Composite Brake (PCCB) bietet eine herausragende Bremsleistung und Fadingstabilität. Die gelochten Keramikbremsscheiben sind extrem leicht und langlebig.",
     "pills": ["Bremssystem", "Sicherheit", "Keramik"],
     "list": [
       "6-Kolben-Aluminium-Monobloc-Festsättel",
@@ -88,7 +88,7 @@
   },
   "main-body": {
     "title": "Leichtbau-Karosserie",
-    "body": "Die Karosserie des 911 GT3 Touring besteht aus einem intelligenten Materialmix aus Aluminium und Stahl. Kohlefaserverstärkter Kunststoff (CfK) wird für die Fronthaube verwendet, um das Gewicht weiter zu reduzieren.",
+    "body": "Die Karosserie besteht aus einem intelligenten Materialmix aus Aluminium und Stahl. Kohlefaserverstärkter Kunststoff (CfK) wird für die Fronthaube verwendet, um das Gewicht weiter zu reduzieren.",
     "pills": ["Karosserie", "Leichtbau", "CfK"],
     "list": [
       "Intelligenter Aluminium-Stahl-Verbundbau",
@@ -121,7 +121,7 @@
   },
 "Scheinwerfer-L": {
   "title": "LED-Matrix-Scheinwerfer",
-  "body": "Die Porsche Dynamic Light System Plus (PDLS+) Matrix-LED-Scheinwerfer kombinieren fortschrittlichste Lichttechnologie mit charakteristischem Design. Das intelligente System blendet entgegenkommende Fahrzeuge gezielt aus, während die übrigen Bereiche voll ausgeleuchtet bleiben.",
+  "body": "Die Matrix-LED-Scheinwerfer kombinieren fortschrittlichste Lichttechnologie mit charakteristischem Design. Das intelligente System blendet entgegenkommende Fahrzeuge gezielt aus, während die übrigen Bereiche voll ausgeleuchtet bleiben.",
   "pills": ["Beleuchtung", "Technologie", "Sicherheit"],
   "list": [
     "84 individuell ansteuerbare LEDs pro Scheinwerfer",
@@ -132,7 +132,7 @@
 },
 "Scheinwerfer-R": {
   "title": "LED-Matrix-Scheinwerfer",
-  "body": "Die Porsche Dynamic Light System Plus (PDLS+) Matrix-LED-Scheinwerfer kombinieren fortschrittlichste Lichttechnologie mit charakteristischem Design. Das intelligente System blendet entgegenkommende Fahrzeuge gezielt aus, während die übrigen Bereiche voll ausgeleuchtet bleiben.",
+  "body": "Die Matrix-LED-Scheinwerfer kombinieren fortschrittlichste Lichttechnologie mit charakteristischem Design. Das intelligente System blendet entgegenkommende Fahrzeuge gezielt aus, während die übrigen Bereiche voll ausgeleuchtet bleiben.",
   "pills": ["Beleuchtung", "Technologie", "Sicherheit"],
   "list": [
     "84 individuell ansteuerbare LEDs pro Scheinwerfer",
