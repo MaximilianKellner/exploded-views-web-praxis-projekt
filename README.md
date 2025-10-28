@@ -49,7 +49,11 @@ git clone https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt
 ```
 ```sh
 cd .\Prototyp\
+```
+```
 npm i
+```
+```
 npm start
 ```
 
