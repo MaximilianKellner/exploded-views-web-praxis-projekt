@@ -42,7 +42,7 @@ Eine detaillierte Anleitung und alle verfügbaren optionen sind in der [**INSTAL
 - **Beispieldaten Kopfhörer**: [/Prototyp/public/kopfhoerer](https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt/tree/main/Prototyp/public/kopfhoerer)
 
 ## Links
-
+- [Abschlussvideo](https://youtu.be/Dp-yudm3Sj8)
 - [Wiki & Dokumentation](https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt/wiki)
 - [Exposé (Kontext des Uni-Projekts)](https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt/wiki/Expos%C3%A9)
 - [Figma Jam Board](https://www.figma.com/board/RcSMqqvDBrkwL3dCG0Wz6w/Praxisprojekt?node-id=0-1&t=1YXQVP6LdfrHqSBl-1)
