@@ -17,7 +17,7 @@ Dieses Projekt, welches im Rahmen des Praxisprojekts an der TH Köln bei Prof. C
 
 1. Wie lassen sich Exploded Views im Web modular und wiederverwendbar umsetzen und welche Best Practices sowie Herausforderungen existieren dabei?
 2. Welche Vorteile und Möglichkeiten bieten 3D Modelle und Exploded Views im Hinblick auf Storytelling?
-3. Wie lassen sich Interaktivität und Animation (z.B.  Scroll-  oder Hover-Effekte) integrieren?
+3. Wie lassen sich Interaktivität und Animation (z.B. Scroll- oder Hover-Effekte) integrieren?
 
 Der Fokus liegt auf:
 
