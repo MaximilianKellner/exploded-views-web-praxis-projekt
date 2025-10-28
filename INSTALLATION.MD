@@ -1,5 +1,17 @@
 # Installationsanleitung
 
+## Beispiel
+Um die vorkonfigurierte Beispielanwendung zu starten können sie die folgenden Befehle ausführen.
+
+```sh
+git clone https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt.git
+```
+```sh
+cd .\Prototyp\
+npm i
+npm start
+```
+
 ## 1. Installation
 
 erstellen sie eine `.npmrc`-Datei im Hauptverzeichnis

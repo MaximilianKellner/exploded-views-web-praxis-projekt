@@ -41,6 +41,19 @@ Eine detaillierte Anleitung und alle verfügbaren optionen sind in der [**INSTAL
 - **Beispieldaten Auto**: [/Prototyp/public/car](https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt/tree/main/Prototyp/public/car)
 - **Beispieldaten Kopfhörer**: [/Prototyp/public/kopfhoerer](https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt/tree/main/Prototyp/public/kopfhoerer)
 
+## Beispiel
+Um die vorkonfigurierte Beispielanwendung zu starten können sie die folgenden Befehle ausführen.
+
+```sh
+git clone https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt.git
+```
+```sh
+cd .\Prototyp\
+npm i
+npm start
+```
+
+
 ## Links
 - [Abschlussvideo](https://youtu.be/Dp-yudm3Sj8)
 - [Wiki & Dokumentation](https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt/wiki)
