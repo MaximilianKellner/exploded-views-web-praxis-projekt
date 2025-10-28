@@ -8,14 +8,14 @@ import ExplodedViewer from './ExplodedViewer.js';
 const sportwagen = {
     sceneConfigPath: '/car/scene-config.json', // Pfad zur Szenenkonfiguration
     modelPath: '/car/911.glb', // Pfad zum explodierbaren .glb Modell
-    //modelPath: '/car/911-with-ground.glb', // Pfad zum explodierbaren .glb Modell
+    modelPath: '/car/911-with-ground.glb', // Pfad zum explodierbaren .glb Modell
     explosionConfigPath: '/car/911-exp-config.json', // Pfad zur Explosions-Konfiguration
     cardDataPath: '/car/911-cards.json', // Pfad zu den Card-Inhalten
     showDebugUI: true,
     showStats: true,
 
     sceneConfig: {
-        backgroundColor: "#353535", //old: 353535 -- blue: 6480be
+        backgroundColor: "#6480be", //old: 353535 -- blue: 6480be
         camera: {
             position: [5, 3, 9],
             maxDistance: 50,
