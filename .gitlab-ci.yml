@@ -1,0 +1,11 @@
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  script:
+    - cd Prototyp
+    - docker compose pull
+    - docker compose up -d --build
+  only:
+    - main

@@ -1,0 +1,45 @@
+services:
+  exploded-views:
+    build: .
+    container_name: exploded-views-kellner-praxisprojekt
+    restart: unless-stopped
+    networks:
+      - proxy-tier
+    environment:
+      - DOMAIN=exploded-views-kellner.de-fender.it
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.exploded-views-https.rule=Host(`${DOMAIN}`) || Host(`www.${DOMAIN}`)
+      - traefik.http.routers.exploded-views-https.entrypoints=websecure
+      - traefik.http.routers.exploded-views-https.tls.certresolver=myresolver
+      - traefik.docker.network=proxy-tier
+      - traefik.http.services.exploded-views-https.loadbalancer.server.port=80
+      - traefik.http.routers.exploded-views-http.rule=Host(`${DOMAIN}`) || Host(`www.${DOMAIN}`)
+      - traefik.http.routers.exploded-views-http.entrypoints=web
+      - com.centurylinklabs.watchtower.enable=false
+      - traefik.http.middlewares.redirect-to-non-www.redirectregex.regex=^https?://www.${DOMAIN}/(.*)
+      - traefik.http.middlewares.redirect-to-non-www.redirectregex.replacement=https://${DOMAIN}/$${1}
+      - traefik.http.middlewares.redirect-to-non-www.redirectregex.permanent=true
+      - traefik.http.middlewares.security-headers.headers.accesscontrolallowmethods=GET, POST
+      - traefik.http.middlewares.security-headers.headers.accesscontrolallowheaders=*
+      - traefik.http.middlewares.security-headers.headers.accesscontrolalloworiginlist=https://${DOMAIN}, https://www.${DOMAIN}
+      - traefik.http.middlewares.security-headers.headers.accesscontrolmaxage=100
+      - traefik.http.middlewares.security-headers.headers.addvaryheader=true
+      - traefik.http.middlewares.security-headers.headers.sslredirect=true
+      - traefik.http.middlewares.security-headers.headers.sslproxyheaders.X-Forwarded-Proto=https
+      - traefik.http.middlewares.security-headers.headers.stsseconds=31536000
+      - traefik.http.middlewares.security-headers.headers.forcestsheader=true
+      - traefik.http.middlewares.security-headers.headers.framedeny=true
+      - traefik.http.middlewares.security-headers.headers.contenttypenosniff=true
+      - traefik.http.middlewares.security-headers.headers.browserxssfilter=true
+      - traefik.http.middlewares.security-headers.headers.referrerpolicy=same-origin
+      - traefik.http.middlewares.security-headers.headers.customResponseHeaders.Server=""
+      - traefik.http.middlewares.security-headers.headers.permissionsPolicy=camera=none; geolocation=none; microphone=none; payment=none; usb=none; vr=none
+      - traefik.http.middlewares.security-headers.headers.contentsecuritypolicy=default-src 'none'; img-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; form-action 'self'; connect-src 'self';
+      - traefik.http.middlewares.static-cache.headers.customresponseheaders.Cache-Control=max-age=43200,public
+      - traefik.http.routers.exploded-views-https.middlewares=redirect-to-non-www,security-headers,static-cache
+      - traefik.http.routers.exploded-views-http.middlewares=security-headers
+
+networks:
+  proxy-tier:
+    external: true
