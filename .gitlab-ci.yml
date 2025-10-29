@@ -1,6 +1,5 @@
 stages:
   - deploy
-
 deploy:
   stage: deploy
   script:
@@ -9,3 +8,5 @@ deploy:
     - docker compose up -d --build
   only:
     - main
+  tags:
+    - prod-website
