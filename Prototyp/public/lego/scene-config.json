@@ -1,0 +1,50 @@
+{
+    "infoElementType": "card",
+    "highlightOptions": {
+        "highlightComponent": true,
+        "mode": "wireframe"
+    },
+    "pointerConfig": {
+        "defaultSide": "auto"
+    },
+    "sceneConfig": {
+        "backgroundColor": "#2b2b2b",
+        "shadowsEnabled": false,
+        "camera": {
+            "position": [2,1.5, 4],
+            "maxDistance": 50,
+            "lockVertical": true,
+            "lookAt": [0, 0, 0],
+            "minDistance": 3.5
+        },
+        "lights": {
+            "ambient": {
+                "type": "ambient",
+                "enabled": true,
+                "color": "#ffffff",
+                "intensity": 0.5
+            },
+            "mainDirectional": {
+                "type": "directional",
+                "enabled": true,
+                "color": "#ffffff",
+                "intensity": 1.5,
+                "position": { "x": 5, "y": 10, "z": 7.5 }
+            },
+            "secondDirectional": {
+                "type": "directional",
+                "enabled": true,
+                "color": "#ffffff",
+                "intensity": 1.0,
+                "position": { "x": -5, "y": 10, "z": -5 }
+            },
+            "bottomDirectional": {
+                "type": "directional",
+                "enabled": true,
+                "color": "#ffffff",
+                "intensity": 0.8,
+                "position": { "x": 0, "y": -10, "z": 0 }
+            }
+        }
+    }
+}
