@@ -13,7 +13,7 @@ export const defaultOptions = {
 
     highlightOptions: {
         highlightComponent: true,
-        mode: 'ghost', // 'wireframe' oder 'ghost'
+        mode: 'wireframe', // 'wireframe' oder 'ghost'
         wireframeColor: '#aaaaaa',
         ghostColor: '#c4c4c4'
     },
@@ -74,13 +74,6 @@ export const defaultOptions = {
                 "intensity": 1.0,
                 "position": { "x": -5, "y": 10, "z": -5 }
             },
-            "bottomDirectional": {
-                "type": "directional",
-                "enabled": true,
-                "color": "#ffffff",
-                "intensity": 0.8,
-                "position": { "x": 0, "y": -10, "z": 0 }
-            }
         }
     }
 };

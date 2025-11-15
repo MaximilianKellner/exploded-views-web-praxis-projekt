@@ -8,7 +8,7 @@ import ExplodedViewer from './ExplodedViewer.js';
 const sportwagen = {
     sceneConfigPath: '/car/scene-config.json', // Pfad zur Szenenkonfiguration
     modelPath: '/car/911.glb', // Pfad zum explodierbaren .glb Modell
-    modelPath: '/car/911-with-ground.glb', // Pfad zum explodierbaren .glb Modell
+    //modelPath: '/car/911-with-ground.glb', // Pfad zum explodierbaren .glb Modell
     explosionConfigPath: '/car/911-exp-config.json', // Pfad zur Explosions-Konfiguration
     cardDataPath: '/car/911-cards.json', // Pfad zu den Card-Inhalten
     showDebugUI: true,
@@ -29,6 +29,15 @@ const sportwagen = {
     },
 
     infoElementType: 'card', // 'pointer', 'attached-card', 'card'
+}
+
+// Klemmbaustein
+const klemmbaustein = {
+    sceneConfigPath: '/lego/scene-config.json', // Pfad zur Szenenkonfiguration
+    modelPath: '/lego/lego-figur.glb', // Pfad zum explodierbaren .glb Modell
+    explosionConfigPath: '/lego/exp-config.json', // Pfad zur Explosions-Konfiguration
+    showDebugUI: true,
+    showStats: true,
 }
 
 // Kopfhoerer
@@ -58,8 +67,8 @@ async function main() {
         return;
     }
 
-    const expOptions = sportwagen;
-    // sportwagen || kopfhoerer;
+    const expOptions = klemmbaustein;
+    // sportwagen || kopfhoerer || klemmbaustein;
 
     const expViewer = new ExplodedViewer(container, expOptions);
     await expViewer.init();

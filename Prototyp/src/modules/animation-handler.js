@@ -126,12 +126,13 @@ export class AnimationHandler {
                 // Begrenzen auf Werte zwischen 0 und 1 um nur im lokalen Zeitfenster zu agieren
                 localProgress = THREE.MathUtils.clamp(localProgress, 0, 1);
 
-                // TODO: Weitere Easingsarten einfügen.
                 //easing für die sequenzielle Animation
-                const easedProgress = 1 - Math.pow(1 - localProgress, 3); // easeOutCubic
+                const easedProgress = localProgress < 0.5 
+                    ? 4 * localProgress * localProgress * localProgress 
+                    : 1 - Math.pow(-2 * localProgress + 2, 3) / 2; // easeInOutCubic
 
                 // Distanz zum main Objekt basiert auf 'targetLevel', wird aber mit dem lokalen Fortschritt und Multiplikator skaliert
-                const distance = item.targetLevel * layerDistance * easedProgress ;
+                const distance = item.targetLevel * layerDistance * easedProgress;
 
                 // Neue Position festlegen
                 const newPosition = new THREE.Vector3()
@@ -198,7 +199,7 @@ export class AnimationHandler {
         this.animation = animate(this.config.animationConfig,{
             expFactor: target,
             duration: this.config.animationConfig.animationDuration || 1000, // Dauer in ms
-            ease: 'inOut(8)',
+            ease: this.config.animationConfig.useSequenceAnim ? 'inOut' : 'inOut(8)',
             onUpdate: () => {
             },
             onComplete: () => {
