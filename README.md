@@ -40,7 +40,8 @@ Eine detaillierte Anleitung und alle verfügbaren optionen sind in der [**INSTAL
 
 - **Beispieldaten Auto**: [/Prototyp/public/car](https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt/tree/main/Prototyp/public/car)
 - **Beispieldaten Kopfhörer**: [/Prototyp/public/kopfhoerer](https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt/tree/main/Prototyp/public/kopfhoerer)
-
+- **Beispieldaten Klemmbaustein Figur**: [/Prototyp/public/lego]((https://github.com/MaximilianKellner/exploded-views-web-praxis-projekt/tree/main/Prototyp/public/lego))
+- 
 ## Beispiel
 Um die vorkonfigurierte Beispielanwendung zu starten können sie die folgenden Befehle ausführen. Alternathiv kann sie [hier](https://exploded-views-kellner.de-fender.it/) besucht werden
 
