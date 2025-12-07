@@ -57,6 +57,11 @@ class ExplodedViewer {
             
             this._animate();
             
+            // Edit-Mode aktivieren, falls in Config gesetzt
+            if (this.config.editMode === true) {
+                this.setEditMode(true);
+            }
+            
             console.log('ExplodedViewer erfolgreich initialisiert.');
 
         } catch (error) {
@@ -227,6 +232,116 @@ class ExplodedViewer {
         if (this.infoElementHandler?.labelRenderer) {
         this.infoElementHandler.labelRenderer.render(this.scene, this.camera);
         }
+    }
+
+    // --- Edit-Mode Helpers ---
+
+    // Handler-Zugriff
+    getAnimationHandler() {
+        return this.animationHandler;
+    }
+
+    getHighlightHandler() {
+        return this.highlightHandler;
+    }
+
+    getCameraHandler() {
+        return this.cameraHandler;
+    }
+
+    getClickHandler() {
+        return this.clickHandler;
+    }
+
+    getInfoElementHandler() {
+        return this.infoElementHandler;
+    }
+
+    // Szenen-Zugriff
+    getScene() {
+        return this.scene;
+    }
+
+    getCamera() {
+        return this.camera;
+    }
+
+    getRenderer() {
+        return this.renderer;
+    }
+
+    getModel() {
+        return this.model;
+    }
+
+    // Config-Management
+    getConfig() {
+        return this.config;
+    }
+
+    updateConfig(partialConfig) {
+        this.config = deepMerge(this.config, partialConfig);
+        //TODO --> Richtig in das PRojekt & den animationHandler laden
+    }
+
+    // Explosion-Config
+    getExplosionConfig() {
+        //TODO
+        //return this.animationHandler.getExplosionConfig();
+    }
+
+    async setExplosionConfig(newConfig) {
+        //TODO
+        //await this.animationHandler.setExplosionConfig(newConfig);
+    }
+
+    exportConfig() {
+        return {
+            sceneConfig: this.config,
+            explosionConfig: this.getExplosionConfig()
+        };
+    }
+
+    // Edit-Mode Helpers
+    setEditMode(enabled) {
+        this.config.editMode = enabled;
+        
+        console.log('Edit-Mode gesetzt auf', enabled);
+
+        if (enabled) {
+            // === EDIT MODE AKTIVIEREN ===
+            
+            // InfoElements ausblenden (Cards/Pointer)
+            this.infoElementHandler?.setVisible(false);
+                        
+            // Scroll-Listener deaktivieren
+            this.animationHandler?.removeScrollListener();
+            
+            // UI-Handler (Tweakpane) ausblenden
+            this.uiHandler?.hide();
+            
+            // ClickHandler in Edit-Mode setzen
+            this.clickHandler?.setEditMode(true);
+            
+        } else {
+            // === VIEWER MODE WIEDERHERSTELLEN ===
+            
+            // InfoElements wieder anzeigen
+            this.infoElementHandler?.setVisible(true);
+            
+            // Scroll-Listener wieder aktivieren
+            this.animationHandler?.initScrollListener();
+            
+            // UI-Handler wieder anzeigen
+            this.uiHandler?.show();
+            
+            // ClickHandler zurück in Viewer-Mode
+            this.clickHandler?.setEditMode(false);
+        }
+    }
+
+    isEditMode() {
+        return this.config.editMode === true;
     }
 
     destroy() {

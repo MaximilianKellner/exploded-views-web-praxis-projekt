@@ -250,6 +250,13 @@ export class AnimationHandler {
         this.renderer.domElement.addEventListener('wheel', this._wheelListener, { passive: false });
     }
 
+    removeScrollListener () {
+        if (this.renderer && this.renderer.domElement && this._wheelListener) {
+            this.renderer.domElement.removeEventListener('wheel', this._wheelListener, { passive: false });
+            this._wheelListener = null;
+        }
+    }
+
     destroy() {
         // Animation stoppen
         if (this.animation) {

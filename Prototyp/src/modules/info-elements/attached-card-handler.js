@@ -147,6 +147,15 @@ export class AttachedCardHandler extends InfoElementHandler {
         // Custom event für den Highlight reset
         super.close();
     }
+
+    setVisible(visible) {
+        if (this.cardElement) {
+            this.cardElement.style.display = visible ? 'block' : 'none';
+        }
+        if (this.cardLabelObject) {
+            this.cardLabelObject.visible = visible;
+        }
+    }
     
     destroy() {
         this.close();

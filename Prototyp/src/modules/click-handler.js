@@ -16,6 +16,7 @@ export class ClickHandler {
         this.lastHighlightedObject = null;
         this.raycaster = new THREE.Raycaster();
         this.mouse = new THREE.Vector2();
+        this.editMode = false;
 
         // 'this'-Kontext wird an den ClickHandler gebunden. (bei click wird nicht auf window.<> verwiesen sondern auf Clickhandler.camera, .raycaster usw.)
         this._onObjectClick = this._onObjectClick.bind(this);
@@ -51,6 +52,15 @@ export class ClickHandler {
 
             let topLevelObject = this._findTopLevelObject(clickedObject);
 
+            // === EDIT MODE ===
+            if (this.editMode) {
+                // Im Edit-Mode: Objekt selektieren statt InfoElement öffnen
+                this._handleEditorClick(topLevelObject, event);
+                return;
+            }
+
+
+            // === VIEWER MODE ===
             //console.log(this.lastHighlightedObject)
 
             // Beim 2. Klick auf ein Objekt wird der zustand wieder zurückgesetzt
@@ -91,6 +101,33 @@ export class ClickHandler {
 
         const topLevelObject = clickedObject
         return topLevelObject
+    }
+
+    // --- Editor-Mode Click-Handler ---
+    _handleEditorClick(object, event) {
+        const isMultiSelect = event.ctrlKey || event.metaKey; // Ctrl/Cmd für Multi-Selection
+        
+        // Custom Event für Editor dispatchen
+        window.dispatchEvent(new CustomEvent('ev:objectSelected', { 
+            detail: { 
+                object: object,
+                isMultiSelect: isMultiSelect
+            } 
+        }));
+
+        console.log('Editor: Objekt selektiert:', object.name, 'Multi:', isMultiSelect);
+    }
+
+    // --- Editor-Mode Umschalten ---
+    setEditMode(enabled) {
+        this.editMode = enabled;
+        
+        // Beim Umschalten zurücksetzen
+        if (enabled) {
+            // InfoElemente schließen
+            this.infoElementHandler.close();
+            this.lastHighlightedObject = null;
+        }
     }
 
     destroy() {

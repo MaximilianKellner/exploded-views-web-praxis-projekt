@@ -71,6 +71,12 @@ export class PointerHandler extends InfoElementHandler {
         super.close();
     }
 
+    setVisible(visible) {
+        this.labels.forEach(label => {
+            label.visible = visible;
+        });
+    }
+
     destroy() {
         this.close();
         this.labelData = {};

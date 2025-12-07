@@ -153,11 +153,16 @@ export class CardHandler extends InfoElementHandler {
                     this.cardState = 'closed';
                 },
             });
-            //this.cardElement.style.display = 'none';
         }
 
         // Custom event für den Highlight reset
         super.close();
+    }
+
+    setVisible(visible) {
+        if (this.cardElement) {
+            this.cardElement.style.display = visible ? 'block' : 'none';
+        }
     }
 
     destroy() {

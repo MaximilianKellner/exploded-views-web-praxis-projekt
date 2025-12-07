@@ -398,6 +398,19 @@ export class UIHandler{
         return this.pane;
     }
 
+    // --- Edit-Mode Helpers ---
+    hide() {
+        if (this.pane) {
+            this.pane.hidden = true;
+        }
+    }
+
+    show() {
+        if (this.pane) {
+            this.pane.hidden = false;
+        }
+    }
+
     destroy() {
         if (this.pane) {
             this.pane.dispose();

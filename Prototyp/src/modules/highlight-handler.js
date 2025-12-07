@@ -4,7 +4,6 @@ import * as THREE from 'three';
  * Verwaltet die Logik für die Hervorhebung von Komponenten.
  */
 
-
 export class HighlightHandler {
     constructor(scene, highlightOptions) {
         this.scene = scene;

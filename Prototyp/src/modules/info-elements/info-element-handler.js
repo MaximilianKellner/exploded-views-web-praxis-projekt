@@ -19,6 +19,10 @@ export class InfoElementHandler {
         window.dispatchEvent(event);
     }
 
+    setVisible(visible) {
+        throw new Error('setVisible muss implementiert werden');
+    }
+
     destroy() {
         throw new Error('destroy muss implementiert werden');
     }

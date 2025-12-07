@@ -6,6 +6,7 @@ export const defaultOptions = {
     explosionConfigPath: null, // Pfad zur Explosions-Konfiguration
     cardDataPath: null, // Pfad zu den Card-Inhalten
     
+    editMode: false, // Editor-Mode für visuelle Config-Erstellung
     showDebugUI: true,
     showStats: true, //FPS + Latenz
 
