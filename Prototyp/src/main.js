@@ -67,7 +67,7 @@ async function main() {
         return;
     }
 
-    const expOptions = klemmbaustein;
+    const expOptions = sportwagen;
     // sportwagen || kopfhoerer || klemmbaustein;
 
     const expViewer = new ExplodedViewer(container, expOptions);

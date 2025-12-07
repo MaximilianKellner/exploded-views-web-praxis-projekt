@@ -1,14 +1,12 @@
 {
   "_comment": "[X|Y|Z]",
   "objects": {
-
     "body": {
       "level": 0,
       "expDirection": [0, 0, 0],
       "speedMultiplier": 1,
       "sequence": 1
     },
-    
     "bein-l": {
       "level": 2,
       "expDirection": [0, -1, 0],
