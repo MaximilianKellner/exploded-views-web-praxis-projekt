@@ -257,6 +257,18 @@ export class AnimationHandler {
         }
     }
 
+    // --- Edit-Mode Helpers ---
+    getExplosionConfig() {
+        return this.explosionConfig;
+    }
+
+    async setExplosionConfig(newConfig) {
+        this.explosionConfig = newConfig;
+        if (this.model) {
+            this._parseModel(this.model);
+        }
+    }
+
     destroy() {
         // Animation stoppen
         if (this.animation) {
