@@ -111,6 +111,8 @@ export class ClickHandler {
         window.dispatchEvent(new CustomEvent('ev:objectSelected', { 
             detail: { 
                 object: object,
+                UUID: object.uuid,
+                position: object.position.clone(),  // Vektor
                 isMultiSelect: isMultiSelect
             } 
         }));

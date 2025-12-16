@@ -18,6 +18,8 @@ export default defineConfig({
       // into your library
       external: ['three', 'tweakpane', 'animejs', 'stats.js'],
       output: {
+        // Ensure named exports are used to avoid default+named export warning
+        exports: 'named',
         // Provide global variables to use in the UMD build
         // for externalized deps
         globals: {
