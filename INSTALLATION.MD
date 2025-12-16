@@ -37,7 +37,7 @@ fügen sie ein Container-Element in ihre HTML-Struktur ein.
 
 bearbeiten sie ihre `main.js`
 ```js
-import { ExplodedViewer } from '@maximiliankellner/exploded-views';
+import ExplodedViewer from '@maximiliankellner/exploded-views';
 
 //(optional) Import card Styling
 import '@maximiliankellner/exploded-views/style.css';
