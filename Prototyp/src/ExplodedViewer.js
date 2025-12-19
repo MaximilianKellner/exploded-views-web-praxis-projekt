@@ -10,9 +10,14 @@ import { StatsHandler } from './modules/ui-stats-handler.js';
 import { defaultOptions } from './config/default-options.js';
 import { deepMerge } from './utils/deep-merge.js';
 
+// InfoElement Modules
 import { CardHandler } from './modules/info-elements/card-handler.js';
 import { PointerHandler } from './modules/info-elements/pointer-handler.js';
 import { AttachedCardHandler } from './modules/info-elements/attached-card-handler.js';
+
+// Editor Modules
+import { EditorController } from './modules/editor/editor-controller.js';
+import { TransformControlsHandler } from './modules/editor/transform-controls-handler.js';
 
 import './css/main.css';
 // Assets so referenzieren, dass der Bundler sie mitnimmt
@@ -48,6 +53,9 @@ class ExplodedViewer {
             this._setupCamera();
             this._setupLights();
             this._setupHandlers();
+
+            this._setupEditor();
+
             await this._loadModel();
             this._loadCoordinateSystem();
             this._setupResizeListener();
@@ -59,7 +67,7 @@ class ExplodedViewer {
             
             // Edit-Mode aktivieren, falls in Config gesetzt
             if (this.config.editMode === true) {
-                this.setEditMode(true);
+                this.enableEditmode();
             }
             
             console.log('ExplodedViewer erfolgreich initialisiert.');
@@ -236,6 +244,19 @@ class ExplodedViewer {
 
     // --- Edit-Mode Helpers ---
 
+    _setupEditor() {
+        this.editor = new EditorController({
+            scene: this.scene,
+            camera: this.camera,
+            renderer: this.renderer,
+            clickHandler: this.clickHandler,
+            animationHandler: this.animationHandler
+        });
+
+        this.editor.transformHandler = new TransformControlsHandler(this.camera, this.renderer, this.scene);
+    }
+
+
     // Handler-Zugriff
     getAnimationHandler() {
         return this.animationHandler;
@@ -303,45 +324,28 @@ class ExplodedViewer {
     }
 
     // Edit-Mode Helpers
-    setEditMode(enabled) {
-        this.config.editMode = enabled;
-        
-        console.log('Edit-Mode gesetzt auf', enabled);
+    enableEditmode() {
+        this.editor?.enable();
+    }
 
-        if (enabled) {
-            // === EDIT MODE AKTIVIEREN ===
-            
-            // InfoElements ausblenden (Cards/Pointer)
-            this.infoElementHandler?.setVisible(false);
-                        
-            // Scroll-Listener deaktivieren
-            this.animationHandler?.removeScrollListener();
-            
-            // UI-Handler (Tweakpane) ausblenden
-            this.uiHandler?.hide();
-            
-            // ClickHandler in Edit-Mode setzen
-            this.clickHandler?.setEditMode(true);
-            
-        } else {
-            // === VIEWER MODE WIEDERHERSTELLEN ===
-            
-            // InfoElements wieder anzeigen
-            this.infoElementHandler?.setVisible(true);
-            
-            // Scroll-Listener wieder aktivieren
-            this.animationHandler?.initScrollListener();
-            
-            // UI-Handler wieder anzeigen
-            this.uiHandler?.show();
-            
-            // ClickHandler zurück in Viewer-Mode
-            this.clickHandler?.setEditMode(false);
-        }
+    disableEditmode() {
+        this.editor?.disable();
+        this.editor?.transformHandler.detach();
     }
 
     isEditMode() {
-        return this.config.editMode === true;
+        return this.editor?.enabled === true;
+    }
+
+    attachTransformControlsByUUID(uuid) {
+    const object = this.scene.getObjectByProperty('uuid', uuid);
+        if (object) {
+            this.editor.transformHandler.attach(object);
+        }
+    }
+
+    detachTransformControls() {
+        this.editor.transformHandler.detach();
     }
 
     destroy() {
@@ -391,6 +395,11 @@ class ExplodedViewer {
             }
         }
 
+        // Editor zerstören
+        if (this.editor) {
+            this.editor.transformHandler.dispose();
+        }
+
         // Szene und Kamera entfernen
         this.scene = null;
         this.camera = null;
@@ -407,6 +416,7 @@ class ExplodedViewer {
         this.lights = null;
         this.options = null;
         this.container = null;
+        this.editor = null;
     }
 }
 
