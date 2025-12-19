@@ -14,6 +14,7 @@ export class ClickHandler {
         this.highlightHandler = highlightHandler;
 
         this.lastHighlightedObject = null;
+        this.lastSelectedObject = null; // Für Edit-Mode
         this.raycaster = new THREE.Raycaster();
         this.mouse = new THREE.Vector2();
         this.editMode = false;
@@ -54,6 +55,18 @@ export class ClickHandler {
 
             // === EDIT MODE ===
             if (this.editMode) {
+                // Beim 2. Klick auf das gleiche Objekt wird die Selektion aufgehoben
+                if (this.lastSelectedObject && topLevelObject === this.lastSelectedObject) {
+                    window.dispatchEvent(new CustomEvent('ev:objectDeselected', {
+                        detail: {
+                            object: topLevelObject,
+                            UUID: topLevelObject.uuid
+                        }
+                    }));
+                    this.lastSelectedObject = null;
+                    return;
+                }
+
                 // Im Edit-Mode: Objekt selektieren statt InfoElement öffnen
                 this._handleEditorClick(topLevelObject, event);
                 return;
@@ -87,8 +100,14 @@ export class ClickHandler {
     // Helperelemente, wie das Koordinatensystem werden von klicks ausgeschlossen. Diese Methode würde auch andere Helper abfangen
     _filterHelperElements(elements){
         return elements.filter(element => {
-            return !(element.object instanceof THREE.AxesHelper || 
-                element.object instanceof THREE.GridHelper ||(element.object.parent && element.object.parent.name === 'Coordinatesystem'));
+            const obj = element.object;
+
+            // Markierte Helfer (z.B. TransformControls, Koordinatensystem) und Nicht-Meshes ignorieren
+            if (obj.userData?.nonSelectable) return false;
+            if (!obj.isMesh) return false;
+
+            return !(obj instanceof THREE.AxesHelper || 
+                obj instanceof THREE.GridHelper || (obj.parent && obj.parent.name === 'Coordinatesystem'));
         });
     }
 
@@ -117,6 +136,7 @@ export class ClickHandler {
             } 
         }));
 
+        this.lastSelectedObject = object;
         console.log('Editor: Objekt selektiert:', object.name, 'Multi:', isMultiSelect);
     }
 
@@ -129,6 +149,9 @@ export class ClickHandler {
             // InfoElemente schließen
             this.infoElementHandler.close();
             this.lastHighlightedObject = null;
+        } else {
+            // Edit-Mode deaktivieren - Selection zurücksetzen
+            this.lastSelectedObject = null;
         }
     }
 

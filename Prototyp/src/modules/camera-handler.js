@@ -117,6 +117,13 @@ export class CameraHandler {
         }
     }
 
+    // --- Edit-Mode Controls Management ---
+    setControlsEnabled(enabled) {
+        if (this.controls) {
+            this.controls.enabled = enabled;
+        }
+    }
+
     destroy() {
         if (this.controls) {
             this.controls.dispose();

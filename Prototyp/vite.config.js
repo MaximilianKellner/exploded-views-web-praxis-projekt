@@ -2,6 +2,10 @@ import { resolve } from 'path';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+  // Deduplizierung: Verhindert mehrfaches Laden von Three.js (z.B. bei verschachtelten Dependencies)
+  resolve: {
+    dedupe: ['three']
+  },
   server: {
     host: true // Erlaubt den Zugriff aus dem lokalen Netzwerk
   },

@@ -210,6 +210,11 @@ class ExplodedViewer {
             const coordinateSystem = gltf.scene;
             coordinateSystem.name = 'Coordinatesystem';
             coordinateSystem.visible = this.config.sceneConfig.showCoordinatesystem;
+            // Koordinatensystem nicht selektierbar machen
+            coordinateSystem.traverse(node => {
+                node.userData = node.userData || {};
+                node.userData.nonSelectable = true;
+            });
             this.scene.add(coordinateSystem);
         } catch (error) {
             console.error('Fehler beim Laden des Koordinatensystems:', error);
@@ -253,6 +258,9 @@ class ExplodedViewer {
             animationHandler: this.animationHandler
         });
 
+        this.editor.setInfoElementHandler(this.infoElementHandler);
+        this.editor.setUIHandler(this.uiHandler);
+        this.editor.cameraHandler = this.cameraHandler;
         this.editor.transformHandler = new TransformControlsHandler(this.camera, this.renderer, this.scene);
     }
 

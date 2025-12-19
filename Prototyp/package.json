@@ -1,7 +1,7 @@
 {
   "name": "@maximiliankellner/exploded-views",
   "private": false,
-  "version": "2.0.8",
+  "version": "2.0.10",
   "description": "Eine Komponente um interaktive 3D exploded views zu erstellen.",
   "type": "module",
   "main": "./dist/exploded-viewer.umd.cjs",
@@ -51,10 +51,11 @@
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
-    "vite": "^7.1.12"
+    "vite": "^7.1.12",
+    "three": "^0.182.0"
   },
   "peerDependencies": {
-    "three": ">=0.180.0 <0.189.0"
+    "three": "^0.182.0"
   },
   "dependencies": {
     "animejs": "^4.2.2",
