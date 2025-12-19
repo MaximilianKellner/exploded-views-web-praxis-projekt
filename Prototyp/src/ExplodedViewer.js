@@ -20,7 +20,7 @@ import { EditorController } from './modules/editor/editor-controller.js';
 import { TransformControlsHandler } from './modules/editor/transform-controls-handler.js';
 
 import './css/main.css';
-// Assets so referenzieren, dass der Bundler sie mitnimmt
+// Assets referenzieren, sodass der Bundler sie mitnimmt
 const coordinateSystemUrl = new URL('./assets/coordinatesystem.glb', import.meta.url).href;
 
 class ExplodedViewer {
