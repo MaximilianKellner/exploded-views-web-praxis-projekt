@@ -14,6 +14,7 @@ export class EditorController {
         // Bind event handlers
         this._onObjectSelected = this._onObjectSelected.bind(this);
         this._onObjectDeselected = this._onObjectDeselected.bind(this);
+        this._onTransformChange = this._onTransformChange.bind(this);
     }
 
     enable() {
@@ -39,6 +40,11 @@ export class EditorController {
         // CameraHandler an TransformHandler übergeben für Gizmo-Interaktion
         if (this.transformHandler) {
             this.transformHandler.setCameraHandler(this.cameraHandler);
+            
+            // Listener für Transform-Änderungen hinzufügen, um Animationen synchron zu halten
+            if (this.transformHandler.controls) {
+                this.transformHandler.controls.addEventListener('change', this._onTransformChange);
+            }
         }
     }
 
@@ -61,6 +67,11 @@ export class EditorController {
         // Object Selection Event Listener deaktivieren
         window.removeEventListener('ev:objectSelected', this._onObjectSelected);
         window.removeEventListener('ev:objectDeselected', this._onObjectDeselected);
+
+        // Listener für Transform-Änderungen entfernen
+        if (this.transformHandler && this.transformHandler.controls) {
+            this.transformHandler.controls.removeEventListener('change', this._onTransformChange);
+        }
 
         // Gizmo von ausgewähltem Objekt entfernen
         if (this.selectedObject) {
@@ -103,5 +114,15 @@ export class EditorController {
 
     setUIHandler(handler) {
         this.uiHandler = handler;
+    }
+
+    // Event Handler für Transform-Änderungen (Verschieben/Rotieren/Skalieren)
+    // Wird aufgerufen, wenn der Nutzer ein Objekt mit dem Gizmo manipuliert.
+    _onTransformChange() {
+        if (this.selectedObject && this.animationHandler) {
+            // Aktualisiert die Originalposition im AnimationHandler, damit die Animation
+            // relativ zur neuen Position korrekt berechnet wird.
+            this.animationHandler.updateOriginalPosition(this.selectedObject);
+        }
     }
 }

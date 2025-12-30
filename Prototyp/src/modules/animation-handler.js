@@ -98,20 +98,21 @@ export class AnimationHandler {
         //console.log('Finale maxSequence:', this.maxSequence);
     }
 
-    // --- Anwenden der Explosion auf die explodierbaren Objekte ---
-    updateExplosion() {
+    // --- Helper Methode zur Berechnung des Offsets ---
+    // Berechnet die Verschiebung (Offset) eines Objekts basierend auf dem aktuellen Animationsfortschritt (expFactor).
+    // Sowohl dür sequenzielle als auch gleichzeitige Animationen.
+    _calculateOffset(item) {
         const { expFactor, layerDistance, useSequenceAnim } = this.animationConfig;
+        let distance = 0;
 
         if (useSequenceAnim) {
-            // -- Sequenzielle Animation ---  --> Objekte werden in Gruppen animiert
-            if (this.maxSequence === 0) return;
+            // -- Sequenzielle Animation ---
+            if (this.maxSequence === 0) return new THREE.Vector3(0, 0, 0);
 
-            this.explodableObjects.forEach(item => {
-                // Objekte ohne Animation überspringen
-                if (!isFinite(item.sequence) || item.sequence === 0 || item.targetLevel === 0) {
-                    item.object.position.copy(item.originalPosition);
-                    return;
-                }
+            // Objekte ohne Animation überspringen
+            if (!isFinite(item.sequence) || item.sequence === 0 || item.targetLevel === 0) {
+                return new THREE.Vector3(0, 0, 0);
+            }
 
                 // "Zeitfenster" für die aktuelle Sequenz berechnen
                 // Bsp.: max Sequence = 2 
@@ -132,30 +133,38 @@ export class AnimationHandler {
                     : 1 - Math.pow(-2 * localProgress + 2, 3) / 2; // easeInOutCubic
 
                 // Distanz zum main Objekt basiert auf 'targetLevel', wird aber mit dem lokalen Fortschritt und Multiplikator skaliert
-                const distance = item.targetLevel * layerDistance * easedProgress;
-
-                // Neue Position festlegen
-                const newPosition = new THREE.Vector3()
-                    .copy(item.originalPosition)
-                    .addScaledVector(item.expDirection, distance);
-
-                item.object.position.copy(newPosition);
-            });
+                distance = item.targetLevel * layerDistance * easedProgress;
 
         } else {
-            // --- Gleichzeitige Animation --- --> Alle Objekte werden gleichzeitig animiert 
-            this.explodableObjects.forEach(item => {
-                if (item.targetLevel > 0) {
-                    let localProgress = expFactor * item.speedMultiplier;
-                    localProgress = THREE.MathUtils.clamp(localProgress, 0, 1);
+            // --- Gleichzeitige Animation ---
+            if (item.targetLevel > 0) {
+                let localProgress = expFactor * item.speedMultiplier;
+                localProgress = THREE.MathUtils.clamp(localProgress, 0, 1);
+                distance = item.targetLevel * layerDistance * localProgress;
+            }
+        }
 
-                    const distance = item.targetLevel * layerDistance * localProgress;
-                    const newPosition = new THREE.Vector3()
-                        .copy(item.originalPosition)
-                        .addScaledVector(item.expDirection, distance);
-                    item.object.position.copy(newPosition);
-                }
-            });
+        return new THREE.Vector3().copy(item.expDirection).multiplyScalar(distance);
+    }
+
+    // --- Anwenden der Explosion auf die explodierbaren Objekte ---
+    // Setzt die Position jedes Objekts neu: Originalposition + berechneter Offset.
+    updateExplosion() {
+        this.explodableObjects.forEach(item => {
+            const offset = this._calculateOffset(item);
+            item.object.position.copy(item.originalPosition).add(offset);
+        });
+    }
+
+    // --- Aktualisiert die Originalposition basierend auf der aktuellen Position und dem Animationsstatus ---
+    // Wichtig für den Editor: Wenn ein Objekt verschoben wird, während eine Animation aktiv ist (expFactor > 0),
+    // muss die 'originalPosition' so angepasst werden, dass die Animation relativ zur neuen Position korrekt bleibt.
+    // Berechnung: originalPosition = aktuellePosition - aktuellerOffset
+    updateOriginalPosition(object) {
+        const item = this.explodableObjects.find(i => i.object === object);
+        if (item) {
+            const offset = this._calculateOffset(item);
+            item.originalPosition.copy(object.position).sub(offset);
         }
     }
 
