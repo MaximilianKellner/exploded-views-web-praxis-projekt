@@ -65,6 +65,8 @@ export class AnimationHandler {
                 }
             }
         }
+        // Fallback für Objekte ohne Sequenz
+        const fallbackMaxSequence = this.maxSequence + 1;
 
         model.traverse((child) => {
             if (configObjects[child.name]) {
@@ -76,75 +78,126 @@ export class AnimationHandler {
                     expDirection = this.animationConfig.globalExpDirection;
                 }
 
+                // Start/Ende bestimmen
+                let start = objectConfig.start;
+                let end = objectConfig.end;
+
+                // Fallback auf Sequenz-Logik, falls start/end nicht gesetzt sind
+                if (start === undefined || end === undefined) {
+                    // Wenn sequence explizit definiert ist, nutzen wir sie für die Berechnung
+                    if (objectConfig.sequence !== undefined && this.maxSequence > 0) {
+                        const seq = objectConfig.sequence;
+                        start = (seq - 1) / this.maxSequence;
+                        end = seq / this.maxSequence;
+                    } else {
+                        // Sonst Standard: 0 bis 1 (gesamte Animation)
+                        start = 0;
+                        end = 1;
+                    }
+                }
+
                 // Explodierbares Objekt mit relevanten Informationen speichern
                 this.explodableObjects.push({
                     object: child,
                     originalPosition: child.position.clone(),
                     targetLevel: objectConfig.level !== undefined ? objectConfig.level : 0,
-                    sequence: objectConfig.sequence !== undefined ? objectConfig.sequence : this.maxSequence + 1,
+                    start: start,
+                    end: end,
                     speedMultiplier: objectConfig.speedMultiplier >= 1 ? objectConfig.speedMultiplier : 1.0,
                     expDirection: new THREE.Vector3().fromArray(expDirection).normalize()
                 });
             }
         });
 
-        // Sortiere die Objekte nach ihrer Sequenznummer für den sequenziellen Modus
-        this.explodableObjects.sort((a, b) => a.sequence - b.sequence);
-
-        // Objekte ohne Sequenz bekommen die Maximale Sequenz +1 und werden am Ende abgespielt --> maxSequenz neu berechnen
-        this.maxSequence += 1;
+        // Sortiere die Objekte nach Startzeit für konsistente Verarbeitung (optional)
+        this.explodableObjects.sort((a, b) => a.start - b.start);
         
         //console.log('Explodierbare Objekte gefunden und vorbereitet:', this.explodableObjects);
-        //console.log('Finale maxSequence:', this.maxSequence);
+    }
+
+    // --- Helper Methode zur Berechnung des Fortschritts eines einzelnen Items ---
+    _calculateItemProgress(item) {
+        const { expFactor } = this.animationConfig;
+        
+        // Zeitfenster bestimmen
+        const start = item.start !== undefined ? item.start : 0;
+        const end = item.end !== undefined ? item.end : 1;
+        const duration = end - start;
+
+        // Wenn Dauer 0 oder negativ, sofort Ziel oder Start
+        if (duration <= 0.00001) {
+            return expFactor >= start ? 1 : 0;
+        }
+
+        // Lokalen Fortschritt berechnen
+        let progress = (expFactor - start) / duration;
+        progress = THREE.MathUtils.clamp(progress, 0, 1);
+
+        // Easing anwenden
+        const easedProgress = progress < 0.5 
+            ? 4 * progress * progress * progress 
+            : 1 - Math.pow(-2 * progress + 2, 3) / 2; // easeInOutCubic
+            
+        return easedProgress;
     }
 
     // --- Helper Methode zur Berechnung des Offsets ---
     // Berechnet die Verschiebung (Offset) eines Objekts basierend auf dem aktuellen Animationsfortschritt (expFactor).
-    // Sowohl dür sequenzielle als auch gleichzeitige Animationen.
     _calculateOffset(item) {
-        const { expFactor, layerDistance, useSequenceAnim } = this.animationConfig;
-        let distance = 0;
-
-        if (useSequenceAnim) {
-            // -- Sequenzielle Animation ---
-            if (this.maxSequence === 0) return new THREE.Vector3(0, 0, 0);
-
-            // Objekte ohne Animation überspringen
-            if (!isFinite(item.sequence) || item.sequence === 0 || item.targetLevel === 0) {
-                return new THREE.Vector3(0, 0, 0);
-            }
-
-                // "Zeitfenster" für die aktuelle Sequenz berechnen
-                // Bsp.: max Sequence = 2 
-                // item.sequence = 1 bewegt sich zwischen expFactor 0.0 und 0.5
-                // item.sequence = 2 bewegt sich zwischen expFactor 0.5 und 1.0
-                const progressStart = (item.sequence - 1) / this.maxSequence; // Start des Zeitfensters
-                const progressEnd = item.sequence / this.maxSequence; // Ende des zeitfensters
-
-                // Berechnen des lokalen Fortschritts.
-                // Local Progress mapped einen Wert zwischen progressStart und progressEnd auf Basis von expFactor auf eine Lineare Funktion mit Steigung 1
-                let localProgress = THREE.MathUtils.mapLinear(expFactor * item.speedMultiplier, progressStart, progressEnd, 0, 1);
-                // Begrenzen auf Werte zwischen 0 und 1 um nur im lokalen Zeitfenster zu agieren
-                localProgress = THREE.MathUtils.clamp(localProgress, 0, 1);
-
-                //easing für die sequenzielle Animation
-                const easedProgress = localProgress < 0.5 
-                    ? 4 * localProgress * localProgress * localProgress 
-                    : 1 - Math.pow(-2 * localProgress + 2, 3) / 2; // easeInOutCubic
-
-                // Distanz zum main Objekt basiert auf 'targetLevel', wird aber mit dem lokalen Fortschritt und Multiplikator skaliert
-                distance = item.targetLevel * layerDistance * easedProgress;
-
-        } else {
-            // --- Gleichzeitige Animation ---
-            if (item.targetLevel > 0) {
-                let localProgress = expFactor * item.speedMultiplier;
-                localProgress = THREE.MathUtils.clamp(localProgress, 0, 1);
-                distance = item.targetLevel * layerDistance * localProgress;
-            }
+        const { layerDistance } = this.animationConfig;
+        
+        if (item.targetLevel === 0) {
+            return new THREE.Vector3(0, 0, 0);
         }
 
+        const progress = this._calculateItemProgress(item);
+        const distance = item.targetLevel * layerDistance * progress;
+
         return new THREE.Vector3().copy(item.expDirection).multiplyScalar(distance);
+    }
+
+    // --- Endposition aktualisieren (Editor Mode) ---
+    updateEndPosition(object) {
+        const item = this.explodableObjects.find(i => i.object === object);
+        if (!item) return;
+
+        // Aktuellen Fortschritt für dieses Item berechnen
+        const progress = this._calculateItemProgress(item);
+        
+        // Schutz vor Division durch Null oder sehr kleinen Werten
+        // Wenn Progress fast 0 ist, nehmen wir an, der User will das Ziel definieren (als wäre Progress 1)
+        const effectiveProgress = progress > 0.001 ? progress : 1;
+
+        // Vektor von Start zu aktueller Position
+        const currentVector = new THREE.Vector3().subVectors(object.position, item.originalPosition);
+        
+        // Hochrechnen auf vollen Vektor (bei Progress 1)
+        const fullVector = currentVector.clone().divideScalar(effectiveProgress);
+        
+        // Richtung und Distanz extrahieren
+        const distance = fullVector.length();
+        
+        // Fallback für layerDistance um Division durch 0 zu vermeiden
+        const layerDistance = this.animationConfig.layerDistance || 1;
+        
+        // Werte aktualisieren
+        item.targetLevel = distance / layerDistance;
+        
+        // Nur Richtung aktualisieren, wenn Vektor lang genug ist
+        if (distance > 0.000001) {
+            item.expDirection.copy(fullVector).normalize();
+        }
+
+        // Config aktualisieren
+        if (this.explosionConfig && this.explosionConfig.objects[object.name]) {
+            const configObj = this.explosionConfig.objects[object.name];
+            configObj.level = item.targetLevel;
+            configObj.expDirection = item.expDirection.toArray();
+            
+            // Start/Ende auch speichern, falls noch nicht vorhanden
+            if (configObj.start === undefined) configObj.start = item.start;
+            if (configObj.end === undefined) configObj.end = item.end;
+        }
     }
 
     // --- Anwenden der Explosion auf die explodierbaren Objekte ---
@@ -267,6 +320,25 @@ export class AnimationHandler {
     }
 
     // --- Edit-Mode Helpers ---
+    getExplodableItem(object) {
+        return this.explodableObjects.find(i => i.object === object);
+    }
+
+    updateExplosionTarget(object, direction, targetLevel) {
+        const item = this.getExplodableItem(object);
+        if (!item) return;
+    
+        item.expDirection.copy(direction);
+        item.targetLevel = targetLevel;
+    
+        // Update the source config object
+        if (this.explosionConfig && this.explosionConfig.objects[object.name]) {
+            const configObj = this.explosionConfig.objects[object.name];
+            configObj.level = item.targetLevel;
+            configObj.expDirection = item.expDirection.toArray();
+        }
+    }
+
     getExplosionConfig() {
         return this.explosionConfig;
     }

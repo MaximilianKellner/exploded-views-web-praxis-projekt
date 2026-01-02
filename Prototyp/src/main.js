@@ -18,6 +18,7 @@ const sportwagen = {
     
     sceneConfig: {
         backgroundColor: "#6480be", //old: 353535 -- blue: 6480be
+        shadowsEnabled: false,
         camera: {
             position: [5, 3, 9],
             maxDistance: 50,
