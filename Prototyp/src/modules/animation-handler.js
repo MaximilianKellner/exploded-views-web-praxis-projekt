@@ -339,6 +339,39 @@ export class AnimationHandler {
         }
     }
 
+    updateObjectConfig(object, newConfig) {
+        const item = this.getExplodableItem(object);
+        if (!item) return;
+
+        if (newConfig.expDirection) item.expDirection.copy(newConfig.expDirection);
+        if (newConfig.targetLevel !== undefined) item.targetLevel = newConfig.targetLevel;
+        if (newConfig.speedMultiplier !== undefined) item.speedMultiplier = newConfig.speedMultiplier;
+        if (newConfig.start !== undefined) item.start = newConfig.start;
+        if (newConfig.end !== undefined) item.end = newConfig.end;
+
+        // Update internal config object
+        if (this.explosionConfig && this.explosionConfig.objects[object.name]) {
+            const configObj = this.explosionConfig.objects[object.name];
+            configObj.level = item.targetLevel;
+            configObj.expDirection = item.expDirection.toArray();
+            configObj.speedMultiplier = item.speedMultiplier;
+            configObj.start = item.start;
+            configObj.end = item.end;
+        }
+    }
+
+    exportConfig() {
+        if (!this.explosionConfig) return;
+
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.explosionConfig, null, 2));
+        const downloadAnchorNode = document.createElement('a');
+        downloadAnchorNode.setAttribute("href", dataStr);
+        downloadAnchorNode.setAttribute("download", "exp-config.json");
+        document.body.appendChild(downloadAnchorNode); // required for firefox
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+    }
+
     getExplosionConfig() {
         return this.explosionConfig;
     }

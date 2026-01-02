@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import { EditorPanel } from './editor-panel.js';
+import '../../css/editor.css';
 
 export class EditorController {
     constructor({ scene, camera, renderer, clickHandler, animationHandler }) {
@@ -14,10 +16,20 @@ export class EditorController {
         this.previewObject = null;
         this.cameraHandler = null;
 
-        // Bind event handlers
+        // Event handlers
         this._onObjectSelected = this._onObjectSelected.bind(this);
         this._onObjectDeselected = this._onObjectDeselected.bind(this);
         this._onTransformChange = this._onTransformChange.bind(this);
+        this._onPanelChange = this._onPanelChange.bind(this);
+        this._onExportConfig = this._onExportConfig.bind(this);
+
+        // Editor Panel initialisieren
+        const container = this.renderer.domElement.parentElement;
+        this.editorPanel = new EditorPanel(container);
+        this.editorPanel.setCallbacks({
+            onChange: this._onPanelChange,
+            onExport: this._onExportConfig
+        });
     }
 
     enable() {
@@ -114,6 +126,19 @@ export class EditorController {
         // PreviewObject erstellen und Gizmo anhängen
         this._createPreviewObject(object);
         
+        // Panel anzeigen und mit Daten füllen
+        const item = this.animationHandler.getExplodableItem(object);
+        if (item) {
+            this.editorPanel.show({
+                name: object.name,
+                expDirection: item.expDirection,
+                targetLevel: item.targetLevel,
+                speedMultiplier: item.speedMultiplier,
+                start: item.start,
+                end: item.end
+            });
+        }
+        
         console.log('EditorController: Objekt ausgewählt, PreviewObject erstellt:', object.name);
     }
 
@@ -126,6 +151,7 @@ export class EditorController {
             this.transformHandler?.detach();
             this._removePreviewObject();
             this.selectedObject = null;
+            this.editorPanel.hide();
             console.log('EditorController: Objekt deselektiert:', object.name);
         }
     }
@@ -193,7 +219,27 @@ export class EditorController {
         this.uiHandler = handler;
     }
 
-    // --- TODO: tmp version -------------------------------------------------------------------------------------
+    // Callback wenn Werte im Panel geändert werden
+    _onPanelChange(data) {
+        if (!this.selectedObject || !this.previewObject) return;
+
+        // AnimationHandler updaten (alle Werte)
+        this.animationHandler.updateObjectConfig(this.selectedObject, data);
+
+        // PreviewObject Position aktualisieren
+        const item = this.animationHandler.getExplodableItem(this.selectedObject);
+        if (item) {
+            const layerDist = this.animationHandler.config.animationConfig.layerDistance || 1;
+            const offset = item.expDirection.clone().multiplyScalar(item.targetLevel * layerDist);
+            this.previewObject.position.copy(item.originalPosition).add(offset);
+        }
+    }
+
+    // Callback für Export Button
+    _onExportConfig() {
+        this.animationHandler.exportConfig();
+    }
+
     // Event Handler für Transform-Änderungen (Verschieben/Rotieren/Skalieren)
     // Wird aufgerufen, wenn der Nutzer ein Objekt mit dem Gizmo manipuliert.
     _onTransformChange() {
@@ -216,6 +262,19 @@ export class EditorController {
                 direction, 
                 distance / layerDist
             );
+
+            // Panel updaten
+            const updatedItem = this.animationHandler.getExplodableItem(this.selectedObject);
+            if (updatedItem) {
+                this.editorPanel.update({
+                    name: this.selectedObject.name,
+                    expDirection: updatedItem.expDirection,
+                    targetLevel: updatedItem.targetLevel,
+                    speedMultiplier: updatedItem.speedMultiplier,
+                    start: updatedItem.start,
+                    end: updatedItem.end
+                });
+            }
         }
     }
 }
