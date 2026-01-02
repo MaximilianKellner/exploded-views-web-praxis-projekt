@@ -15,10 +15,6 @@ import { CardHandler } from './modules/info-elements/card-handler.js';
 import { PointerHandler } from './modules/info-elements/pointer-handler.js';
 import { AttachedCardHandler } from './modules/info-elements/attached-card-handler.js';
 
-// Editor Modules
-import { EditorController } from './modules/editor/editor-controller.js';
-import { TransformControlsHandler } from './modules/editor/transform-controls-handler.js';
-
 import './css/main.css';
 // Assets referenzieren, sodass der Bundler sie mitnimmt
 const coordinateSystemUrl = new URL('./assets/coordinatesystem.glb', import.meta.url).href;
@@ -54,8 +50,6 @@ class ExplodedViewer {
             this._setupLights();
             this._setupHandlers();
 
-            this._setupEditor();
-
             await this._loadModel();
             this._loadCoordinateSystem();
             this._setupResizeListener();
@@ -67,7 +61,7 @@ class ExplodedViewer {
             
             // Edit-Mode aktivieren, falls in Config gesetzt
             if (this.config.editMode === true) {
-                this.enableEditmode();
+                await this.enableEditmode();
             }
             
             console.log('ExplodedViewer erfolgreich initialisiert.');
@@ -249,7 +243,10 @@ class ExplodedViewer {
 
     // --- Edit-Mode Helpers ---
 
-    _setupEditor() {
+    async _setupEditor() {
+        const { EditorController } = await import('./modules/editor/editor-controller.js');
+        const { TransformControlsHandler } = await import('./modules/editor/transform-controls-handler.js');
+
         this.editor = new EditorController({
             scene: this.scene,
             camera: this.camera,
@@ -332,7 +329,10 @@ class ExplodedViewer {
     }
 
     // Edit-Mode Helpers
-    enableEditmode() {
+    async enableEditmode() {
+        if (!this.editor) {
+            await this._setupEditor();
+        }
         this.editor?.enable();
     }
 
