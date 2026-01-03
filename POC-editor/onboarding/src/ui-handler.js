@@ -10,12 +10,12 @@ export function initUI(onFilesReceived, onReset) {
                 const box = e.target.closest('.upload-box');
                 const btn = e.target.closest('.file-upload-btn');
                 
-                // Add success class to icon
+                // success Klasse hinzufügen
                 const icon = btn.querySelector('.file-upload-icon');
                 if (icon) {
                     icon.classList.add('success');
                     
-                    // Change icon image
+                    // Checkmark Bild setzen 
                     const img = icon.querySelector('img');
                     if (img) {
                         if (!img.dataset.originalSrc) {
@@ -25,7 +25,7 @@ export function initUI(onFilesReceived, onReset) {
                     }
                 }
 
-                // Update text with filename
+                // Dateinamen anzeigen
                 const textSpan = btn.querySelector('.file-upload-text');
                 if (textSpan) {
                     if (!textSpan.dataset.originalText) {
@@ -39,13 +39,12 @@ export function initUI(onFilesReceived, onReset) {
             }
         });
         
-        // Prevent input click from bubbling to box
         input.addEventListener('click', (e) => {
             e.stopPropagation();
         });
     });
 
-    // Box click listeners
+    // Listeners für upload buttons
     uploadBoxes.forEach(box => {
         box.addEventListener('click', (e) => {
             expandBox(box);
@@ -77,7 +76,7 @@ function expandBox(activeBox) {
 export function resetBoxes() {{
             icon.classList.remove('success');
             
-            // Reset icon image
+            // Checkboy Icon --> Upload Icon
             const img = icon.querySelector('img');
             if (img && img.dataset.originalSrc) {
                 img.src = img.dataset.originalSrc;
