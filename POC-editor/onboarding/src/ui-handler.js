@@ -8,12 +8,38 @@ export function initUI(onFilesReceived, onReset) {
         input.addEventListener('change', (e) => {
             if (e.target.files.length > 0) {
                 const box = e.target.closest('.upload-box');
+                const btn = e.target.closest('.file-upload-btn');
+                
+                // Add success class to icon
+                const icon = btn.querySelector('.file-upload-icon');
+                if (icon) {
+                    icon.classList.add('success');
+                    
+                    // Change icon image
+                    const img = icon.querySelector('img');
+                    if (img) {
+                        if (!img.dataset.originalSrc) {
+                            img.dataset.originalSrc = img.getAttribute('src');
+                        }
+                        img.src = './icon/check.svg';
+                    }
+                }
+
+                // Update text with filename
+                const textSpan = btn.querySelector('.file-upload-text');
+                if (textSpan) {
+                    if (!textSpan.dataset.originalText) {
+                        textSpan.dataset.originalText = textSpan.textContent.trim();
+                    }
+                    textSpan.textContent = e.target.files[0].name;
+                }
+
                 expandBox(box);
                 onFilesReceived(e.target.files);
             }
         });
         
-        // Prevent double click from triggering box click
+        // Prevent input click from bubbling to box
         input.addEventListener('click', (e) => {
             e.stopPropagation();
         });
@@ -48,7 +74,15 @@ function expandBox(activeBox) {
     });
 }
 
-export function resetBoxes() {
+export function resetBoxes() {{
+            icon.classList.remove('success');
+            
+            // Reset icon image
+            const img = icon.querySelector('img');
+            if (img && img.dataset.originalSrc) {
+                img.src = img.dataset.originalSrc;
+            }
+        }
     uploadBoxes.forEach(box => {
         box.classList.remove('expanded');
         box.classList.remove('collapsed');
@@ -56,6 +90,18 @@ export function resetBoxes() {
         // Clear inputs
         const inputs = box.querySelectorAll('input[type="file"]');
         inputs.forEach(input => input.value = '');
+
+        // Reset icons
+        const icons = box.querySelectorAll('.file-upload-icon');
+        icons.forEach(icon => icon.classList.remove('success'));
+
+        // Reset text
+        const texts = box.querySelectorAll('.file-upload-text');
+        texts.forEach(text => {
+            if (text.dataset.originalText) {
+                text.textContent = text.dataset.originalText;
+            }
+        });
     });
 }
 
