@@ -52,6 +52,7 @@ p {
     height: max(420px, 30%);
     width: max(400px, 30%);
     max-width: 400px;
+    max-width: 400px;
     max-height: 400px;
     border: 2px solid var(--c-border);
     border-radius: 50px;
@@ -62,6 +63,19 @@ p {
     align-items: center;
     text-align: center;
     padding: 0px clamp(24px, 4vw, 48px);
+    position: relative;
+    cursor: pointer;
+
+    transition: all 0.3s ease-in-out;
+    flex: 50%;
+
+    &:hover {
+        /* box-shadow: 0px 0px 30px 10px var(--c-accent-border); */
+        border-color: var(--c-accent);
+
+        border-radius: 14px !important;
+        flex: 100%;
+    }
 
     h2 {
         margin-bottom: var(--s);
@@ -158,4 +172,40 @@ p {
         gap: var(--m);
         text-decoration: none;
     }
+}
+
+/* New styles for expanded/collapsed states */
+.close-btn {
+    position: absolute;
+    top: 14px;
+    right: 20px;
+    cursor: pointer;
+    font-size: 24px;
+    color: var(--c-body-text);
+    display: none;
+}
+
+.close-btn:hover {
+    color: #ffffff;
+}
+
+.upload-box.expanded {
+    flex: 100%;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 14px !important;
+}
+
+.upload-box.expanded .close-btn {
+    display: block;
+}
+
+.upload-box.collapsed {
+    flex: 0%;
+    width: 0%;
+    padding: 0;
+    border: none;
+    overflow: hidden;
+    opacity: 0;
+    margin: 0;
 }
