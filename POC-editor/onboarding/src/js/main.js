@@ -1,4 +1,4 @@
-import { initUI, hideOverlay } from './ui-handler.js';
+import { initUI, hideOverlay } from './onboarding-ui-handler.js';
 import { getFilesFromList } from './file-logic.js';
 import { startEditor } from './editor-logic.js';
 

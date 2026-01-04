@@ -65,7 +65,7 @@ export function initUI(onFilesReceived, onReset) {
         });
     });
 
-    // Listeners für upload buttons
+    // Listeners für upload Boxen
     uploadBoxes.forEach(box => {
         box.addEventListener('click', (e) => {
             expandBox(box);
