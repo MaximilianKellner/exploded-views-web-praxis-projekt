@@ -12,7 +12,7 @@ export async function startEditor(appContainer, modelUrl, configUrl) {
         showStats: false,
         
         sceneConfig: {
-            backgroundColor: "#333333",
+            backgroundColor: "#1e1e1e",
             shadowsEnabled: false,
             camera: {
                 position: [5, 5, 5],
