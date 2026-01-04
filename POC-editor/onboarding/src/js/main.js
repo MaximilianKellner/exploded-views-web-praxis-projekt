@@ -1,5 +1,5 @@
 import { initUI, hideOverlay } from './onboarding-ui-handler.js';
-import { getFilesFromList } from './file-logic.js';
+import { getFilesFromList, validateConfigFile } from './file-logic.js';
 import { startEditor } from './editor-logic.js';
 
 const appContainer = document.getElementById('app-container');
@@ -7,34 +7,42 @@ const appContainer = document.getElementById('app-container');
 let modelUrl = null;
 let configUrl = null;
 
-// Initialize UI with callbacks
+// UI mit callbacks initialisieren
 initUI(
     // onFilesReceived
-    (files) => {
-        handleFiles(files);
+    async (files) => {
+        await handleFiles(files);
     },
     // onReset
     () => {
         modelUrl = null;
         configUrl = null;
+    },
+    // onValidate
+    async (file) => {
+        if (file.name.toLowerCase().endsWith('.json')) {
+            return await validateConfigFile(file);
+        }
+        return true;
     }
 );
 
-function handleFiles(files) {
+async function handleFiles(files) {
     const { glbFile, jsonFile } = getFilesFromList(files);
+
+    if (jsonFile) {
+        // überprüfung bereits beim upload
+        configUrl = URL.createObjectURL(jsonFile);
+    }
 
     if (glbFile) {
         modelUrl = URL.createObjectURL(glbFile);
-        if (jsonFile) {
-            configUrl = URL.createObjectURL(jsonFile);
-        }
         
         // Start editor and update UI
         startEditor(appContainer, modelUrl, configUrl);
         hideOverlay();
         
     } else if (jsonFile) {
-        configUrl = URL.createObjectURL(jsonFile);
         console.log('Config loaded, waiting for GLB...');
     }
 }
