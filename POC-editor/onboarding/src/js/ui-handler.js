@@ -3,6 +3,11 @@ const uploadBoxes = document.querySelectorAll('.upload-box');
 const closeBtns = document.querySelectorAll('.close-btn');
 
 export function initUI(onFilesReceived, onReset) {
+    // Reset inputs --> Cache Break
+    document.querySelectorAll('input[type="file"]').forEach(input => {
+        input.value = '';
+    });
+
     // File inputs
     document.querySelectorAll('input[type="file"]').forEach(input => {
         input.addEventListener('change', (e) => {
@@ -35,7 +40,23 @@ export function initUI(onFilesReceived, onReset) {
                 }
 
                 expandBox(box);
-                onFilesReceived(e.target.files);
+                
+                // Alle Inputs der Box müssen gefüllt sein
+                const allInputs = box.querySelectorAll('input[type="file"]');
+                let allFilled = true;
+                const collectedFiles = [];
+
+                allInputs.forEach(inp => {
+                    if (inp.files.length === 0) {
+                        allFilled = false;
+                    } else {
+                        collectedFiles.push(inp.files[0]);
+                    }
+                });
+
+                if (allFilled) {
+                    onFilesReceived(collectedFiles);
+                }
             }
         });
         
@@ -51,7 +72,7 @@ export function initUI(onFilesReceived, onReset) {
         });
     });
 
-    // Close buttons
+    // Listeners für Close buttons
     closeBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
