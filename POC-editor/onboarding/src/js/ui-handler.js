@@ -73,15 +73,7 @@ function expandBox(activeBox) {
     });
 }
 
-export function resetBoxes() {{
-            icon.classList.remove('success');
-            
-            // Checkboy Icon --> Upload Icon
-            const img = icon.querySelector('img');
-            if (img && img.dataset.originalSrc) {
-                img.src = img.dataset.originalSrc;
-            }
-        }
+export function resetBoxes() {
     uploadBoxes.forEach(box => {
         box.classList.remove('expanded');
         box.classList.remove('collapsed');
@@ -92,7 +84,15 @@ export function resetBoxes() {{
 
         // Reset icons
         const icons = box.querySelectorAll('.file-upload-icon');
-        icons.forEach(icon => icon.classList.remove('success'));
+        icons.forEach(icon => {
+            icon.classList.remove('success');
+            
+            // Checkboy Icon --> Upload Icon
+            const img = icon.querySelector('img');
+            if (img && img.dataset.originalSrc) {
+                img.src = img.dataset.originalSrc;
+            }
+        });
 
         // Reset text
         const texts = box.querySelectorAll('.file-upload-text');

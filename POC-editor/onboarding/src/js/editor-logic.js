@@ -8,12 +8,12 @@ export async function startEditor(appContainer, modelUrl, configUrl) {
         explosionConfigPath: configUrl, // Optional, might be null
         
         editMode: true,
-        showDebugUI: true,
-        showStats: true,
+        showDebugUI: false,
+        showStats: false,
         
         sceneConfig: {
             backgroundColor: "#333333",
-            shadowsEnabled: true,
+            shadowsEnabled: false,
             camera: {
                 position: [5, 5, 5],
             }
